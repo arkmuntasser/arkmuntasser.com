@@ -1,6 +1,17 @@
-.DS_Store
-/node_modules/
+# Ignore node_modules folder
+node_modules/
 
-# React Router
-/.react-router/
-/build/
+# Ignore build output
+dist/
+build/
+.vitepress/dist/
+.vitepress/cache/
+
+# Ignore log files
+*.log
+
+# Ignore environment variables
+.env
+
+# Ignore Mac system files
+.DS_Store
