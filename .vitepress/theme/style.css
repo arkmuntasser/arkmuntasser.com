@@ -1,5 +1,9 @@
+@import '../../node_modules/modern-normalize/modern-normalize.css';
 
 html {
-  font-family: Arial, Helvetica;
+	font-family: "Outfit", sans-serif;
+	font-weight: 300;
+	font-size: 1rem;
+	line-height: 1.5;
 }
 
