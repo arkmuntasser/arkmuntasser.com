@@ -39,13 +39,7 @@ To begin, let’s create our grid container and move everything in it to the sec
   allowtransparency="true"
   allowFullScreen="true"
 >
-  See the Pen
-  <a href="https://codepen.io/arkmuntasser/pen/eXboKv/">
-    Impossible Layout - CSS Grid only
-  </a>
-  by Amir R Muntasser (
-  <a href="https://codepen.io/arkmuntasser">@arkmuntasser</a>) on
-  <a href="https://codepen.io">CodePen</a>.
+  See the Pen Impossible Layout - CSS Grid only by Amir R Muntasser (@arkmuntasser) onCodePen.
 </iframe>
 
 Now we're getting somewhere! This is starting to look like the large layout we want, but there are rows between the images when they should be immediately under each other and the height of the images are causing the rows to be too tall in some instances.
