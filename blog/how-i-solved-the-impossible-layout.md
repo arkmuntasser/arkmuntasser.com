@@ -56,13 +56,7 @@ To fix this, we're going to set the `position: absolute` on the images. This wil
   allowtransparency="true"
   allowFullScreen="true"
 >
-  See the Pen
-  <a href="https://codepen.io/arkmuntasser/pen/MxZRZJ/">
-    Impossible Layout - CSS Grid + Absolute Positioning
-  </a>
-  by Amir R Muntasser (
-  <a href="https://codepen.io/arkmuntasser">@arkmuntasser</a>) on
-  <a href="https://codepen.io">CodePen</a>.
+  See the Pen Impossible Layout - CSS Grid + Absolute Positioning by Amir R Muntasser (@arkmuntasser) on CodePen.
 </iframe>
 
 This is where the caveat comes in with this method. Because I am assuming the images are uniform in size, I can translate the images reproduce the desired layout. For this, I am also going to assume that you as the developer or the CMS have some way of knowing how many images there are and which number each image is. Why? So we can set an inline CSS variable (CSS Custom Property) on the images. This will let us write a very simple rule in our CSS to enable support for an arbitrary number of images.
@@ -77,13 +71,8 @@ This is where the caveat comes in with this method. Because I am assuming the im
   allowtransparency="true"
   allowFullScreen="true"
 >
-  See the Pen
-  <a href="https://codepen.io/arkmuntasser/pen/YgdMgd/">
-    Impossible Layout - CSS Grid only
-  </a>
-  by Amir R Muntasser (
-  <a href="https://codepen.io/arkmuntasser">@arkmuntasser</a>) on
-  <a href="https://codepen.io">CodePen</a>.
+  See the Pen Impossible Layout - CSS Grid only by Amir R Muntasser (
+  @arkmuntasser) on CodePen.
 </iframe>
 
 Finally, we can add a little extra CSS for some better styling and a media query go back to the small layout.
@@ -98,13 +87,7 @@ Finally, we can add a little extra CSS for some better styling and a media query
   allowtransparency="true"
   allowFullScreen="true"
 >
-  See the Pen
-  <a href="https://codepen.io/arkmuntasser/pen/YgdbKg/">
-    Impossible Layout - Final
-  </a>
-  by Amir R Muntasser (
-  <a href="https://codepen.io/arkmuntasser">@arkmuntasser</a>) on
-  <a href="https://codepen.io">CodePen</a>.
+  See the Pen Impossible Layout - Final by Amir R Muntasser (@arkmuntasser) on CodePen.
 </iframe>
 
 And you're done!
@@ -129,13 +112,7 @@ What we need to do is find every image in the grid and as we loop over them keep
   allowtransparency="true"
   allowFullScreen="true"
 >
-  See the Pen
-  <a href="https://codepen.io/arkmuntasser/pen/PLXvWP/">
-    Impossible Layout - Solved!
-  </a>
-  by Amir R Muntasser (
-  <a href="https://codepen.io/arkmuntasser">@arkmuntasser</a>) on
-  <a href="https://codepen.io">CodePen</a>.
+  See the Pen Impossible Layout - Solved! by Amir R Muntasser (@arkmuntasser) on CodePen.
 </iframe>
 
 With this, you can have an indefinite number of images, an indefinite amount of text, and images of varying sizes. Not so impossible after all.
