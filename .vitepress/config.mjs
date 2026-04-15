@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "arkm",
   description: "My website, this time in Vue",
+  cleanUrls: true,
 	head: [
 		[
       'link',

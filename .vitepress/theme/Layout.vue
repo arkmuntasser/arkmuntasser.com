@@ -1,15 +1,17 @@
 <script setup>
-import { useData } from 'vitepress';
+import { Content, useData } from 'vitepress';
 
 const { site, page, frontmatter } = useData();
 
-const postFiles = import.meta.glob('/blog/*.md', { eager: true });
+// Dynamically import all markdown files in the root and posts directories
+const postFiles = import.meta.glob('/posts/*.md', { eager: true });
 const pageFiles = import.meta.glob('/*.md', { eager: true });
 
+// Process the imported files to extract paths, titles, and dates
 const pages = Object.entries(pageFiles).map(([path, mod]) => {
   const slug = path.split('/').pop().replace(/\.md$/, '');
   return {
-    path: `./${slug}.html`,
+    path: `./${slug}`,
     title: mod.__pageData?.frontmatter?.title || slug,
     date: mod.__pageData?.frontmatter?.date,
   };
@@ -18,12 +20,13 @@ const pages = Object.entries(pageFiles).map(([path, mod]) => {
 const blogPosts = Object.entries(postFiles).map(([path, mod]) => {
   const slug = path.split('/').pop().replace(/\.md$/, '');
   return {
-    path: `/blog/${slug}.html`,
+    path: `/posts/${slug}`,
     title: mod.__pageData?.frontmatter?.title || slug,
     date: mod.__pageData?.frontmatter?.date,
   };
 });
 
+// Sort blog posts by date (newest first), then by title
 blogPosts.sort((a, b) => {
 	if (a.date && b.date) {
 		return new Date(b.date) - new Date(a.date);
@@ -51,6 +54,7 @@ blogPosts.sort((a, b) => {
         <span v-if="post.date">({{ post.date }})</span>
       </li>
     </ul>
+		<Content />
   </div>
   <div v-else>
     <a href="/">Home</a>

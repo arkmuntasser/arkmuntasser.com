@@ -1,9 +1,20 @@
-@import '../../node_modules/modern-normalize/modern-normalize.css';
+/* @import "open-props/postcss/style"; */
+@import "open-props/postcss/normalize";
+@import "open-props/fonts";
+
+@layer theme {
+	@layer tokens, elements, components, widgets, utilities;
+	@layer tokens {
+		:root {
+			--font-brand: "Outfit", sans-serif;
+		}
+	}
+}
 
 html {
 	font-family: "Outfit", sans-serif;
 	font-weight: 300;
-	font-size: 1rem;
+	font-size: var(--font-size-1);
 	line-height: 1.5;
 }
 
