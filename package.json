@@ -10,9 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "publish:atproto": "node --env-file=.env scripts/publish-atproto.mjs"
   },
   "devDependencies": {
+    "@atproto/api": "^0.19.9",
     "vitepress": "^1.6.3",
     "vue": "^3.5.16"
   },

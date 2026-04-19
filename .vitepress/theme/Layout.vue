@@ -1,5 +1,6 @@
 <script setup>
 import { Content, useData } from 'vitepress';
+import BlueskyFeed from './components/BlueskyFeed.vue';
 
 const { site, page, frontmatter } = useData();
 
@@ -54,6 +55,8 @@ blogPosts.sort((a, b) => {
         <span v-if="post.date">({{ post.date }})</span>
       </li>
     </ul>
+		<h2>Bluesky</h2>
+		<BlueskyFeed />
 		<Content />
   </div>
   <div v-else>
