@@ -61,7 +61,7 @@ posts.forEach(post => {
 Now we have our feed built out, we just need to generate the XML and write it out to a file.
 
 ```javascript
-const xml = feed.xml({ indent: true });\n
+const xml = feed.xml({ indent: true });
 fx.writeFileSync('public/rss.xml', xml);
 ```
 

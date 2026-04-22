@@ -130,9 +130,15 @@ async function main() {
       record.tags = Array.isArray(categories) ? categories : [categories]
     }
 
-    // Store plain-text content (truncated to AT Protocol's practical limit)
+    // Store full markdown content using the Markpub lexicon type
     if (body.trim()) {
-      record.textContent = body.trim().slice(0, 10000)
+      record.content = {
+        $type: 'at.markpub.markdown',
+        text: {
+					$type: 'at.markpub.text',
+					markdown: body.trim()
+				},
+      }
     }
 
     process.stdout.write(`  post  ${fm.title} … `)

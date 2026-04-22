@@ -75,7 +75,7 @@ Where multi-column wraps vertically like a newspaper, flexbox wraps horizontally
 .flexbox {
   display: flex;
   flex-wrap: wrap;
-}\n
+}
 .flexbox > * {
   flex: 1 1 280px;
 }
@@ -109,7 +109,7 @@ CSS Grid is [wickedly powerful](/write-better-code-with-css-grid) and can enable
   <li>Item 2</li>
   <li>Item 3</li>
   <li>Item 4</li>
-</ul>\n
+</ul>
 <ul class="grid fit">
   <li>Item 1</li>
   <li>Item 2</li>
@@ -121,10 +121,10 @@ CSS Grid is [wickedly powerful](/write-better-code-with-css-grid) and can enable
 ```css
 .grid {
   display: grid;
-}\n
+}
 .grid.fill {
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-}\n
+}
 .grid.fit {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }

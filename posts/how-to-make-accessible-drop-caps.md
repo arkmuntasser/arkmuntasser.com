@@ -41,7 +41,7 @@ But that didn't work. Turns out that `-webkit-text-stroke` doesn't play well wit
 
 ```html
 <!-- How the HTML initially came from the CMS -->
-<p>Lorem ipsum dolor sit amet.</p>\n
+<p>Lorem ipsum dolor sit amet.</p>
 <!-- The HTML post-modification -->
 <p><span class="outlined">L</span>orem ipsum dolor sit amet.</p>
 ```

@@ -46,7 +46,7 @@ With this method, we go back to our trusty try/catch block, but this time it's i
 
 ```javascript
 const [data, err] = await call(fetch("..."));
-if (err) console.log(err);\n
+if (err) console.log(err);
 async function call(promise) {
   let data, error;
   try {

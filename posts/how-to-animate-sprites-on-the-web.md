@@ -43,7 +43,7 @@ Here's what that code looks like:
 ```javascript
 const keyframes = new Array(numFrames)
   .fill(0)
-  .map((x, i) => ({ backgroundPosition: (i * -1 * frameWidth) + 'px 0' }));\n
+  .map((x, i) => ({ backgroundPosition: (i * -1 * frameWidth) + 'px 0' }));
 sprite.animate(keyframes, {
   easing: 'steps(' + numFrames + ', jump-none)',
   duration: 400,

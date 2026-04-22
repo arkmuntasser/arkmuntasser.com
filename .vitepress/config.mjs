@@ -14,8 +14,8 @@ function escapeXml(str) {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "arkm",
-  description: "My website, this time in Vue",
+  title: "arkmuntasser",
+  description: "I’m Amir R Muntasser and I’m a web developer, wizard, sneaker enthusiast and current Director of Web Development at Granicus Destinations.",
   cleanUrls: true,
   ignoreDeadLinks: true,
 	head: [
@@ -40,6 +40,10 @@ export default defineConfig({
       { rel: 'alternate', type: 'application/rss+xml', title: 'arkm', href: `${siteUrl}/rss.xml` }
     ]
 	],
+
+  markdown: {
+    theme: 'dark-plus',
+  },
 
   buildEnd: async (siteConfig) => {
     const posts = await createContentLoader('posts/*.md', { excerpt: true }).load()

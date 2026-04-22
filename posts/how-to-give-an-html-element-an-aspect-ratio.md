@@ -21,7 +21,7 @@ Consider the following:
 <style>
   .parent {
     width: 400px;
-  }\n
+  }
   .child {
     padding-bottom: 50%;
     height: 0;
