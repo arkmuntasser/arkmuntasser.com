@@ -13,6 +13,7 @@ onMounted(async () => {
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
+		console.log('Fetched Bluesky feed data:', data);
 
     // filter out reposts and replies, keep only original posts, cap at 12
     posts.value = data.feed
@@ -28,11 +29,44 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div class="feed-container">
     <p v-if="loading">Loading Bluesky posts…</p>
     <p v-else-if="error">Failed to load posts: {{ error }}</p>
-    <ul v-else>
-      <BlueskyPost v-for="post in posts" :key="post.uri" :post="post" />
+    <ul v-else class="feed">
+      <li v-for="post in posts" :key="post.uri" class="feed-item">
+        <BlueskyPost :post="post" />
+      </li>
     </ul>
   </div>
 </template>
+
+<style scoped>
+.feed-container {
+  container-type: inline-size;
+}
+
+.feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 1;
+  column-gap: 1rem;
+}
+
+.feed-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+@container (min-width: 30rem) {
+  .feed {
+    columns: 2;
+  }
+}
+
+@container (min-width: 52rem) {
+  .feed {
+    columns: 3;
+  }
+}
+</style>
