@@ -62,9 +62,11 @@ if (external && !isMediaOnly) {
         <div v-if="external.description" class="bsky-embed__link-desc">{{ external.description }}</div>
         <div class="bsky-embed__link-url">
           <svg class="bsky-embed__link-icon" viewBox="0 0 16 16" aria-hidden="true">
-            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/>
+            <circle cx="8" cy="8" r="6.5"/>
+            <ellipse cx="8" cy="8" rx="2.75" ry="6.5"/>
+            <line x1="1.5" y1="8" x2="14.5" y2="8"/>
           </svg>
-          {{ externalHostname }}
+          <div>{{ externalHostname }}</div>
         </div>
       </div>
     </template>
@@ -196,9 +198,12 @@ if (external && !isMediaOnly) {
 }
 
 .bsky-embed__link-icon {
+  display: block;
   width: 0.75rem;
   height: 0.75rem;
-  fill: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
   flex-shrink: 0;
 }
 

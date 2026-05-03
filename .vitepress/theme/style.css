@@ -5,6 +5,7 @@
 	@layer tokens {
 		:root {
 			--font-brand: "Outfit", sans-serif;
+			--brand-color: oklch(0.64 0.25 15.46);
 		}
 	}
 }

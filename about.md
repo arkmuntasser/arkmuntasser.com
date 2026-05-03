@@ -1,5 +1,5 @@
 ---
-title: It's No Mystery, It's My Story
+title: About
 ---
 
 Hello again. So you've decided to learn more about me, Amir R Muntasser, the one and only. Be forewarned, my story is not for the faint of heart. If your loins arr sufficiently girded read on...

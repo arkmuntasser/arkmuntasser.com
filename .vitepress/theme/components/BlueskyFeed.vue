@@ -2,6 +2,13 @@
 import { ref, onMounted } from 'vue';
 import BlueskyPost from './BlueskyPost.vue';
 
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: 12,
+  },
+});
+
 const posts = ref([]);
 const error = ref(null);
 const loading = ref(true);
@@ -9,16 +16,14 @@ const loading = ref(true);
 onMounted(async () => {
   try {
     const res = await fetch(
-      'https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=arkmuntasser.com&limit=20&filter=posts_no_replies'
+      `https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=arkmuntasser.com&limit=${props.limit * 2}&filter=posts_no_replies`
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-		console.log('Fetched Bluesky feed data:', data);
 
-    // filter out reposts and replies, keep only original posts, cap at 12
     posts.value = data.feed
       .filter((item) => !item.reason && !item.post.record.reply)
-      .slice(0, 12)
+      .slice(0, props.limit)
       .map((item) => item.post);
   } catch (e) {
     error.value = e.message;
