@@ -3,6 +3,7 @@ import { Content, useData } from 'vitepress';
 import BlueskyFeed from './components/BlueskyFeed.vue';
 import IntroCopy from './components/IntroCopy.vue';
 import IntroSection from './components/IntroSection.vue';
+import PopfeedReviews from './components/PopfeedReviews.vue';
 import SiteHeader from './components/SiteHeader.vue';
 
 const { page, frontmatter } = useData();
@@ -45,6 +46,7 @@ blogPosts.sort((a, b) => {
 				<BlueskyFeed limit="15"/>
 			</template>
 		</IntroSection>
+		<PopfeedReviews />
 		<h2>Blog Posts</h2>
     <ul>
       <li v-for="post in blogPosts" :key="post.path">
@@ -52,6 +54,8 @@ blogPosts.sort((a, b) => {
         <span v-if="post.date">({{ post.date }})</span>
       </li>
     </ul>
+
+
 
   </div>
   <div v-else>
