@@ -37,6 +37,7 @@ if (external && !isMediaOnly) {
       :src="img.thumb"
       :alt="img.alt || ''"
       class="bsky-embed__image"
+      :style="img.aspectRatio ? `aspect-ratio: ${img.aspectRatio.width} / ${img.aspectRatio.height}` : undefined"
     />
   </div>
 
@@ -157,6 +158,8 @@ if (external && !isMediaOnly) {
 
 .bsky-embed__link-thumb {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   display: block;
   border-radius: 6px 6px 0 0;
   border-bottom: 1px solid #d0d7de;

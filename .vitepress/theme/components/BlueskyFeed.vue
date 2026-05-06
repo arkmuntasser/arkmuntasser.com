@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import BlueskyPost from './BlueskyPost.vue';
+import { fetchAuthorPosts } from '../utils/bluesky.js';
 
 const props = defineProps({
   limit: {
@@ -15,16 +16,7 @@ const loading = ref(true);
 
 onMounted(async () => {
   try {
-    const res = await fetch(
-      `https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=arkmuntasser.com&limit=${props.limit * 2}&filter=posts_no_replies`
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    posts.value = data.feed
-      .filter((item) => !item.reason && !item.post.record.reply)
-      .slice(0, props.limit)
-      .map((item) => item.post);
+    posts.value = await fetchAuthorPosts(props.limit);
   } catch (e) {
     error.value = e.message;
   } finally {

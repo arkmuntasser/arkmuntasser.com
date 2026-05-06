@@ -24,6 +24,9 @@
 		top: 0;
 		position: sticky;
 		align-self: start;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
 		padding: 2rem;
 	}
 
