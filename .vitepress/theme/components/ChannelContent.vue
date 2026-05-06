@@ -7,8 +7,6 @@ import BlogPostCard from './BlogPostCard.vue';
 import BlueskyPost from './BlueskyPost.vue';
 import PopfeedReviewCard from './PopfeedReviewCard.vue';
 
-const usesMasonry = typeof CSS !== 'undefined' && CSS.supports('grid-template-rows', 'masonry');
-
 // Feed registry — add new feeds here; role 'primary' anchors content,
 // role 'secondary' fills the gaps between primary items.
 const FEEDS = [
@@ -66,47 +64,11 @@ function buildFeed(primaryEntries, secondaryEntries) {
   return result;
 }
 
-const containerRef = ref(null);
-const feedRef = ref(null);
 const feedItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-const GAP = 16;
-
-let layoutRaf;
-function scheduleLayout() {
-  if (usesMasonry) return;
-  cancelAnimationFrame(layoutRaf);
-  // Double-RAF: the first frame lets CSS container queries and child reflows
-  // settle after a column-count change; the second reads stable heights.
-  layoutRaf = requestAnimationFrame(() => {
-    layoutRaf = requestAnimationFrame(layoutMasonry);
-  });
-}
-
-function layoutMasonry() {
-  if (usesMasonry) return;
-  const grid = feedRef.value;
-  if (!grid || !grid.children.length) return;
-  const items = [...grid.children];
-  items.forEach((item) => { item.style.gridRowEnd = ''; });
-  // Read all heights in one batch before writing any spans.
-  const heights = items.map((item) => item.getBoundingClientRect().height);
-  items.forEach((item, i) => {
-    item.style.gridRowEnd = `span ${Math.ceil(heights[i] + GAP)}`;
-  });
-}
-
-let ro;
-
 onMounted(async () => {
-  if (!usesMasonry) {
-    ro = new ResizeObserver(scheduleLayout);
-    if (containerRef.value) ro.observe(containerRef.value);
-    window.addEventListener('resize', scheduleLayout);
-  }
-
   try {
     const primaryFeeds = FEEDS.filter((f) => f.role === 'primary');
     const secondaryFeeds = FEEDS.filter((f) => f.role === 'secondary');
@@ -123,22 +85,6 @@ onMounted(async () => {
     loading.value = false;
   }
 });
-
-onUnmounted(() => {
-  if (!usesMasonry) {
-    window.removeEventListener('resize', scheduleLayout);
-    cancelAnimationFrame(layoutRaf);
-    ro?.disconnect();
-  }
-});
-
-watch(feedItems, () => {
-  if (usesMasonry) return;
-  layoutMasonry();
-  if (feedRef.value) {
-    [...feedRef.value.children].forEach((child) => ro.observe(child));
-  }
-}, { flush: 'post' });
 </script>
 
 <template>
@@ -170,9 +116,7 @@ watch(feedItems, () => {
 .channel-content__feed {
   display: grid;
   grid-template-columns: 1fr;
-  grid-auto-rows: 1px;
-  row-gap: 0;
-  column-gap: 1rem;
+  gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -191,14 +135,6 @@ watch(feedItems, () => {
 @container (min-width: 52rem) {
   .channel-content__feed {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@supports (grid-template-rows: masonry) {
-  .channel-content__feed {
-    grid-template-rows: masonry;
-    grid-auto-rows: auto;
-    row-gap: 1rem;
   }
 }
 </style>
