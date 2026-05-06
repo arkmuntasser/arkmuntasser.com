@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { getBlogPosts } from '../utils/posts.js';
 import { fetchAuthorPosts } from '../utils/bluesky.js';
 import { fetchReviews } from '../utils/popfeed.js';
@@ -67,6 +67,28 @@ function buildFeed(primaryEntries, secondaryEntries) {
 const feedItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const feedRef = ref(null);
+
+let masonryInstance = null;
+
+watch(loading, async (isLoading) => {
+  if (!isLoading) {
+    await nextTick();
+    if (feedRef.value) {
+      const { default: Masonry } = await import('masonry-layout');
+      masonryInstance = new Masonry(feedRef.value, {
+        itemSelector: '.channel-content__item',
+        columnWidth: '.channel-content__item',
+        percentPosition: true,
+        gutter: 16,
+      });
+    }
+  }
+});
+
+onUnmounted(() => {
+  masonryInstance?.destroy();
+});
 
 onMounted(async () => {
   try {
@@ -114,27 +136,26 @@ onMounted(async () => {
 }
 
 .channel-content__feed {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .channel-content__item {
-  align-self: start;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
-@container (min-width: 30rem) {
-  .channel-content__feed {
-    grid-template-columns: repeat(2, 1fr);
+@container (min-width: 640px) {
+  .channel-content__item {
+    width: calc(50% - 8px);
   }
 }
 
-@container (min-width: 52rem) {
-  .channel-content__feed {
-    grid-template-columns: repeat(3, 1fr);
+@container (min-width: 1024px) {
+  .channel-content__item {
+    width: calc(33.333% - 11px);
   }
 }
 </style>
