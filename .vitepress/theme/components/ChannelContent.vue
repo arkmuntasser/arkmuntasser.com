@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { ref, markRaw, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { getBlogPosts } from '../utils/posts.js';
 import { fetchAuthorPosts } from '../utils/bluesky.js';
 import { fetchReviews } from '../utils/popfeed.js';
@@ -18,7 +18,7 @@ const FEEDS = [
     role: 'primary',
     fetch: () => Promise.resolve(getBlogPosts()),
     getDate: (item) => item.date,
-    component: BlogPostCard,
+    component: markRaw(BlogPostCard),
     getKey: (item) => item.path,
     getProps: (item) => ({ post: item }),
   },
@@ -27,7 +27,7 @@ const FEEDS = [
     role: 'secondary',
     fetch: () => fetchAuthorPosts(20),
     getDate: (item) => item.record.createdAt,
-    component: BlueskyPost,
+    component: markRaw(BlueskyPost),
     getKey: (item) => item.uri,
     getProps: (item) => ({ post: item }),
   },
@@ -36,7 +36,7 @@ const FEEDS = [
     role: 'secondary',
     fetch: () => fetchReviews(8),
     getDate: (item) => item.value.createdAt,
-    component: PopfeedReviewCard,
+    component: markRaw(PopfeedReviewCard),
     getKey: (item) => item.uri,
     getProps: (item) => ({ review: item }),
   },
@@ -45,7 +45,7 @@ const FEEDS = [
     role: 'secondary',
     fetch: () => fetchGithubRepos(10),
     getDate: (item) => item.pushedAt,
-    component: GithubProjectCard,
+    component: markRaw(GithubProjectCard),
     getKey: (item) => item.id,
     getProps: (item) => ({ repo: item }),
   },
