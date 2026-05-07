@@ -11,7 +11,8 @@ import PopfeedReviewCard from './PopfeedReviewCard.vue';
 
 
 // Feed registry — add new feeds here; role 'primary' anchors content,
-// role 'secondary' fills the gaps between primary items.
+// role 'secondary' fills the gaps between primary items,
+// role 'filler' is appended after all primary and secondary content is placed.
 const FEEDS = [
   {
     id: 'blog',
@@ -24,7 +25,7 @@ const FEEDS = [
   },
   {
     id: 'bluesky',
-    role: 'secondary',
+    role: 'filler',
     fetch: () => fetchAuthorPosts(20),
     getDate: (item) => item.record.createdAt,
     component: markRaw(BlueskyPost),
@@ -33,7 +34,7 @@ const FEEDS = [
   },
   {
     id: 'popfeed',
-    role: 'secondary',
+    role: 'filler',
     fetch: () => fetchReviews(8),
     getDate: (item) => item.value.createdAt,
     component: markRaw(PopfeedReviewCard),
@@ -51,26 +52,38 @@ const FEEDS = [
   },
 ];
 
-function buildFeed(primaryEntries, secondaryEntries) {
+function buildFeed(primaryEntries, secondaryEntries, fillerEntries) {
   const byDateDesc = (a, b) =>
     new Date(b.feedConfig.getDate(b.item)) - new Date(a.feedConfig.getDate(a.item));
 
   const primary = [...primaryEntries].sort(byDateDesc);
   const secondary = [...secondaryEntries].sort(byDateDesc);
+  const filler = [...fillerEntries].sort(byDateDesc);
 
   const result = [];
-  let cursor = 0;
+  let secCursor = 0;
+  let filCursor = 0;
 
   for (const entry of primary) {
     result.push(entry);
-    const count = Math.floor(Math.random() * 4); // 0–3 inclusive
-    for (let i = 0; i < count && cursor < secondary.length; i++) {
-      result.push(secondary[cursor++]);
+
+    const secCount = Math.floor(Math.random() * 4); // 0–3 inclusive
+    for (let i = 0; i < secCount && secCursor < secondary.length; i++) {
+      result.push(secondary[secCursor++]);
+    }
+
+    const filCount = Math.floor(Math.random() * 4); // 0–3 inclusive
+    for (let i = 0; i < filCount && filCursor < filler.length; i++) {
+      result.push(filler[filCursor++]);
     }
   }
 
-  while (cursor < secondary.length) {
-    result.push(secondary[cursor++]);
+  while (secCursor < secondary.length) {
+    result.push(secondary[secCursor++]);
+  }
+
+  while (filCursor < filler.length) {
+    result.push(filler[filCursor++]);
   }
 
   return result;
@@ -106,13 +119,15 @@ onMounted(async () => {
   try {
     const primaryFeeds = FEEDS.filter((f) => f.role === 'primary');
     const secondaryFeeds = FEEDS.filter((f) => f.role === 'secondary');
+    const fillerFeeds = FEEDS.filter((f) => f.role === 'filler');
 
-    const [primaryResults, secondaryResults] = await Promise.all([
+    const [primaryResults, secondaryResults, fillerResults] = await Promise.all([
       Promise.all(primaryFeeds.map((f) => f.fetch().then((items) => items.map((item) => ({ item, feedConfig: f }))))),
       Promise.all(secondaryFeeds.map((f) => f.fetch().then((items) => items.map((item) => ({ item, feedConfig: f }))))),
+      Promise.all(fillerFeeds.map((f) => f.fetch().then((items) => items.map((item) => ({ item, feedConfig: f }))))),
     ]);
 
-    feedItems.value = buildFeed(primaryResults.flat(), secondaryResults.flat());
+    feedItems.value = buildFeed(primaryResults.flat(), secondaryResults.flat(), fillerResults.flat());
   } catch (e) {
     error.value = e.message;
   } finally {
