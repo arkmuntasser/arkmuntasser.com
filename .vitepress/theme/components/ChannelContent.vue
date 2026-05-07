@@ -67,7 +67,7 @@ function buildFeed(primaryEntries, secondaryEntries, fillerEntries) {
   for (const entry of primary) {
     result.push(entry);
 
-    const secCount = Math.floor(Math.random() * 4); // 0–3 inclusive
+    const secCount = Math.floor(Math.random() * 2); // 0–3 inclusive
     for (let i = 0; i < secCount && secCursor < secondary.length; i++) {
       result.push(secondary[secCursor++]);
     }
