@@ -3,9 +3,12 @@ import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { getBlogPosts } from '../utils/posts.js';
 import { fetchAuthorPosts } from '../utils/bluesky.js';
 import { fetchReviews } from '../utils/popfeed.js';
+import { fetchGithubRepos } from '../utils/github.js';
+import GithubProjectCard from './GithubProjectCard.vue';
 import BlogPostCard from './BlogPostCard.vue';
 import BlueskyPost from './BlueskyPost.vue';
 import PopfeedReviewCard from './PopfeedReviewCard.vue';
+
 
 // Feed registry — add new feeds here; role 'primary' anchors content,
 // role 'secondary' fills the gaps between primary items.
@@ -36,6 +39,15 @@ const FEEDS = [
     component: PopfeedReviewCard,
     getKey: (item) => item.uri,
     getProps: (item) => ({ review: item }),
+  },
+	{
+    id: 'github',
+    role: 'secondary',
+    fetch: () => fetchGithubRepos(10),
+    getDate: (item) => item.pushedAt,
+    component: GithubProjectCard,
+    getKey: (item) => item.id,
+    getProps: (item) => ({ repo: item }),
   },
 ];
 

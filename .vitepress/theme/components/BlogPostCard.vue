@@ -87,6 +87,7 @@ const date = props.post.date
 
 .blog-post-card__categories {
   display: flex;
+	flex-wrap: wrap;
   gap: 4px;
   list-style: none;
   margin: 0;
@@ -100,6 +101,7 @@ const date = props.post.date
   border: 1px solid #d0d7de;
   border-radius: 9999px;
   padding: 0 6px;
+	white-space: nowrap;
 }
 
 .blog-post-card__logo {
@@ -107,6 +109,7 @@ const date = props.post.date
   font-weight: 700;
   flex-shrink: 0;
   line-height: 1;
+	align-self: end;
 }
 
 .blog-post-card__logo b {

@@ -7,6 +7,7 @@ import IntroSection from './components/IntroSection.vue';
 import PopfeedReviews from './components/PopfeedReviews.vue';
 import SiteHeader from './components/SiteHeader.vue';
 import ChannelContent from './components/ChannelContent.vue';
+import GithubProjects from './components/GithubProjects.vue';
 import SiteFooter from './components/SiteFooter.vue';
 
 const { page, frontmatter } = useData();
@@ -31,7 +32,8 @@ const { page, frontmatter } = useData();
 				<ChannelContent />
 			</template>
 		</IntroSection>
-		<PopfeedReviews :limit="12" />
+		<!-- <GithubProjects :limit="10" /> -->
+		<!-- <PopfeedReviews :limit="12" /> -->
 		<!-- <BlogPostList :limit="6" title="Blog Posts" cta-text="See All blog posts" layout="grid"/> -->
 
 
