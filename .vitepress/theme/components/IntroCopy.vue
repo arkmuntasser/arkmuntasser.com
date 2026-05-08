@@ -7,7 +7,7 @@
 	</main>
 </template>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
 @keyframes rainbow-cycle {

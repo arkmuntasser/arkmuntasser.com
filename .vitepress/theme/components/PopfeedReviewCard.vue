@@ -1,4 +1,6 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+
 const props = defineProps({
   review: {
     type: Object,
@@ -50,6 +52,23 @@ function stars(rating) {
   const v = rating / 2;
   return { full: Math.floor(v), half: v % 1 >= 0.5 };
 }
+
+const textEl = ref(null);
+const popoverEl = ref(null);
+const isTruncated = ref(false);
+const uid = Math.random().toString(36).slice(2, 8);
+const popoverId = `rp-${uid}`;
+const anchorName = `--ra-${uid}`;
+
+onMounted(() => {
+  if (textEl.value) {
+    isTruncated.value = textEl.value.scrollHeight > textEl.value.clientHeight;
+  }
+});
+
+function openPopover() {
+  popoverEl.value?.showPopover();
+}
 </script>
 
 <template>
@@ -64,7 +83,18 @@ function stars(rating) {
         <span v-for="i in stars(review.value.rating).full" :key="i" class="star">★</span>
         <span v-if="stars(review.value.rating).half" class="star half">½</span>
       </div>
-      <p class="text">{{ review.value.text }}</p>
+      <p
+        ref="textEl"
+        class="text"
+        :class="{ 'text--expandable': isTruncated }"
+        :style="isTruncated ? `anchor-name: ${anchorName}` : undefined"
+        @click="openPopover"
+      >{{ review.value.text }}</p>
+      <button
+        v-if="isTruncated"
+        class="read-more"
+        :popovertarget="popoverId"
+      >read more</button>
       <footer class="card-footer">
         <div class="card-meta">
           <time v-if="review.value.createdAt" class="card-date" :datetime="review.value.createdAt">{{ formatDate(review.value.createdAt) }}</time>
@@ -76,6 +106,22 @@ function stars(rating) {
           <img src="https://popfeed.social/brand-icons/popfeed.png" alt="" class="popfeed-icon" />
         </div>
       </footer>
+    </div>
+    <div
+      v-if="isTruncated"
+      :id="popoverId"
+      ref="popoverEl"
+      popover
+      class="text-popover"
+      :style="`position-anchor: ${anchorName}`"
+    >
+      <p class="text-popover-body">{{ review.value.text }}</p>
+      <button
+        class="text-popover-close"
+        :popovertarget="popoverId"
+        popovertargetaction="hide"
+        aria-label="Close"
+      >✕</button>
     </div>
   </div>
 </template>
@@ -160,6 +206,29 @@ function stars(rating) {
   overflow: hidden;
 }
 
+.text--expandable {
+  cursor: pointer;
+}
+
+.read-more {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.6875rem;
+  color: oklch(0.53 0.26 279.22);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-align: left;
+  line-height: 1;
+}
+
+.read-more:hover {
+  color: oklch(0.43 0.26 279.22);
+}
+
 .card-footer {
   display: flex;
   align-items: center;
@@ -218,5 +287,73 @@ function stars(rating) {
   height: 100%;
   object-fit: contain;
   display: block;
+}
+
+/* Popover */
+
+.text-popover {
+  position: fixed;
+  inset: unset;
+  margin: 0;
+  top: anchor(top);
+  left: anchor(left);
+  width: anchor-size(width);
+
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0.625rem 2rem 0.625rem 0.75rem;
+  box-shadow: 0 8px 24px oklch(0 0 0 / 0.12);
+
+  /* Exit state — also the @starting-style base for entry */
+  opacity: 0;
+  transform-origin: top center;
+
+  transition:
+    opacity 0.2s ease,
+    overlay 0.2s ease allow-discrete;
+}
+
+.text-popover:popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  .text-popover:popover-open {
+    opacity: 0;
+    transform: scaleY(0.4);
+  }
+}
+
+.text-popover-body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #1f2328;
+}
+
+.text-popover-close {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: none;
+  border: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.625rem;
+  color: #636c76;
+  border-radius: 3px;
+  padding: 0;
+  line-height: 1;
+}
+
+.text-popover-close:hover {
+  background: #f6f8fa;
+  color: #1f2328;
 }
 </style>

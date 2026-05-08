@@ -19,7 +19,13 @@ const pages = Object.entries(pageFiles).map(([path, mod]) => {
   };
 });
 
-const pagesToExclude = ['collections', 'html-styles', 'uses', 'markdown-examples', 'index'];
+const pagesToExclude = [
+	'collections',
+	// 'html-styles',
+	'uses',
+	// 'markdown-examples',
+	'index'
+];
 const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('./', '')));
 </script>
 
@@ -81,6 +87,7 @@ li a {
   font-size: 0.9375rem;
   text-decoration: none;
   transition: background 0.15s;
+	white-space: nowrap;
 }
 
 li a:hover {

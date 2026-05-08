@@ -17,7 +17,7 @@ const { page, frontmatter } = useData();
 	<div v-if="page.isNotFound">
 		Custom 404 page!
   </div>
-  <div v-else-if="frontmatter.home">
+  <div v-else-if="frontmatter.home" class="homepage">
 
 
 
@@ -41,7 +41,9 @@ const { page, frontmatter } = useData();
   </div>
   <div v-else class="page">
     <SiteHeader />
-		<Content />
+		<main class="markdown-content">
+			<Content />
+		</main>
 		<SiteFooter />
   </div>
 </template>
