@@ -33,6 +33,25 @@ const TYPE_ICONS = {
   videogame:  GAME_ICON,
 };
 
+const TYPE_LABELS = {
+	movie: 'Film',
+	film: 'Film',
+	tv: 'TV Show',
+	tvshow: 'TV Show',
+	show: 'TV Show',
+	series: 'TV Show',
+	anime: 'TV Show',
+	book: 'Book',
+	comic: 'Book',
+	comicbook: 'Book',
+	manga: 'Book',
+	album: 'Music',
+	music: 'Music',
+	podcast: 'Music',
+	game: 'Game',
+	videogame: 'Game',
+};
+
 function typeIcon(type) {
   if (!type) return MOVIE_ICON;
   return TYPE_ICONS[type.toLowerCase().replace(/[\s_-]/g, '')] ?? MOVIE_ICON;
@@ -100,6 +119,7 @@ function openPopover() {
           <time v-if="review.value.createdAt" class="card-date" :datetime="review.value.createdAt">{{ formatDate(review.value.createdAt) }}</time>
           <div class="type-badge" :aria-label="review.value.creativeWorkType ?? 'media'">
             <img :src="typeIcon(review.value.creativeWorkType)" alt="" class="type-icon" />
+						<span>{{ TYPE_LABELS[review.value.creativeWorkType?.toLowerCase().replace(/[\s_-]/g, '')] || 'Media' }}</span>
           </div>
         </div>
         <div class="popfeed-logo" aria-hidden="true">
@@ -253,13 +273,15 @@ function openPopover() {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 18px;
   height: 18px;
   background: #f6f8fa;
   border: 1px solid #d0d7de;
   border-radius: 9999px;
   padding: 3px;
   box-sizing: border-box;
+	gap: 2px;
+	white-space: nowrap;
+	font-size: 0.625rem;
 }
 
 .type-icon {
@@ -302,7 +324,7 @@ function openPopover() {
   background: #ffffff;
   border: 1px solid #d0d7de;
   border-radius: 6px;
-  padding: 0.625rem 2rem 0.625rem 0.75rem;
+  padding: 1rem 2rem 1rem 1rem;
   box-shadow: 0 8px 24px oklch(0 0 0 / 0.12);
 
   /* Exit state — also the @starting-style base for entry */

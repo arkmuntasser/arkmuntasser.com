@@ -14,19 +14,19 @@ const pageFiles = import.meta.glob('/*.md', { eager: true });
 const pages = Object.entries(pageFiles).map(([path, mod]) => {
   const slug = path.split('/').pop().replace(/\.md$/, '');
   return {
-    path: `./${slug}`,
+    path: `/${slug}`,
     title: mod.__pageData?.frontmatter?.title || slug,
   };
 });
 
 const pagesToExclude = [
 	'collections',
-	// 'html-styles',
-	'uses',
-	// 'markdown-examples',
+	'html-styles',
+	// 'uses',
+	'markdown-examples',
 	'index'
 ];
-const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('./', '')));
+const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/', '')));
 </script>
 
 <template>
