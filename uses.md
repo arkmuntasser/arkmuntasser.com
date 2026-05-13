@@ -37,10 +37,20 @@ I don't actually have a lot of tools that I use. It keep things pretty basic. If
 
 - **AirPods Pro 3**. I use these every single day, multiple times a day. You know I got that shit on me.
 
-- **iPad Air 12.9" M2 w/ Apple Pencil Pro**. This is almost exclusively for drawing.
+- **iPad Air 12.9" M2 w/ Apple Pencil Pro**. It's where I do my doodles!
 
 - **Steam Deck**. I've been a console and Mac guy since forever. This has been a game changer for me. Like no shit Steam is awesome, but I never really got to use it before. I don't get a lot of time to game as a dad, but with this I can play small indie games while watching a movie or show at night and actually get to game again. It rules.
+
+- **Switch 2**. Gotta have my Mario!
+
+- **PS5**. It's my FF7R machine.
+
+- **Xbox Series X**. It's my, now dead, Destiny 2 machine. The console isn't dead, but Destiny 2 presently is.
 
 - **Claude Code**. You know what it is.
 
 - **VS Code**. It still works! I just use the default theme. I don't have much in the way of extensions.
+
+- **Desk**. Basic.
+
+- **Chair**. Basic.

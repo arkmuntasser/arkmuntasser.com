@@ -23,11 +23,43 @@ const props = defineProps({
   },
 });
 
+import { ref, computed, onMounted } from 'vue';
 import { getBlogPosts } from '../utils/posts.js';
 import BlogPostCard from './BlogPostCard.vue';
 
+const PAGE_SIZE = 12;
+
 const allPosts = getBlogPosts();
-const blogPosts = props.limit ? allPosts.slice(0, props.limit) : allPosts;
+const currentPage = ref(1);
+
+onMounted(() => {
+  const params = new URLSearchParams(window.location.search);
+  const p = parseInt(params.get('page'), 10);
+  if (p && p > 0) currentPage.value = p;
+});
+
+const blogPosts = computed(() => {
+  if (props.limit) return allPosts.slice(0, props.limit);
+  const start = (currentPage.value - 1) * PAGE_SIZE;
+  return allPosts.slice(start, start + PAGE_SIZE);
+});
+
+const totalPages = computed(() => Math.ceil(allPosts.length / PAGE_SIZE));
+const rangeStart = computed(() => (currentPage.value - 1) * PAGE_SIZE + 1);
+const rangeEnd = computed(() => Math.min(currentPage.value * PAGE_SIZE, allPosts.length));
+
+function goToPage(page) {
+  currentPage.value = page;
+  const params = new URLSearchParams(window.location.search);
+  if (page === 1) {
+    params.delete('page');
+  } else {
+    params.set('page', page);
+  }
+  const qs = params.toString();
+  history.pushState(null, '', qs ? `?${qs}` : window.location.pathname);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 
 <template>
@@ -40,6 +72,19 @@ const blogPosts = props.limit ? allPosts.slice(0, props.limit) : allPosts;
     </ul>
     <div v-if="ctaText" class="cta">
       <a class="cta__link" :href="ctaHref">{{ ctaText }}</a>
+    </div>
+    <div v-if="!props.limit && totalPages > 1" class="pagination">
+      <button
+        class="pagination__btn"
+        :disabled="currentPage === 1"
+        @click="goToPage(currentPage - 1)"
+      >Previous</button>
+      <span class="pagination__counter">{{ rangeStart }}–{{ rangeEnd }} of {{ allPosts.length }}</span>
+      <button
+        class="pagination__btn"
+        :disabled="currentPage === totalPages"
+        @click="goToPage(currentPage + 1)"
+      >Next</button>
     </div>
   </section>
 </template>
@@ -100,5 +145,42 @@ h2 {
 .cta__link:focus-visible {
   background: oklch(28.502% 0.00003 271.152);
   outline: none;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pagination__btn {
+  background: #16161d;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.5rem 1.5rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pagination__btn:hover:not(:disabled),
+.pagination__btn:focus-visible:not(:disabled) {
+  background: oklch(28.502% 0.00003 271.152);
+  outline: none;
+}
+
+.pagination__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pagination__counter {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.9375rem;
+  color: inherit;
 }
 </style>

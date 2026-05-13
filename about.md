@@ -2,7 +2,7 @@
 title: About
 ---
 
-Hello again. So you've decided to learn more about me, Amir R Muntasser, the one and only. Be forewarned, my story is not for the faint of heart. If your loins arr sufficiently girded read on...
+Hello again. So you've decided to learn more about me, Amir R Muntasser, the one and only. Be forewarned, my story is not for the faint of heart. If your loins are sufficiently girded read on...
 
 My wife and I have three cats. THREE!!! That's too many cats. Have you ever tried to share a living space with three cats? It's miserable. Hair. Hair everywhere. You can't escape it. And the litter boxes, my god the litter boxes. Did you know that you have to have one more litter box than you have cats in a multi-cat household? I didn't when we got three cats. And now I have four litter boxes. It's a misery.
 
