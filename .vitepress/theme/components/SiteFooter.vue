@@ -4,7 +4,7 @@ const year = new Date().getFullYear();
 
 <template>
 	<footer>
-		<p>&copy; {{ year }} Amir R Muntasser</p>
+		<p>&copy; {{ year }} arkmuntasser. <strong>All rights reserved.</strong></p>
 		<nav>
 			<a href="https://github.com/arkmuntasser" target="_blank" rel="noopener noreferrer">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">

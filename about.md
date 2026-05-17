@@ -10,7 +10,7 @@ And then there's the pool. Pool was a mistake. Sure it does wonders for the prop
 
 And now you know the tale of me. Careful that it doesn't happen to you otherwise you lest you find yourself happily married to your best friend, a homeowner, and immenseley satisfied in your career. Like some sort of sucker!
 
-![Becks and I during our engagement photo shoot](/images/me.jpg)
+<!-- ![Becks and I during our engagement photo shoot](/images/me.jpg) -->
 
 Want to learn more?
 

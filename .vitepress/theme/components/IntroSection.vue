@@ -28,6 +28,7 @@
 		flex-direction: column;
 		height: 100vh;
 		padding: 2rem;
+		padding-bottom: 0;
 	}
 
 	& > .right-column {

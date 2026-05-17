@@ -1,14 +1,17 @@
 <script setup>
+import { computed } from 'vue';
 import { Content, useData } from 'vitepress';
-import IntroCopy from './components/IntroCopy.vue';
 import IntroSection from './components/IntroSection.vue';
 import SiteHeader from './components/SiteHeader.vue';
 import ChannelContent from './components/ChannelContent.vue';
 import SiteFooter from './components/SiteFooter.vue';
 import PageHeader from './components/PageHeader.vue';
 import BlogPostList from './components/BlogPostList.vue';
+import SocialLinks from './components/SocialLinks.vue';
+import TableOfContents from './components/TableOfContents.vue';
 
 const { page, frontmatter } = useData();
+const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 </script>
 
 <template>
@@ -20,7 +23,12 @@ const { page, frontmatter } = useData();
 		<IntroSection>
 			<template #left>
 				<SiteHeader />
-				<IntroCopy />
+				<div class="markdown-content markdown-content__homepage">
+					<Content />
+					<SocialLinks />
+				</div>
+				<!-- <IntroCopy /> -->
+				<SiteFooter />
 			</template>
 			<template #right>
 				<ChannelContent />
@@ -46,15 +54,35 @@ const { page, frontmatter } = useData();
 		</main>
 		<SiteFooter />
 	</div>
-  <div v-else class="page">
-    <SiteHeader />
-		<main class="page-content">
+	<div v-else-if="isBlogPost" class="page">
+		<SiteHeader />
+		<div class="post-layout">
 			<PageHeader
 				:title="frontmatter.title"
 				:excerpt="frontmatter.excerpt"
 				:category="frontmatter.category"
 				:date="frontmatter.date"
 			/>
+			<main class="page-content">
+				<div class="markdown-content">
+					<Content />
+				</div>
+			</main>
+			<aside class="toc-sidebar">
+				<TableOfContents />
+			</aside>
+		</div>
+		<SiteFooter />
+	</div>
+  <div v-else class="page">
+    <SiteHeader />
+		<PageHeader
+			:title="frontmatter.title"
+			:excerpt="frontmatter.excerpt"
+			:category="frontmatter.category"
+			:date="frontmatter.date"
+		/>
+		<main class="page-content">
 			<div class="markdown-content">
 				<Content />
 			</div>
@@ -68,5 +96,37 @@ const { page, frontmatter } = useData();
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+}
+
+.post-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 72ch) 16rem;
+	column-gap: 3rem;
+	align-items: start;
+	max-width: calc(72ch + 3rem + 16rem);
+	margin-inline: auto;
+	width: 100%;
+	flex: 1;
+}
+
+.post-layout :deep(.page-header) {
+	grid-column: 1 / -1;
+	max-width: none;
+	margin-inline: 0;
+}
+
+.toc-sidebar {
+	position: sticky;
+	top: 2rem;
+}
+
+@media (max-width: 900px) {
+	.post-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.toc-sidebar {
+		display: none;
+	}
 }
 </style>
