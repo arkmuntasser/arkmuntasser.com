@@ -84,6 +84,7 @@ html {
 
 .page {
 	padding: 2rem;
+	padding-block-end: 0;
 }
 
 .page-content {

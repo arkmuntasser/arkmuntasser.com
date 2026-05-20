@@ -1,7 +1,7 @@
 ---
 title: Write Better Code with CSS Grid
 date: "2018-02-11"
-excerpt: CSS Frameworks like Bootstrap, Foundation, and Bulma help us describe our HTML in terms of layout structure and components, but I'm not a fan of that approach.
+excerpt: HTML is for structuring and describing your content and not for layout.
 author:
   - amir
 category:
@@ -12,6 +12,11 @@ category:
   - html
 featured: false
 weeknotes: false
+updated: "2026-05-19"
+changelog:
+  - Updated to include sensible headings.
+  - Updated old, defunt Glitch demo link with new GitHub Pages link.
+  - Updated excerpt.
 ---
 
 CSS Frameworks like Bootstrap, Foundation, and Bulma help us describe our HTML in terms of layout structure and components, but I'm not a fan of that approach.
@@ -20,7 +25,7 @@ I prefer an approach I learned from [Jen Simmons](https://www.youtube.com/watch?
 
 A big one is there are fewer `div`s cluttering up the DOM which can improve performance. And it also results in cleaner looking code since there are fewer utility-classes in the HTML (though this last one is subjective as frameworks like [Tailwind CSS](https://tailwindcss.com/) make a reasonable argument for more of these utility-classes in your HTML).
 
-- [View Demo App](https://ui-playground-grid-demo.glitch.me/)
+- [View Demo App](https://arkmuntasser.github.io/css-grid-demos/)
 - [Download Source Code on GitHub](https://github.com/arkmuntasser/css-grid-demos)
 
 ## Prerequisites
@@ -28,6 +33,7 @@ A big one is there are fewer `div`s cluttering up the DOM which can improve perf
 - Working knowledge of [HTML and CSS](https://internetingishard.com/html-and-css/)
 - Familiarity with [Responsive Web Development](https://www.smashingmagazine.com/2011/01/guidelines-for-responsive-web-design/)
 
+## Rethinking your HTML
 Let's consider this following layout:
 
 ![](https://res.cloudinary.com/arkmuntasser/image/upload/c_scale,f_auto,q_80,w_800/v1564885707/PixelSnap_2019-08-03_at_19.21.49_2x.png)
@@ -76,8 +82,11 @@ This is fine, but what is this thing? Really? It's just a list of articles, righ
 </section>
 ```
 
+## Add in the CSS
+
 That's a lot cleaner looking and a lot more descriptive of the content we have. But now that we've gotten rid of the layout, how do we add it back in? That's where CSS Grid comes in!
 
+### Example 1
 ```css
 .articles {
   display: grid;
@@ -106,6 +115,7 @@ So now we've cleaned up our HTML and more accurately and concisely describe the 
 
 Because we're now handling layout in the CSS, we can take our simplified HTML and display it nearly anyway that we want without altering it!
 
+### Example 2
 What if we change our CSS to this:
 
 ```css
@@ -145,6 +155,7 @@ And get this:
 
 ![](https://res.cloudinary.com/arkmuntasser/image/upload/c_scale,f_auto,q_80,w_800/v1564885707/PixelSnap_2019-08-03_at_19.22.39_2x.png)
 
+### Example 3
 Or maybe we want something a little wilder?
 
 ```css
@@ -176,6 +187,7 @@ Or maybe we want something a little wilder?
 
 ![](https://res.cloudinary.com/arkmuntasser/image/upload/c_scale,f_auto,q_80,w_800/v1564885707/PixelSnap_2019-08-03_at_19.23.33_2x.png)
 
+### Example 4
 Maybe something a bit more standard?
 
 ```css
@@ -191,4 +203,5 @@ Maybe something a bit more standard?
 
 ![](https://res.cloudinary.com/arkmuntasser/image/upload/c_scale,f_auto,q_80,w_800/v1564885708/PixelSnap_2019-08-03_at_19.24.07_2x.png)
 
+## Conclusion
 Across all these layouts, there's only maybe 12 lines of CSS that's different. That's the power of CSS Grid and the power of moving layout out of the HTML.

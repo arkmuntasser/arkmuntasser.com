@@ -1,7 +1,7 @@
 ---
 title: How to Improve Dropdown Navigation with Animation
 date: "2017-12-27"
-excerpt: One of the most annoying things on the web is when a dropdown opens on hover and you move the most diagonally into the dropdown, but in doing so the dropdown disappears because I stopped hovering over the zone that triggers the dropdown to appear.
+excerpt: Trying to move diagonally to a hover-triggered menu and having it disappear on you. Flames. On the sides of my face.
 author:
   - amir
 category:
@@ -10,13 +10,18 @@ category:
   - html
 featured: false
 weeknotes: false
+updated: "2026-05-19"
+changelog:
+  - Updated excerpt.
+  - Added sensible headings.
+  - Updated old, defunct Glitch demo links with new GitHub pages links.
 ---
 
 One of the most annoying things on the web is when a dropdown opens on hover and you move the most diagonally into the dropdown, but in doing so the dropdown disappears because I stopped hovering over the zone that triggers the dropdown to appear. There's a couple ways to go about this including this [awesome SVG-based solution from Hakim El Hattab](https://team.slides.com/hakimel/cssday-2019#/).
 
 My go to method, however, is to use a little bit of animation.
 
-- [View Demo App](https://better-dropdown.glitch.me/)
+- [View Demo App](https://arkmuntasser.github.io/better-dropdown/)
 - [Download Source Code on GitHub](https://github.com/arkmuntasser/better-dropdown)
 
 What I particularly like about this method is that it doesn't require any JavaScript to implement. All you need is the right markup and a bit of CSS.
@@ -133,6 +138,7 @@ Altogether, we get this:
 }
 ```
 
+## Conclusion
 It's a little extra CSS, but the effect goes a long way toward providing a better user experience. And I'm personally happy when I can get a win like this without needing to add more JavaScript to a site.
 
 That said, do also check out Hakim's method. There are many ways to tackle a problem and just as many contexts in which a particular solution is best. The only truly wrong way to go about it, is to not try to provide an optimal experience for your users.

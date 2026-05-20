@@ -12,13 +12,17 @@ category:
   - css
 featured: false
 weeknotes: false
+updated: "2026-05-19"
+changelog:
+  - Updated old, defunct Glitch demo links with new working GitHub Pages links.
+  - Fixed broken, internal links.
 ---
 
 A common misconception I see is that responsive web development means loading up your CSS files with media queries for everything. Don't get me wrong, media queries are important and you should definitely use them, but they aren't always necessary.
 
 Let's talk about building responsive layouts without media queries.
 
-- [View Demo App](https://inglorious-paper.glitch.me/)
+- [View Demo App](https://arkmuntasser.github.io/responsive-layouts-without-media-queries/)
 - [Download Source Code on GitHub](https://github.com/arkmuntasser/responsive-layouts-without-media-queries)
 
 **Prerequisites**
@@ -57,7 +61,7 @@ Multi-column is perfect for when you want to get a newspaper like effect where t
 }
 ```
 
-[See Multi-Column Example](https://inglorious-paper.glitch.me/#multi-column)
+[See Multi-Column Example](https://arkmuntasser.github.io/responsive-layouts-without-media-queries/#multi-column)
 
 With the above HTML we can see the items counting downward and eventually breaking into a new column.
 
@@ -81,7 +85,7 @@ Where multi-column wraps vertically like a newspaper, flexbox wraps horizontally
 }
 ```
 
-[See Flexbox Example](https://inglorious-paper.glitch.me/#flexbox)
+[See Flexbox Example](https://arkmuntasser.github.io/responsive-layouts-without-media-queries/#flexbox)
 
 Looking at the above example, you can see the items count from left to right and drop down to a new line when there's no more room.
 
@@ -101,7 +105,7 @@ Flexbox is ideal for situations where you have a list of items, but you don't pa
 
 ### CSS Grid
 
-CSS Grid is [wickedly powerful](/write-better-code-with-css-grid) and can enable a plethora of complex layouts.
+CSS Grid is [wickedly powerful](./write-better-code-with-css-grid) and can enable a plethora of complex layouts.
 
 ```html
 <ul class="grid fill">
@@ -130,7 +134,7 @@ CSS Grid is [wickedly powerful](/write-better-code-with-css-grid) and can enable
 }
 ```
 
-[See CSS Grid Examples](https://inglorious-paper.glitch.me/#grid)
+[See CSS Grid Examples](https://arkmuntasser.github.io/responsive-layouts-without-media-queries/#grid)
 
 With Grid, you can do a similar layout to what I made with Flexbox above, but you can be a lot more explicit about how you want it to behave.
 

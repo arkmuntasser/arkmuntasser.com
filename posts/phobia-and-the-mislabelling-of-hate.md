@@ -1,7 +1,7 @@
 ---
 title: Phobia and the Mislabeling of Hate
 date: "2018-04-21"
-excerpt: This week I read something that stuck with me. It gnawed at me and it took me a long time to figure out exactly why it bothered me. It was a tweet by J.K. Rowling, who has grown increasingly problematic lately.
+excerpt: White supremacy is so systemic it's even baked into the words we use to describe it such that it doesn't put the onus on the white supremacist.
 author:
   - amir
 category:
@@ -9,6 +9,9 @@ category:
   - islamophobia
 featured: false
 weeknotes: false
+updated: "2026-05-19"
+changelog:
+  - Updated excerpt.
 ---
 
 This week I read something that stuck with me. It gnawed at me and it took me a long time to figure out exactly why it bothered me. It was a tweet by J.K. Rowling, who has [grown increasingly problematic](https://phaylen.medium.com/j-k-rowling-the-blatant-transphobia-of-a-beloved-social-justice-hero-a26b67b83be5) lately.

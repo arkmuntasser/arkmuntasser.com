@@ -30,14 +30,14 @@ if (external && !isMediaOnly) {
 
 <template>
   <!-- Images -->
-  <div v-if="images" class="bsky-embed__images">
+  <div v-if="images" class="bsky-embed__images" :class="images.length > 1 ? `bsky-embed__images--${images.length}` : ''">
     <img
       v-for="img in images"
       :key="img.fullsize"
       :src="img.thumb"
       :alt="img.alt || ''"
       class="bsky-embed__image"
-      :style="img.aspectRatio ? `aspect-ratio: ${img.aspectRatio.width} / ${img.aspectRatio.height}` : undefined"
+      :style="images.length === 1 && img.aspectRatio ? `aspect-ratio: ${img.aspectRatio.width} / ${img.aspectRatio.height}` : undefined"
     />
   </div>
 
@@ -109,8 +109,7 @@ if (external && !isMediaOnly) {
 
 <style scoped>
 .bsky-embed__images {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 2px;
   border-radius: 6px;
   overflow: hidden;
@@ -121,6 +120,36 @@ if (external && !isMediaOnly) {
   width: 100%;
   display: block;
   color: transparent;
+  object-fit: cover;
+}
+
+.bsky-embed__images--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.bsky-embed__images--2 .bsky-embed__image {
+  aspect-ratio: 1 / 1;
+}
+
+.bsky-embed__images--3 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.bsky-embed__images--3 .bsky-embed__image:first-child {
+  grid-row: span 2;
+  aspect-ratio: 1 / 1;
+}
+
+.bsky-embed__images--3 .bsky-embed__image:not(:first-child) {
+  aspect-ratio: 2 / 1;
+}
+
+.bsky-embed__images--4 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.bsky-embed__images--4 .bsky-embed__image {
+  aspect-ratio: 3 / 2;
 }
 
 .bsky-embed__video-wrap {

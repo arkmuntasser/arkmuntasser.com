@@ -9,6 +9,7 @@ import PageHeader from './components/PageHeader.vue';
 import BlogPostList from './components/BlogPostList.vue';
 import SocialLinks from './components/SocialLinks.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import Changelog from './components/Changelog.vue';
 
 const { page, frontmatter } = useData();
 const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
@@ -62,15 +63,18 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 				:excerpt="frontmatter.excerpt"
 				:category="frontmatter.category"
 				:date="frontmatter.date"
+				:updated="frontmatter.updated"
+				:changelog="frontmatter.changelog"
 			/>
+			<aside class="toc-sidebar">
+				<TableOfContents />
+			</aside>
 			<main class="page-content">
 				<div class="markdown-content">
 					<Content />
 				</div>
+				<Changelog :entries="frontmatter.changelog" />
 			</main>
-			<aside class="toc-sidebar">
-				<TableOfContents />
-			</aside>
 		</div>
 		<SiteFooter />
 	</div>
@@ -100,7 +104,11 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 
 .post-layout {
 	display: grid;
-	grid-template-columns: minmax(0, 72ch) 16rem;
+	grid-template-columns: 100%;
+	grid-template-areas:
+		"header"
+		"aside"
+		"content";
 	column-gap: 3rem;
 	align-items: start;
 	max-width: calc(72ch + 3rem + 16rem);
@@ -110,23 +118,37 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 }
 
 .post-layout :deep(.page-header) {
-	grid-column: 1 / -1;
+	grid-area: header;
 	max-width: none;
 	margin-inline: 0;
 }
 
-.toc-sidebar {
-	position: sticky;
-	top: 2rem;
+.post-layout :deep(.page-header :is(h1, p)) {
+	max-width: 86ch;
 }
 
-@media (max-width: 900px) {
+.page-content {
+	grid-area: content;
+}
+
+.toc-sidebar {
+	grid-area: aside;
+	position: static;
+	top: 2rem;
+	min-width: 0;
+}
+
+@media (min-width: 901px) {
 	.post-layout {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 72ch) 16rem;
+		grid-auto-rows: min-content;
+		grid-template-areas:
+			"header header"
+			"content aside";
 	}
 
 	.toc-sidebar {
-		display: none;
+		position: sticky;
 	}
 }
 </style>

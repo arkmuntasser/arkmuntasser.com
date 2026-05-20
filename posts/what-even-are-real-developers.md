@@ -1,13 +1,16 @@
 ---
 title: What Even are "Real" Developers
 date: "2018-04-01"
-excerpt: What even is a real developer? It’s a concept I have to battle a lot as a developer myself and as a manager and trainer of other devs.
+excerpt: The irony of gatekeeping in a field and medium literally meant to not have gatekeepers is totally lost on some.
 author:
   - amir
 category:
   - culture
 featured: false
 weeknotes: false
+updated: "2026-05-19"
+changelog:
+  - Updated excerpt.
 ---
 
 Real developers.
