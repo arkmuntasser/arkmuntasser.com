@@ -10,20 +10,27 @@ category:
  - javascript
 featured: false
 weeknotes: false
+updated: "2026-05-22"
+changelog:
+  - Updated text for clarity.
+  - Added headings.
 ---
 
 Clean. Code. Clean code. CLEAN CODE! C-L-E-A-N C-O-D-E. Clean code.
 
 What does that even mean? It's something we all say at some point, but it's meaningless. Or, more accurately, means different things to different people with different priorities and contexts.
 
-For the purpose of this post I'm going to focus on separating business logic from the template. To illustrate this, I'll be using a code snippet I pulled from actual production code a developer on my team wrote. I've slightly modified it for clarity. Additionally, this is not meant to be an end-all-be-all way to write "clean code", but rather how I would approach writing this bit of code.
+I'm going to focus on separating business logic from the template.
+
+## The setup
+To illustrate this, I'll be using a code snippet I pulled from actual production code a developer on my team wrote. I've slightly modified it for clarity. Additionally, this is not meant to be an end-all-be-all way to write "clean code", but rather how I would approach writing this bit of code.
 
 Before I get started, just a couple notes about the code:
 
-1. The solution I end up with is not intended to be production-ready.
+1. The code I show is not intended to be production-ready; it's meant to demonstrate the concepts only.
 2. I am using server-side rendered [goatee](https://github.com/simpleviewinc/goatee) for templating, so syntax may seem unfamiliar at times.
 
-Let's get into it:
+Let's get into it!
 
 ```html
 <picture>
@@ -58,6 +65,7 @@ Let's get into it:
 </picture>
 ```
 
+## The issue
 Here our dev created a responsive image to draw on the page. It works! But there's a few things that stand out to me about it.
 
 First, there are 3 source elements that are nearly identical; that looks like an opportunity to simplify.
@@ -66,7 +74,10 @@ Second, it looks like the crop and quality properties are the same across all ca
 
 Third, if I need to introduce another source, then I need to make yet another source element and it's own call to `getUrl()` which grows adds visual clutter to the template and promotes copy/pasting which can lead to unexpected results if the dev isn't paying attention.
 
-Let tackle this in phases. To start, I'm going to pull out the `getUrl()` calls and make the HTML simpler to read.
+Let tackle this in phases.
+
+## Phase 1
+To start, I'm going to pull out the `getUrl()` calls and make the HTML simpler to read.
 
 ```html
 {{~exec(function() {
@@ -82,7 +93,10 @@ Let tackle this in phases. To start, I'm going to pull out the `getUrl()` calls 
 </picture>
 ```
 
-Already, this feels better. It isn't actually better, but I'm headed in the right direction. I still have a lot of repeated code, but at least I can more readily see how I might be able to simplify the multiple sources into a loop over a single source. Similarly, now that I've pulled out the `getUrl()` calls into a JS context, I can standardize how I generate the URLs.
+Already, this feels better. It isn't *actually* better, but I'm headed in the right direction. I still have a lot of repeated code, but at least I can more readily see how I might be able to simplify the multiple sources into a loop over a single source.
+
+## Phase 2
+Now that I've pulled out the `getUrl()` calls into a JS context, I can standardize how I generate the URLs.
 
 ```html
 {{~exec(function() {
@@ -111,6 +125,7 @@ Starting with the HTML, I've condensed the multiple sources into a single, easy-
 
 Next, let's take a look at the JS. I've created an array of viewport widths called `widths`; these widths are also the keys in the `props` object so I can associate a width with a set of arguments for our `getUrl()` call. And lastly, I map over the widgets to create and array of `srcs` which is what drives the generation of source elements in our HTML.
 
+## Phase 3
 At this point, the HTML is pretty much where I want it. However, there's still room for improvement in the JS; `crop` and `quality` are still shared across all the sets of arguments.
 
 Let's address that.
@@ -144,6 +159,7 @@ Here I've pulled out the `crop` and `quality` into their own object called `sett
 
 Next, in the map, I spread the sizes and settings into an arguments object to be passed to `getUrl()`.
 
+## Phase 4
 This is looking really slick now, but I'm not a fan of managing the viewport widths both in the `sizes` object and in the `widths` array. I really would like to keep it to a single touch point to reduce my chances to break something.
 
 ```html
@@ -183,6 +199,7 @@ Third, moving out the shared settings like `crop` and `quality` afford me two th
 
 Lastly, I am freed up to focus on the part that I most care about: defining sizes of images for different screen sizes.
 
+## Wrap up
 I would and have delivered something like this in production. I find it to be much more readable, maintainable, and extendable compared to any of the previous iterations I ran through in this post.
 
 How would you approach this? Do you have a better idea? Let me know in the comments below.

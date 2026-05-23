@@ -1,20 +1,24 @@
 ---
 title: This one weird trick changed my whole async/await game
 date: "2020-10-09"
-excerpt: Drop caps can present a unique challenge for accessibility. It may seem like a simple enough design feature to implement on a site, but given that the CSS for actual drop cap support is presently only implemented in Safari we have to get a bit hacky.
+excerpt: Seriously, this small utility function is a must-have in every project I work on.
 author:
   - amir
 category:
   - javascript
 featured: false
 weeknotes: false
+updated: "2026-05-23"
+changelog:
+  - Updated headings for clarity.
+  - Fixed erroneous excerpt.
 ---
 
 If you're anything like me then `async` and `await` were a revelation when they got added to JavaScript. Finally, there was a solution to the endless callbacks and chained `then()`s. It enabled us to write synchronous looking code with all the goodness asynchronicty provides.
 
 But very quickly you might have noticed an issue handling rejected Promises. To address it you probably tackled it in one of two way:
 
-**Method 1**
+## Using `try`/`catch` inline is a flow control nightmare
 The simplest method was to just wrap everything in a try/catch block.
 
 ```javascript
@@ -30,7 +34,7 @@ I found using this method often resulted in me dumping huge amounts of code with
 
 This brings to the second method.
 
-**Method 2**
+## `.catch()` is an exercise in tedium
 With this method you handle the error handling on a per-Promise-basis by chaining a `catch()`.
 
 ```javascript
@@ -41,12 +45,13 @@ The problem here is a matter of developer experience. It SUCKS to keep writing a
 
 And this brings me to the method that I use: the third method.
 
-**Method 3**
+## The `call()` utility function is chef's kiss
 With this method, we go back to our trusty try/catch block, but this time it's in a handy helper function. We are are going to make use of array destructuring to make the error a first-class citizen along with the desired resolution from the Promise.
 
 ```javascript
 const [data, err] = await call(fetch("..."));
 if (err) console.log(err);
+
 async function call(promise) {
   let data, error;
   try {

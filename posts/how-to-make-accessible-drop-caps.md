@@ -1,7 +1,7 @@
 ---
 title: Making Accessible Drop Caps
 date: "2020-03-07"
-excerpt: Drop caps can present a unique challenge for accessibility. It may seem like a simple enough design feature to implement on a site, but given that the CSS for actual drop cap support is presently only implemented in Safari we have to get a bit hacky.
+excerpt: Because stories don't start with "O-nce upon a time".
 author:
   - amir
 category:
@@ -9,6 +9,10 @@ category:
   - html
 featured: false
 weeknotes: false
+updated: "2026-05-23"
+changelog:
+  - Added headings.
+  - Updated excerpt.
 ---
 
 Drop caps can present a unique challenge for accessibility. It may seem like a simple enough design feature to implement on a site, but given that the [CSS for actual drop cap support](https://developer.mozilla.org/en-US/docs/Web/CSS/initial-letter) is presently only implemented in Safari we have to get a bit hacky.
@@ -28,7 +32,10 @@ The outline styling you see here had been used through out the site, so I alread
 
 I'll start by saying that I'm not totally pleased with this solution as it seems to result in slightly fuzzy text. Ideally, I would have prefered if the font family had a style that was an outline or if I could have had SVGs that would have been good too. But with the time constraints of the project this was what I had to do.
 
-With that in place, I had to figure out how I was going to style the first letter of the first paragraph. My first attempt was to do this:
+With that in place, I had to figure out how I was going to style the first letter of the first paragraph.
+
+## Don't do this
+My first attempt was to do this:
 
 ```css
 p:first-child:first-letter {
@@ -48,7 +55,10 @@ But that didn't work. Turns out that `-webkit-text-stroke` doesn't play well wit
 
 Now I could style the firslt letter directly and I was able to get the desired look. Success!
 
-Except it's totally inaccessible. For anyone using a screen-reader to read the page will hear "L-orem" instead of "Lorem". To rememdy this we're going to need a bit more HTML and some ARIA attributes.
+Except it's totally inaccessible. For anyone using a screen-reader to read the page will hear "L-orem" instead of "Lorem".
+
+# Do this
+To rememdy this we're going to need a bit more HTML and some ARIA attributes.
 
 ```html
 <p>

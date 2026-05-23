@@ -9,11 +9,21 @@ category:
   - css
 featured: false
 weeknotes: false
+updated: "2026-05-22"
+changelog:
+  - Added notes about the `aspect-ratio` property in CSS.
 ---
+
+::: info
+The method described in here is no longer the preferred method. Use the new [`aspect-ratio` property in CSS](#update-css-aspect-ratio).
+:::
 
 Sometimes you just need a element to shrink or grow in height proportionally with the width. Some tags will naturally do this like the `img` tag or `video` tag, but sometimes you need this functionality on something like a `div`. For example, you might be lazy loading an image, but want to reserve the space of the image so content doesn't jump when the image loads in.
 
-We can do this using a handy trick of padding. If you give an element a top or bottom padding with a percent value that percent will be in relation to width of the elements parent. Let's take a look at an example to get a better idea of what that means.
+We can do this using a handy trick of padding.
+
+## The trick
+If you give an element a top or bottom padding with a percent value that percent will be in relation to width of the elements parent. Let's take a look at an example to get a better idea of what that means.
 
 Consider the following:
 
@@ -46,7 +56,7 @@ Now that we've made a box with an aspect ratio, let's do something more practica
   }
   .post .img-wrapper {
     position: relative;
-    padding-bottom: calc(600 / 800 * 100%);
+    padding-bottom: calc(3 / 4 * 100%);
     height: 0;
   }
   .post .img-wrapper img {
@@ -66,14 +76,28 @@ Now that we've made a box with an aspect ratio, let's do something more practica
 </article>
 ```
 
-Here we have an bit of content with an image, title, and some body content. In this scenario, my image that I'm using has dimensions 800x600 and I'm using those dimensions to define bottom padding percentage of the `.img-wrapper`.
+Here we have an bit of content with an image, title, and some body content. In this scenario, my image that I'm using has aspect ratio of 3:4 and I'm using those dimensions to define bottom padding percentage of the `.img-wrapper`.
 
 ```css
 .post .img-wrapper {
-  padding-bottom: calc(600 / 800 * 100%);
+  padding-bottom: calc(3 / 4 * 100%);
 }
 ```
 
-In this case, I could have just set the bottom padding to 75%, but I find using the dimensions of the image in a `calc()` makes things very clear and readily update-able if my image aspect ratio ever needs to change. You'll also notice that we're absolutely positioning the `img` element; we have to do this because the `.img-wrapper` is being entirely filled with padding leaving no room for the `img` to sit in naturally. Absolutely positioning the `img` lets us place it in the top-left corner of the `.img-wrapper` and stretch it fill the available width and height.
+In this case, I could have just set the bottom padding to 75%, but I find using the aspect ratio of the image in a `calc()` makes things very clear and readily update-able if my image aspect ratio ever needs to change. You'll also notice that we're absolutely positioning the `img` element; we have to do this because the `.img-wrapper` is being entirely filled with padding leaving no room for the `img` to sit in naturally. Absolutely positioning the `img` lets us place it in the top-left corner of the `.img-wrapper` and stretch it fill the available width and height.
 
 All that is left to do is to lazy load in the image when it comes into the viewport. To do that, we can use an [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which will be a topic for a future post.
+
+## Update: CSS aspect-ratio
+Since I originally wrote this CSS has gained `aspect-ratio` which will give a responsive element an aspect ratio. So you could simplify this to:
+
+```css
+.post img {
+	width: 100%;
+	aspect-ratio: 3 / 4;
+}
+```
+
+Thats it! Nice and simple and far more clear to future maintainers what's going on.
+
+[Read more about `aspect-ratio` on MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/aspect-ratio).

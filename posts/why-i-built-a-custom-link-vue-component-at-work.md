@@ -1,7 +1,7 @@
 ---
 title: Why I built a Custom Link Vue Component at Work
 date: "2019-01-04"
-excerpt: I’ve been working on a component library at work for about 6 months now. I want to detail some of the work and thought that went into building these components.
+excerpt: The most impactful components are the simplest, foundational ones.
 author:
   - amir
 category:
@@ -9,12 +9,18 @@ category:
   - components
 featured: false
 weeknotes: false
+updated: "2026-05-22"
+changelog:
+  - Added sensible headings.
+  - Fixed typos and updated for clarity.
+  - Updated excerpt.
 ---
 
 I’ve been working on a component library at work for about 6 months now. I want to detail some of the work and thought that went into building these components.
 
 When I first started drafting the needs for a component library I looked to what was clunky for our devs to handle to see if any opportunities to simplify presented themselves. I decided to start at one of the smallest building blocks for one of our sites: a link.
 
+## What I found
 To begin I audited a number of sites to see what our links looked like and I noticed a few things:
 
 - They were often missing title attributes.
@@ -25,6 +31,7 @@ We were failing to make our links accessible and we’re weren’t following bes
 
 I then moved to exploring how the we stored link data in our CMS. As it turned out, in our templates we would get access to links as an object. This object contained the URL, the target and a title; we had everything we needed so that meant that devs were simply leaving things out when making links. I get it, we all get busy and sometimes we take shortcuts. This seemed like a perfect opportunity to build a new link component that could take the entire link object and build a proper link with the necessary attributes.
 
+## The component
 I ended up building something along these lines:
 
 ```html
@@ -59,19 +66,20 @@ I ended up building something along these lines:
 </script>
 ```
 
-With this, all the dev would need to do is pass along the link object via a prop to the component and everything would get handled automagically. This means the dev experience went from this:
+## The result
+With this, all the dev would need to do is pass along the link object provided by our CMS via a prop to the component and everything would get handled *automagically*. This means the dev experience went from this:
 
-```html
+```vue
 <a href="{{link.url}}">click me</a>
 ```
 
 To this:
 
-```html
+```vue
 <hyperlink :link="link">click me</hyperlink>
 ```
 
-It’s roughly the same amount of effort but ensures that we aren’t missing out on easy accessibility or best practices wins.
+It’s roughly the same amount of effort but ensures that we aren’t missing out on easy accessibility or best practice wins.
 
 And so the first component of our component library was made.
 

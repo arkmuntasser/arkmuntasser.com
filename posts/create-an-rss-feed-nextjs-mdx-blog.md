@@ -1,7 +1,7 @@
 ---
 title: Creating an RSS feed with Next.js and Next-MDX
 date: "2021-04-12"
-excerpt: I recently decided to fully rebuild my blog from the ground up using Next.js. By default, there's no built-in support to auto-generate an RSS for blog posts like there are in so many starters for Gatsby. As such I needed to roll my own.
+excerpt: RSS feeds were the backbone of the original social web and we need to keep it alive.
 author:
   - amir
 category:
@@ -10,6 +10,9 @@ category:
   - mdx
 featured: false
 weeknotes: false
+updated: "2026-05-23"
+changelog:
+  - Updated excerpt.
 ---
 
 I recently decided to fully rebuild my blog from the ground up using Next.js. By default, there's no built-in support to auto-generate an RSS for blog posts like there are in so many starters for Gatsby. As such I needed to roll my own.
