@@ -1,5 +1,5 @@
 ---
-title: How I Solved the Impossible Layout
+title: My solution to the "Impossible Layout"
 date: "2019-03-23"
 excerpt: My solution to the so called "Impossible Layout".
 author:

@@ -2,17 +2,12 @@
 title: About
 ---
 
-Hello again. So you've decided to learn more about me, Amir R Muntasser, the one and only. Be forewarned, my story is not for the faint of heart. If your loins are sufficiently girded read on...
+I'm Amir R Muntasser. I like to build things. I particularly love building websites and web apps (there's a pedantic distinction!). But my real passion is in building teams, processes, and org charts.
 
-My wife and I have three cats. THREE!!! That's too many cats. Have you ever tried to share a living space with three cats? It's miserable. Hair. Hair everywhere. You can't escape it. And the litter boxes, my god the litter boxes. Did you know that you have to have one more litter box than you have cats in a multi-cat household? I didn't when we got three cats. And now I have four litter boxes. It's a misery.
+At Granicus Destinations I launch 100+ new client web projects annually, provide support for 800+ clients each with 1-3 distinct applications, launched 10+ new market products, scaled a department from 20 heads to 60, and expanded staffing globally from the US to Costa Rica, UK, Norway, and India. And with all that I have the lowest attrition rate of ant department in my company,and many of my staff are 5+ years with the company and handful are 10+ years. I'm particularly proud of that last stat. And last, but not least, I've maintained a CSAT score in the mid 90s.
 
-And then there's the pool. Pool was a mistake. Sure it does wonders for the property value, but the maintenance is annoying as all hell.
+On the tech side of things, I'm a big CSS nerd. It's my favorite language to work in. I think because, at the end of the day, I like building systems and well done CSS is system building as an artform.
 
-And now you know the tale of me. Careful that it doesn't happen to you otherwise you lest you find yourself happily married to your best friend, a homeowner, and immenseley satisfied in your career. Like some sort of sucker!
+I also love to draw. Always have! I thought about making it a career at one point. Especially animation. But I never pursued it and dropped it for a number of years. It's a pastime I'm rediscovering.
 
-<!-- ![Becks and I during our engagement photo shoot](/images/me.jpg) -->
-
-Want to learn more?
-
-Read [my blog](/blog), see [my code stuffs](https://github.com/arkmuntasser), and enjoy [my bad skeets](https://bsky.app/profile/arkmuntasser.com).
-
+All that is well and good, but at the end of the day what matters most to me is my quiet life at home with my wife, our kid, and our cats. Lazy sunday afternoons cuddled up on the bed with soft light coming in through the french doors while gentle tunes from the record player waft through the air; that's where I'm happiest. Being a parent has been a bitterly, beautiful experience and getting to share this life with my best friend is the greatest honor I'll know.

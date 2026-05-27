@@ -1,5 +1,5 @@
 ---
-title: How I Created an Assessment to Evaluate Potential New Hires
+title: I Created an Assessment to Evaluate Potential New Hires
 date: "2018-11-10"
 excerpt: Evaluating developer skills is not a science and I think most test miss the mark.
 author:

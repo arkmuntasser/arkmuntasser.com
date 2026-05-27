@@ -1,5 +1,5 @@
 ---
-title: How I Use Tailwind CSS
+title: The Best Part of Tailwind CSS are the Tokens
 date: "2021-05-13"
 excerpt: Everyone else has been talking about Tailwind CSS lately so I might as well jump on this bandwagon. And, actually, I've not seen anyone state my point of view on it yet so I have something to add.
 author:
