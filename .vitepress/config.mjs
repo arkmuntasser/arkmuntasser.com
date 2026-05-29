@@ -3,6 +3,7 @@ import { writeFileSync } from 'fs'
 import { resolve } from 'path'
 
 const siteUrl = 'https://arkmuntasser.com'
+const atDid = 'did:plc:2lm4lab5fhnj6kaazrxopv37'
 
 function escapeXml(str) {
   return String(str ?? '')
@@ -38,8 +39,19 @@ export default defineConfig({
     [
       'link',
       { rel: 'alternate', type: 'application/rss+xml', title: 'arkm', href: `${siteUrl}/rss.xml` }
+    ],
+    [
+      'link',
+      { rel: 'me', href: `at://${atDid}/site.standard.publication/self` }
     ]
 	],
+
+  transformHead({ pageData }) {
+    if (pageData.filePath.startsWith('posts/')) {
+      const slug = pageData.filePath.replace(/^posts\//, '').replace(/\.md$/, '')
+      return [['link', { rel: 'alternate', href: `at://${atDid}/site.standard.document/${slug}` }]]
+    }
+  },
 
   markdown: {
     theme: 'dark-plus',

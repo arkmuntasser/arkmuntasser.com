@@ -10,15 +10,18 @@ import BlogPostList from './components/BlogPostList.vue';
 import SocialLinks from './components/SocialLinks.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import Changelog from './components/Changelog.vue';
+import WorkPositions from './components/WorkPositions.vue';
 
 const { page, frontmatter } = useData();
 const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 </script>
 
 <template>
+	<!-- 404 Page -->
 	<div v-if="page.isNotFound">
 		Custom 404 page!
   </div>
+	<!-- Homepage -->
   <div v-else-if="frontmatter.home" class="homepage">
 
 		<IntroSection>
@@ -37,6 +40,28 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 		</IntroSection>
 
   </div>
+	<!-- About Page -->
+	<div v-else-if="frontmatter.title === 'About'" class="page">
+		<SiteHeader />
+		<div class="about-layout">
+			<PageHeader
+				:title="frontmatter.title"
+				:excerpt="frontmatter.excerpt"
+				:category="frontmatter.category"
+				:date="frontmatter.date"
+			/>
+			<main class="page-content">
+				<div class="markdown-content">
+					<Content />
+				</div>
+			</main>
+			<aside class="career-history">
+				<WorkPositions />
+			</aside>
+		</div>
+		<SiteFooter />
+	</div>
+	<!-- Blog Page -->
 	<div v-else-if="frontmatter.title === 'Blog'" class="page">
 		<SiteHeader />
 		<section class="page-content">
@@ -55,6 +80,7 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 		</main>
 		<SiteFooter />
 	</div>
+	<!-- Blog Post Page -->
 	<div v-else-if="isBlogPost" class="page">
 		<SiteHeader />
 		<div class="post-layout">
@@ -78,6 +104,7 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 		</div>
 		<SiteFooter />
 	</div>
+	<!-- Default Page Layout -->
   <div v-else class="page">
     <SiteHeader />
 		<PageHeader
@@ -102,9 +129,10 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 	min-height: 100vh;
 }
 
-.post-layout {
+:is(.post-layout, .about-layout) {
 	display: grid;
 	grid-template-columns: 100%;
+	grid-auto-rows: min-content;
 	grid-template-areas:
 		"header"
 		"aside"
@@ -117,18 +145,31 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 	flex: 1;
 }
 
-.post-layout :deep(.page-header) {
+.about-layout {
+	max-width: calc(72ch + 3rem + 16rem);
+	grid-template-areas:
+		"header"
+		"content"
+		"aside";
+}
+
+:is(.post-layout, .about-layout) :deep(.page-header) {
 	grid-area: header;
 	max-width: none;
 	margin-inline: 0;
 }
 
-.post-layout :deep(.page-header :is(h1, p)) {
+:is(.post-layout, .about-layout) :deep(.page-header :is(h1, p)) {
 	max-width: 86ch;
 }
 
 .page-content {
 	grid-area: content;
+	block-size: min-content;
+}
+
+.career-history {
+	grid-area: aside;
 }
 
 .toc-sidebar {
@@ -139,12 +180,16 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 }
 
 @media (min-width: 901px) {
-	.post-layout {
+	:is(.post-layout, .about-layout) {
 		grid-template-columns: minmax(0, 72ch) 16rem;
 		grid-auto-rows: min-content;
 		grid-template-areas:
 			"header header"
 			"content aside";
+	}
+
+	.about-layout {
+		grid-template-columns: auto 16rem;
 	}
 
 	.toc-sidebar {
