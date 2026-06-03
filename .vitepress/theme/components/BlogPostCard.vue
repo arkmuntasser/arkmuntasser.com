@@ -114,5 +114,8 @@ const date = props.post.date
 
 .blog-post-card__logo b {
   color: var(--brand-color);
+	font-family: 'Outfit';
+	font-size: 22px;
+	font-weight: 700;
 }
 </style>

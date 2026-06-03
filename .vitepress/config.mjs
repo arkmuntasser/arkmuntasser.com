@@ -43,6 +43,10 @@ export default defineConfig({
     [
       'link',
       { rel: 'me', href: `at://${atDid}/site.standard.publication/self` }
+    ],
+    [
+      'link',
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
     ]
 	],
 

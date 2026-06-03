@@ -433,10 +433,6 @@ html {
 }
 
 @scope (.markdown-content__homepage) {
-	:scope {
-		margin-block-start: 8rem;
-	}
-
 	& p {
 		font-size: 1.2rem;
 	}

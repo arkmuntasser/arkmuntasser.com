@@ -13,9 +13,6 @@ import { AtpAgent } from '@atproto/api'
 import { readFileSync, readdirSync } from 'fs'
 import { resolve, join } from 'path'
 
-const SITE_URL = 'https://arkmuntasser.com'
-const SITE_NAME = 'arkm'
-const SITE_DESCRIPTION = 'My website, this time in Vue'
 const POSTS_DIR = resolve(process.cwd(), 'posts')
 
 // ---------------------------------------------------------------------------
@@ -83,10 +80,45 @@ async function main() {
     collection: 'site.standard.publication',
     rkey: 'self',
     record: {
-      $type: 'site.standard.publication',
-      url: SITE_URL,
-      name: SITE_NAME,
-      description: SITE_DESCRIPTION,
+			"$type": "site.standard.publication",
+			"url": "https://arkmuntasser.com",
+			"icon": {
+				"ref": {
+					"$link": "bafkreiglvowv3ptmdf2urnvrwrsl5h2vglwhl45k4lpqwszq42246757ia"
+				},
+				"size": 13635,
+				"$type": "blob",
+				"mimeType": "image/png"
+			},
+			"name": "@arkmuntasser",
+			"basicTheme": {
+				"$type": "site.standard.theme.basic",
+				"accent": {
+					"b": 87,
+					"g": 20,
+					"r": 255,
+					"$type": "site.standard.theme.color#rgb"
+				},
+				"background": {
+					"b": 255,
+					"g": 255,
+					"r": 255,
+					"$type": "site.standard.theme.color#rgb"
+				},
+				"foreground": {
+					"b": 3,
+					"g": 3,
+					"r": 4,
+					"$type": "site.standard.theme.color#rgb"
+				},
+				"accentForeground": {
+					"b": 255,
+					"g": 255,
+					"r": 255,
+					"$type": "site.standard.theme.color#rgb"
+				}
+			},
+			"description": "My website, this time in Vue"
     },
   })
 

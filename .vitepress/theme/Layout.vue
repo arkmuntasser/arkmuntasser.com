@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Content, useData } from 'vitepress';
 import IntroSection from './components/IntroSection.vue';
 import SiteHeader from './components/SiteHeader.vue';
@@ -14,6 +14,21 @@ import WorkPositions from './components/WorkPositions.vue';
 
 const { page, frontmatter } = useData();
 const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
+
+const isWide = ref(false);
+
+function checkWidth() {
+  isWide.value = window.matchMedia('(min-width: 48rem)').matches;
+}
+
+onMounted(() => {
+  checkWidth();
+  window.addEventListener('resize', checkWidth);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkWidth);
+});
 </script>
 
 <template>
@@ -31,11 +46,11 @@ const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 					<Content />
 					<SocialLinks />
 				</div>
-				<!-- <IntroCopy /> -->
+				<ChannelContent v-if="!isWide" />
 				<SiteFooter />
 			</template>
 			<template #right>
-				<ChannelContent />
+				<ChannelContent v-if="isWide" />
 			</template>
 		</IntroSection>
 

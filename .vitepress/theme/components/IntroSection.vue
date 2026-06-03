@@ -22,25 +22,21 @@
 
 	& > .left-column {
 		top: 0;
-		position: sticky;
 		align-self: start;
 		display: flex;
+		gap: 8rem;
 		flex-direction: column;
 		height: 100vh;
 		padding: 2rem;
 		padding-bottom: 0;
+
+		@media (min-width: 48rem) {
+			position: sticky;
+		}
 	}
 
 	& > .right-column {
 		padding: 2rem;
-		/* background-color: whitesmoke; */
-		/* box-shadow:
-			inset 8px 0 12px -8px rgba(0, 0, 0, 0.2),
-			inset -8px 0 12px -8px rgba(0, 0, 0, 0.2),
-			inset 0 8px 12px -8px rgba(0, 0, 0, 0.2),
-			inset 0 -8px 12px -8px rgba(0, 0, 0, 0.2); */
 	}
 }
-
-
 </style>

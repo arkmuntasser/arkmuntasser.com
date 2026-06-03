@@ -64,10 +64,6 @@ header {
 nav {
   display: flex;
   align-items: center;
-  background: #16161d;
-  border-radius: 9999px;
-  padding: 0.25rem;
-  box-shadow: 0 4px 16px oklch(0 0 0 / 0.35), 0 1px 4px oklch(0 0 0 / 0.2);
 }
 
 ul {
@@ -80,23 +76,23 @@ ul {
 
 li a {
   display: block;
-  background: #16161d;
-  color: white;
+  color: inherit;
   border-radius: 9999px;
   padding: 0.375rem 0.875rem;
   font-size: 0.9375rem;
+	font-weight: 500;
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 	white-space: nowrap;
 }
 
 li a:hover {
-  background: oklch(28.502% 0.00003 271.152);
+  background: oklch(0.93 0 0);
+  color: var(--brand-color);
 }
 
 li a.active {
-	font-weight: 700;
   color: var(--brand-color);
-	background: oklch(28.502% 0.00003 271.152);
+  background: oklch(0.95 0.04 15.46);
 }
 </style>
