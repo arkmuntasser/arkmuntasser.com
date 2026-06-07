@@ -21,9 +21,9 @@ const pages = Object.entries(pageFiles).map(([path, mod]) => {
 
 const pagesToExclude = [
 	'collections',
-	'html-styles',
+	// 'html-styles',
 	// 'uses',
-	'markdown-examples',
+	// 'markdown-examples',
 	'index'
 ];
 const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/', '')));

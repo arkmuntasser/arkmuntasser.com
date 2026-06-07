@@ -3,12 +3,12 @@ title: HTML Styles
 description: Basic styles for my website
 ---
 
-# The quick brown fox jumps over the lazy dog
-## The quick brown fox jumps over the lazy dog
-### The quick brown fox jumps over the lazy dog
-#### The quick brown fox jumps over the lazy dog
-##### The quick brown fox jumps over the lazy dog
-###### The quick brown fox jumps over the lazy dog
+# H1 The quick brown fox jumps over the lazy dog
+## H2 The quick brown fox jumps over the lazy dog
+### H3 The quick brown fox jumps over the lazy dog
+#### H4 The quick brown fox jumps over the lazy dog
+##### H5 The quick brown fox jumps over the lazy dog
+###### H6 The quick brown fox jumps over the lazy dog
 
 This is a paragraph with some **bold text** and *italic text*.
 

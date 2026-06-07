@@ -28,10 +28,6 @@ export default defineConfig({
       'link',
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
     ],
-    [
-      'link',
-      { href: 'https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap', rel: 'stylesheet' }
-    ],
 		[
 			'link',
 			{ href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap', rel: 'stylesheet' }
@@ -47,7 +43,7 @@ export default defineConfig({
     [
       'link',
       { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
-    ]
+    ],
 	],
 
   transformHead({ pageData }) {

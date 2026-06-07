@@ -11,6 +11,7 @@ import SocialLinks from './components/SocialLinks.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import Changelog from './components/Changelog.vue';
 import WorkPositions from './components/WorkPositions.vue';
+import MarkdownContent from './components/MarkdownContent.vue';
 
 const { page, frontmatter } = useData();
 const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
@@ -111,9 +112,9 @@ onUnmounted(() => {
 				<TableOfContents />
 			</aside>
 			<main class="page-content">
-				<div class="markdown-content">
+				<MarkdownContent>
 					<Content />
-				</div>
+				</MarkdownContent>
 				<Changelog :entries="frontmatter.changelog" />
 			</main>
 		</div>
@@ -129,9 +130,9 @@ onUnmounted(() => {
 			:date="frontmatter.date"
 		/>
 		<main class="page-content">
-			<div class="markdown-content">
+			<MarkdownContent>
 				<Content />
-			</div>
+			</MarkdownContent>
 		</main>
 		<SiteFooter />
   </div>
