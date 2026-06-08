@@ -61,21 +61,27 @@
 
 		/* Links */
 		:where(a) {
-			color: var(--brand-color);
-			text-decoration: underline;
-			text-decoration-thickness: 2px;
-			text-decoration-color: var(--brand-color);
-			text-underline-offset: 0.15em;
-			transition: text-underline-offset 0.15s;
+			font-weight: 400;
+			background: linear-gradient(to bottom, var(--brand-color) 0%, var(--brand-color) 100%);
+			background-position: 0 100%;
+			background-repeat: repeat-x;
+			background-size: 3px 3px;
 
-			&:hover {
-				text-underline-offset: 0.25em;
+			@media (prefers-reduced-motion: no-preference) {
+				&:hover {
+					background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift 450ms linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='oklch(0.64 0.25 15.46)' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+					background-position: 0 100%;
+					background-size: auto 6px;
+					background-repeat: repeat-x;
+					text-decoration: none;
+				}
 			}
 
 			&[target="_blank"] {
 				&::after {
 					content: '↗';
 					font-size: 0.75em;
+					color: var(--brand-color);
 					margin-left: 0.125em;
 					text-decoration: none;
 				}
@@ -94,6 +100,7 @@
 			text-decoration: line-through;
 		}
 
+		/* Lists */
 		:where(ul, ol) {
 			padding-inline-start: 1.5rem;
 
@@ -102,6 +109,7 @@
 
 				&::marker {
 					font-size: 1.2em;
+					font-weight: 500;
 					color: var(--brand-color);
 				}
 			}
@@ -115,6 +123,7 @@
 			content: '→  ';
 		}
 
+		/* Blockquotes */
 		:where(blockquote) {
 			display: grid;
 			grid-template-areas: "quote content";
@@ -145,13 +154,94 @@
 			}
 		}
 
+		:where(img) {
+			display: block;
+			max-width: 100%;
+			border-radius: var(--radius);
+		}
+
+		:where(:not(pre) > code) {
+			font-family: 'Consolas', 'Courier New', monospace;
+			font-weight: 400;
+			padding: 0.25rem 0.5rem;
+			color: black;
+			background-color: oklch(from var(--bg-color) calc(l * 0.95) c h);
+			border-radius: var(--radius-sm);
+		}
+
+		:where(hr) {
+			--prose-flow: 3em;
+
+			border: none;
+			height: 1px;
+			background-color: oklch(0 0 0 / 0.1);
+			margin-block: var(--prose-flow, 3em);
+		}
+
+		/* Table */
+		:where(table) {
+			--prose-flow: 2em;
+
+			margin-block: var(--prose-flow, 2em);
+			width: 100%;
+			border-collapse: separate;
+			border-spacing: 0;
+			font-size: var(--text-size-8);
+			border: 1px solid oklch(0 0 0 / 0.1);
+			border-radius: var(--radius);
+			overflow: hidden;
+
+			thead {
+				tr {
+					background: oklch(0 0 0 / 0.04);
+				}
+
+				th {
+					padding: 0.625rem 0.875rem;
+					text-align: start;
+					font-weight: 600;
+					font-size: var(--text-size-9);
+					text-transform: uppercase;
+					letter-spacing: 0.06em;
+					color: oklch(0.45 0.005 270);
+					border-bottom: 1px solid oklch(0 0 0 / 0.1);
+					white-space: nowrap;
+				}
+			}
+
+			tbody {
+				tr {
+					transition: background 0.1s;
+
+					&:hover {
+						background: oklch(0 0 0 / 0.025);
+					}
+
+					&:not(:last-child) td {
+						border-bottom: 1px solid oklch(0 0 0 / 0.06);
+					}
+				}
+
+				td {
+					padding: 0.625rem 0.875rem;
+					text-align: start;
+					color: oklch(0.35 0.005 270);
+					font-variant-numeric: tabular-nums;
+					vertical-align: top;
+				}
+			}
+		}
+
 		/* Code blocks — VS Code Dark+ */
-		@scope (:is(div[class^='language-'], div[class*=' language-'])) {
+		@scope (:where(div[class^='language-'], div[class*=' language-'])) {
 			:scope {
+				--prose-flow: 2em;
+
 				position: relative;
-				border-radius: 6px;
+				border-radius: var(--radius);
 				overflow: hidden;
-				margin: 1.5rem 0;
+				margin: 0;
+				margin-block: var(--prose-flow, 2em);
 				background-color: #1e1e1e;
 			}
 
@@ -188,7 +278,7 @@
 				width: 1.75rem;
 				height: 1.75rem;
 				border: 1px solid #3e3e3e;
-				border-radius: 4px;
+				border-radius: var(--radius-sm);
 				background-color: #2d2d2d;
 				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23858585' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'%3E%3C/path%3E%3C/svg%3E");
 				background-repeat: no-repeat;
