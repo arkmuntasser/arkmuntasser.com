@@ -1,4 +1,7 @@
-# Markdown Extension Examples
+---
+title: Markdown Extension Examples
+excerpt: Markdown component styles for my website
+---
 
 This page demonstrates some of the built-in markdown extensions provided by VitePress.
 

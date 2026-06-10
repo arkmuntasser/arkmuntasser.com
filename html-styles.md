@@ -1,6 +1,6 @@
 ---
 title: HTML Styles
-description: Basic styles for my website
+excerpt: Basic styles for my website
 ---
 
 # H1 The quick brown fox jumps over the lazy dog
@@ -21,7 +21,7 @@ This is [a link to Google](https://www.google.com).
 
 This is an inline code snippet: `console.log('Hello, world!')`.
 
-![404](/images/404.gif)
+![Pulp Fiction confused John Travolta meme](/images/404.gif)
 
 Is this my espresso machine? Wh-what is-h-how did you get my espresso machine? Yeah, but your scientists were so preoccupied with whether or not they could, they didn't stop to think if they should. Did he just throw my cat out of the window? You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?
 

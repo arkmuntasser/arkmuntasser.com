@@ -20,25 +20,30 @@
 		:where(h1, h2, h3, h4, h5, h6) {
 			font-weight: 700;
 			line-height: 1.25;
+
+			position: relative;
+
+			&::before {
+				content: '⁕' "";
+				color: var(--brand-color);
+
+				position: absolute;
+				inset-inline-start: 0;
+				inset-block-start: 0;
+				z-index: -1;
+				pointer-events: none;
+				translate: -50% -25%;
+				opacity: 0.8;
+			}
 		}
 
 		/* Headings */
 		:where(h1) {
 			font-size: var(--text-size-1);
-			letter-spacing: -0.02em;
-
-			&::after {
-				content: '.';
-				color: var(--brand-color);
-			}
 		}
 
 		:where(h2) {
 			font-size: var(--text-size-2);
-			text-decoration: underline;
-			text-decoration-thickness: 4px;
-			text-decoration-color: var(--brand-color);
-			text-underline-offset: 0.25rem;
 		}
 
 		:where(h3) {
@@ -47,8 +52,6 @@
 
 		:where(h4) {
 			font-size: var(--text-size-4);
-			text-transform: uppercase;
-			letter-spacing: 0.06em;
 		}
 
 		:where(h5) {
@@ -60,9 +63,9 @@
 		}
 
 		/* Links */
-		:where(a) {
+		:where(a:not(.header-anchor)) {
 			font-weight: 400;
-			background: linear-gradient(to bottom, var(--brand-color) 0%, var(--brand-color) 100%);
+			background: linear-gradient(to bottom, oklch(from var(--brand-color) l c h / 0.8) 0%, oklch(from var(--brand-color) l c h / 0.8) 100%);
 			background-position: 0 100%;
 			background-repeat: repeat-x;
 			background-size: 3px 3px;
@@ -110,7 +113,7 @@
 				&::marker {
 					font-size: 1.2em;
 					font-weight: 500;
-					color: var(--brand-color);
+					color: oklch(from var(--brand-color) l c h / 0.8);
 				}
 			}
 
@@ -139,7 +142,7 @@
 				content: '“';
 				font-size: 4em;
 				line-height: 0;
-				color: var(--brand-color);
+				color: oklch(from var(--brand-color) l c h / 0.8);
 				grid-area: quote;
 				align-self: center;
 			}
@@ -176,6 +179,99 @@
 			height: 1px;
 			background-color: oklch(0 0 0 / 0.1);
 			margin-block: var(--prose-flow, 3em);
+		}
+
+		:where(details) {
+			--_duration: .2s;
+
+			border-radius: var(--radius);
+			border: #a8a8a8 solid 1px;
+			background-color: white;
+
+			@media (prefers-reduced-motion: no-preference) {
+				interpolate-size: allow-keywords;
+			}
+
+			&::details-content {
+				opacity: 0;
+				block-size: 0;
+				overflow-y: clip;
+				transition: content-visibility var(--_duration) allow-discrete,
+										opacity var(--_duration),
+										block-size var(--_duration);
+			}
+
+			&[open]::details-content {
+				opacity: 1;
+				block-size: auto;
+			}
+
+			& > p {
+				padding: 1rem;
+			}
+
+			& summary {
+				--padding: 1rem;
+
+				display: grid;
+				grid-template-columns: 1fr 40px;
+				align-items: center;
+				padding-inline-start: var(--padding);
+				padding-block: calc(var(--padding) / 2);
+				font-weight: 700;
+			}
+
+			& summary::after {
+				content: "+";
+				display: block;
+				justify-self: center;
+				font-size: 1.25em;
+			}
+
+			&[open] summary::after {
+				content: "−";
+			}
+		}
+
+		/* Custom blocks */
+		:where(.custom-block:not(details)) {
+			--padding: 1rem;
+
+			font-size: var(--text-size-7);
+			line-height: 1.6;
+			border-radius: var(--radius);
+			border: 1px solid var(--block-color);
+			overflow: clip;
+
+			& > .custom-block-title {
+				padding-inline: var(--padding);
+				padding-block: calc(var(--padding) / 2);
+				font-weight: 700;
+				color: var(--block-color);
+				border-bottom: 1px solid var(--block-color);
+				background-color: oklch(from var(--block-color) 0.9 0.1 h);
+			}
+
+			& > p:not(.custom-block-title) {
+				padding: var(--padding);
+				margin: 0;
+			}
+
+			&.info {
+				--block-color: oklch(0.45 0.18 250);
+			}
+
+			&.warning {
+				--block-color: oklch(0.52 0.18 70);
+			}
+
+			&.danger {
+				--block-color: oklch(0.52 0.25 15.46);
+			}
+
+			&.tip {
+				--block-color: oklch(0.42 0.18 155);
+			}
 		}
 
 		/* Table */
