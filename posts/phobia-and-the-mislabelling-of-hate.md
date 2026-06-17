@@ -16,7 +16,7 @@ changelog:
 
 This week I read something that stuck with me. It gnawed at me and it took me a long time to figure out exactly why it bothered me. It was a tweet by J.K. Rowling, who has [grown increasingly problematic](https://phaylen.medium.com/j-k-rowling-the-blatant-transphobia-of-a-beloved-social-justice-hero-a26b67b83be5) lately.
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The &#39;Arabs are semitic too&#39; hot takes have arrived. <a href="https://twitter.com/hashtag/Antisemitism?src=hash&amp;ref_src=twsrc%5Etfw">#Antisemitism</a> <a href="https://t.co/4vrAbnwVB6">pic.twitter.com/4vrAbnwVB6</a></p>&mdash; J.K. Rowling (@jk_rowling) <a href="https://twitter.com/jk_rowling/status/986638227506450432?ref_src=twsrc%5Etfw">April 18, 2018</a></blockquote>
+<blockquote class="twitter-tweet"><div><p lang="en" dir="ltr">The &#39;Arabs are semitic too&#39; hot takes have arrived. <a href="https://twitter.com/hashtag/Antisemitism?src=hash&amp;ref_src=twsrc%5Etfw">#Antisemitism</a> <a href="https://t.co/4vrAbnwVB6">pic.twitter.com/4vrAbnwVB6</a></p>&mdash; J.K. Rowling (@jk_rowling) <a href="https://twitter.com/jk_rowling/status/986638227506450432?ref_src=twsrc%5Etfw">April 18, 2018</a></div></blockquote>
 
 “The ‘Arabs are semitic too’ hot takes have arrived.” This was part of a larger conversation she was having with people about anti-semitism and the Jewish people. My problem with her tweet is that it isn’t a “hot take”. Arabs are semitic. I am semitic. I understand the point she was trying to make; though both Arabs and Jews are semitic, the term “anti-semitism” has evolved to be strictly in reference to Jews. And it made me jealous.
 

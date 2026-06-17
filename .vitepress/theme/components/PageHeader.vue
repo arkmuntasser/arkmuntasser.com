@@ -10,13 +10,13 @@ defineProps({
 </script>
 
 <template>
-	<header class="page-header">
-		<ul v-if="category" class="page-header__tags">
+	<header class="page-header markdown-content stack">
+		<ul v-if="category" class="page-header__tags row">
 			<li v-for="cat in category" :key="cat">{{ cat }}</li>
 		</ul>
 		<h1 class="page-header__title">{{ title }}</h1>
 		<p v-if="excerpt" class="page-header__excerpt">{{ excerpt }}</p>
-		<p class="page-header__meta">
+		<p class="page-header__meta row">
 			<time v-if="date" class="page-header__date" :datetime="date">
 				Published on {{ new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) }}
 			</time>
@@ -34,93 +34,65 @@ defineProps({
 	</header>
 </template>
 
-<style scoped>
-.page-header {
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-	padding-block-end: 2rem;
-	border-bottom: 1px solid oklch(0 0 0 / 0.1);
-	margin-block-end: 2.5rem;
-	margin-inline: auto;
-	max-width: 86ch;
-	width: 100%;
-}
+<style>
+@layer theme.components {
+	@scope(.page-header) {
+		:scope {
+			--stack-gap: 0.75rem;
 
-.page-header__tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.75rem;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+			padding-block-end: 2rem;
+			border-bottom: 1px solid oklch(0 0 0 / 0.1);
+			margin-block-end: 2.5rem;
+		}
 
-.page-header__tags li {
-	font-size: 0.75rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: var(--brand-color);
-}
+		.page-header__tags {
+			--row-gap: 1rem;
 
-.page-header__tags li::before {
-	content: '+';
-}
+			list-style: none;
+			margin: 0;
+			padding: 0;
 
-.page-header__title {
-	font-size: 3rem;
-	font-weight: 800;
-	line-height: 1.05;
-	letter-spacing: -0.03em;
-	color: oklch(0.1 0.005 270);
-	margin: 0;
-}
+			& li {
+				margin: 0;
+				font-size: var(--text-size-8);
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--brand-color);
 
-.page-header__title::after {
-	content: '.';
-	color: var(--brand-color);
-}
+				&::marker { content: ""; }
+				&::before { content: "+"; }
+			}
+		}
 
-.page-header__excerpt {
-	font-size: 1.125rem;
-	line-height: 1.6;
-	color: oklch(0.35 0.005 270);
-	margin: 0;
-	font-weight: 300;
-}
+		.page-header__excerpt {
+			font-size: var(--text-size-6);
+		}
 
-.page-header__meta {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 1ch;
-	font-weight: 500;
-	color: oklch(0.55 0.005 270);
-}
+		.page-header__meta {
+			--row-gap: 1ch;
 
-.page-header__date {
-	font-size: 0.8125rem;
-	font-weight: 500;
-	letter-spacing: 0.02em;
-	color: oklch(0.55 0.005 270);
-}
+			align-items: baseline;
+			font-size: var(--text-size-8);
+			color: var(--text-muted);
+		}
 
-.page-header__changelog-link {
-	display: inline-flex;
-	align-items: baseline;
-	gap: 0.3em;
-	font-size: 0.8125rem;
-	font-weight: 400;
-	color: var(--brand-color);
-	text-decoration-color: color-mix(in oklch, var(--brand-color), transparent 60%);
-	transition: color 0.15s, text-decoration-color 0.15s;
-}
+		.page-header__changelog-link {
+			display: flex;
+			align-items: baseline;
+			gap: 0.3em;
+			color: var(--brand-color);
+			background: none;
+			text-decoration-color: color-mix(in oklch, var(--brand-color), transparent 60%);
+			transition: color 0.15s, text-decoration-color 0.15s;
 
-.page-header__changelog-link svg {
-	flex-shrink: 0;
-	fill: currentColor;
-	align-self: center;
-	width: 1.5em;
+			svg {
+				flex-shrink: 0;
+				fill: currentColor;
+				align-self: center;
+				width: 1.5em;
+			}
+		}
+	}
 }
 </style>

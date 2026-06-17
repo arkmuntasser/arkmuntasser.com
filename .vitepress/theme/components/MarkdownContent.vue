@@ -4,8 +4,8 @@
 	</div>
 </template>
 
-<style lang="css">
-@layer theme.components {
+<style>
+@layer theme.elements {
 	@scope (.markdown-content) {
 		:scope {
 			margin-inline: auto;
@@ -107,14 +107,12 @@
 		:where(ul, ol) {
 			padding-inline-start: 1.5rem;
 
-			li {
-				margin-block: 0.5rem;
+			& > * + * { margin-block-start: 1.5em; }
 
-				&::marker {
-					font-size: 1.2em;
-					font-weight: 500;
-					color: oklch(from var(--brand-color) l c h / 0.8);
-				}
+			& li::marker {
+				font-size: 1.2em;
+				font-weight: 500;
+				color: oklch(from var(--brand-color) l c h / 0.8);
 			}
 
 			:where(ul, ol) {
@@ -130,6 +128,7 @@
 		:where(blockquote) {
 			display: grid;
 			grid-template-areas: "quote content";
+			grid-template-columns: 42px 1fr;
 			gap: 2rem;
 
 			padding-block: 1rem;
@@ -141,10 +140,10 @@
 			&::before {
 				content: '“';
 				font-size: 4em;
-				line-height: 0;
+				line-height: 1;
 				color: oklch(from var(--brand-color) l c h / 0.8);
 				grid-area: quote;
-				align-self: center;
+				align-self: start;
 			}
 
 			p {

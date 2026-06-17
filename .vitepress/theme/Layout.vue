@@ -43,10 +43,10 @@ onUnmounted(() => {
 		<IntroSection>
 			<template #left>
 				<SiteHeader />
-				<div class="markdown-content markdown-content__homepage">
+				<MarkdownContent class="markdown-content__homepage">
 					<Content />
 					<SocialLinks />
-				</div>
+				</MarkdownContent>
 				<ChannelContent v-if="!isWide" />
 				<SiteFooter />
 			</template>
@@ -67,9 +67,9 @@ onUnmounted(() => {
 				:date="frontmatter.date"
 			/>
 			<main class="page-content">
-				<div class="markdown-content">
+				<MarkdownContent>
 					<Content />
-				</div>
+				</MarkdownContent>
 			</main>
 			<aside class="career-history">
 				<WorkPositions />
@@ -87,9 +87,9 @@ onUnmounted(() => {
 				:category="frontmatter.category"
 				:date="frontmatter.date"
 			/>
-			<div class="markdown-content">
+			<MarkdownContent>
 				<Content />
-			</div>
+			</MarkdownContent>
 		</section>
 		<main class="widget-content-narrow">
 			<BlogPostList />

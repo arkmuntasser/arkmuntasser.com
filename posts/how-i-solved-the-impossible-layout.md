@@ -15,7 +15,11 @@ weeknotes: false
 
 Recently, I came across the following post on Twitter:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Front enders… how would you achieve this layout change between small and large screens? <a href="https://t.co/CxsvAj9lXA">pic.twitter.com/CxsvAj9lXA</a></p>&mdash; Foamcow 🏴󠁧󠁢󠁷󠁬󠁳󠁿🇬🇧🇪🇺😷 (@foamcow) <a href="https://twitter.com/foamcow/status/1108290606458175489?ref_src=twsrc%5Etfw">March 20, 2019</a></blockquote>
+<blockquote class="twitter-tweet">
+	<div>
+		<p lang="en" dir="ltr">Front enders… how would you achieve this layout change between small and large screens? <a href="https://t.co/CxsvAj9lXA">pic.twitter.com/CxsvAj9lXA</a></p>&mdash; Foamcow 🏴󠁧󠁢󠁷󠁬󠁳󠁿🇬🇧🇪🇺😷 (@foamcow) <a href="https://twitter.com/foamcow/status/1108290606458175489?ref_src=twsrc%5Etfw">March 20, 2019</a>
+	</div>
+</blockquote>
 
 It became known as the _Impossible Layout_ with many concluding that it couldn't be done with just CSS. Of course, I had to tackle it. In the end I came up with 2 solutions. One is a pure CSS solution, but it has a relatively minor caveat and the other requires a bit of JS, but no caveats.
 

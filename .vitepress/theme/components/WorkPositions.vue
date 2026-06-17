@@ -51,68 +51,73 @@ onMounted(async () => {
         <p class="timeline-item__company">{{ position.company }}</p>
       </li>
     </ol>
-    <a href="https://sifa.id/p/arkmuntasser.com" class="work-positions__cta" target="_blank" rel="noopener noreferrer">Learn more about my career</a>
+		<footer class="markdown-content">
+			<a href="https://sifa.id/p/arkmuntasser.com" class="work-positions__cta" target="_blank" rel="noopener noreferrer">Learn more about my career</a>
+		</footer>
   </div>
 </template>
 
-<style scoped>
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  padding-inline-start: 1.5rem;
-  border-inline-start: 2px solid oklch(0.85 0.005 270);
-}
+<style>
+@layer theme.components {
+	@scope(.timeline) {
+		:scope {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			padding-inline-start: 1.5rem;
+			border-inline-start: 2px solid oklch(0.85 0.005 270);
+		}
 
-.timeline-item {
-  position: relative;
-  padding-block: 0.25rem;
-  margin-block-end: 2rem;
-}
+		.timeline-item {
+			position: relative;
+			padding-block: 0.25rem;
+			margin-block-end: 2rem;
 
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: calc(-1.5rem - 5px);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--brand-color);
-  border: 2px solid oklch(1 0 0);
-  outline: 2px solid var(--brand-color);
-}
+			&::before {
+				content: '';
+				position: absolute;
+				inset-inline-start: calc(-1.5rem - 5px);
+				top: 50%;
+				transform: translateY(-50%);
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				background: var(--brand-color);
+				border: 2px solid oklch(1 0 0);
+				outline: 2px solid var(--brand-color);
+			}
+		}
 
-.timeline-item__dates {
-  display: flex;
-  gap: 0.4ch;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: oklch(0.55 0.005 270);
-  margin: 0 0 0.25rem;
-}
 
-.timeline-item__title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: oklch(0.1 0.005 270);
-  margin: 0 0 0.125rem;
-  line-height: 1.3;
-}
+		.timeline-item__dates {
+			display: flex;
+			gap: 0.4ch;
+			font-size: var(--text-size-8);
+			font-weight: 500;
+			letter-spacing: 0.02em;
+			color: var(--text-muted);
+			margin: 0;
+			margin-block-end: 0.25rem;
+		}
 
-.timeline-item__company {
-  font-size: 0.9375rem;
-  color: oklch(0.35 0.005 270);
-  margin: 0;
-}
+		.timeline-item__title {
+			font-size: var(--text-size-7);
+			font-weight: 700;
+			margin: 0;
+			margin-block-end: 0.125rem;
+		}
 
-.work-positions__cta {
-  display: inline-block;
-  margin-block-start: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--brand-color);
-  text-underline-offset: 0.2em;
+		.timeline-item__company {
+			font-size: var(--text-size-8);
+			color: var(--text-muted);
+			margin: 0;
+		}
+
+		.work-positions__cta {
+			display: inline-block;
+			margin-block-start: 0.5rem;
+			font-size: var(--text-size-8);
+		}
+	}
 }
 </style>
