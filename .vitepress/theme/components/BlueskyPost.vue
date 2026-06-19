@@ -37,30 +37,33 @@ const date = new Date(props.post.record.createdAt).toLocaleString('en-US', {
 
 <style scoped>
 .bsky-post {
+	--bg: oklch(from var(--bg-color) 100% c h / 1);
+	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
+	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+
   display: block;
-  padding: 16px;
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  color: #1f2328;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-color);
   text-decoration: none;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--text-size-8);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .bsky-post:hover,
 .bsky-post:focus-visible {
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px var(--shadow);
   text-decoration: none;
   outline: none;
 }
 
 .bsky-post__text {
   margin: 0 0 12px;
-  color: #1f2328;
+  color: var(--text-color);
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -73,8 +76,8 @@ const date = new Date(props.post.record.createdAt).toLocaleString('en-US', {
 }
 
 .bsky-post__date {
-  color: #636c76;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--text-size-9);
 }
 
 .bsky-post__logo {

@@ -119,7 +119,7 @@ onUnmounted(() => {
 			font-weight: 700;
 			text-transform: uppercase;
 			letter-spacing: 0.06em;
-			color: oklch(0.25 0.005 270);
+			color: var(--text-color);
 			background: oklch(0.94 0.005 270);
 			cursor: pointer;
 			list-style: none;
@@ -162,12 +162,12 @@ onUnmounted(() => {
 		.toc__link {
 			display: block;
 			padding: 0.35rem 1rem;
-			color: oklch(0.55 0.005 270);
+			color: var(--text-muted);
 			text-decoration: none;
 			transition: color 0.15s;
 
 			&:hover {
-				color: oklch(0.2 0.005 270);
+				color: var(--text-color);
 			}
 		}
 
@@ -209,12 +209,12 @@ onUnmounted(() => {
 
 			.toc__link {
 				padding: 0.3rem 0.75rem;
-				border-left: 2px solid oklch(0 0 0 / 0.1);
+				border-left: 2px solid oklch(from var(--text-muted) l c h / 0.1);
 				transition: color 0.15s, border-color 0.15s;
 
 				&:hover {
-					color: oklch(0.2 0.005 270);
-					border-left-color: oklch(0.4 0.005 270);
+					color: var(--text-color);
+					border-left-color: var(--text-color);
 				}
 			}
 

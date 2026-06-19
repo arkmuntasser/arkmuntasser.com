@@ -158,7 +158,7 @@ onMounted(async () => {
 }
 
 .channel-content__status {
-  color: #636c76;
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 

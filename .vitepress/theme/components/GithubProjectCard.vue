@@ -84,23 +84,26 @@ function formatPushedAt(iso) {
 
 <style scoped>
 .project-card {
+	--bg: oklch(from var(--bg-color) 100% c h / 1);
+	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
+	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 16px;
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  color: #1f2328;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--text-size-8);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .project-card:hover {
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px var(--shadow);
 }
 
 .project-card__body {
@@ -112,7 +115,7 @@ function formatPushedAt(iso) {
   display: block;
   margin: 0 0 8px;
   font-weight: 700;
-	color: #1f2328;
+	color: var(--text-color);
   text-decoration: none;
   word-break: break-word;
 }
@@ -125,8 +128,8 @@ function formatPushedAt(iso) {
 
 .project-card__description {
   margin: 0 0 12px;
-  color: #1f2328;
-  font-size: 0.75rem;
+  color: var(--text-color);
+  font-size: var(--text-size-9);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -164,8 +167,8 @@ function formatPushedAt(iso) {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.75rem;
-  color: #636c76;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
   white-space: nowrap;
 }
 
@@ -177,30 +180,18 @@ function formatPushedAt(iso) {
 }
 
 .project-card__pushed {
-  font-size: 0.75rem;
-  color: #636c76;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
 }
 
 .project-card__pill {
-  font-size: 0.75rem;
-  color: #636c76;
-  background: #f6f8fa;
-  border: 1px solid #d0d7de;
-  border-radius: 9999px;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
+  background: oklch(from var(--bg) 98% c h / 0.9);
+  border: 1px solid oklch(from var(--border) l c h / 0.8);
+  border-radius: var(--radius-rounded);
   padding: 0 6px;
   white-space: nowrap;
-}
-
-.project-card__pill--link {
-  position: relative;
-  z-index: 1;
-  text-decoration: none;
-}
-
-.project-card__pill--link:hover {
-	border-color: #0969da;
-	background-color: #e9f3ff;
-	color: #0969da;
 }
 
 .project-card__logo {

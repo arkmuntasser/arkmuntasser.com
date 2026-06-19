@@ -34,35 +34,38 @@ const date = props.post.date
 
 <style scoped>
 .blog-post-card {
+	--bg: oklch(from var(--bg-color) 100% c h / 1);
+	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
+	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+
   display: block;
-  padding: 16px;
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  color: #1f2328;
+  padding: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-color);
   text-decoration: none;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--text-size-8);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .blog-post-card:hover,
 .blog-post-card:focus-visible {
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px var(--shadow);
   outline: none;
 }
 
 .blog-post-card__title {
   margin: 0 0 8px;
   font-weight: 700;
-  color: #1f2328;
+  color: var(--text-color);
 }
 
 .blog-post-card__excerpt {
   margin: 0 0 12px;
-  color: #1f2328;
+  color: var(--text-color);
   word-break: break-word;
 }
 
@@ -81,8 +84,8 @@ const date = props.post.date
 }
 
 .blog-post-card__date {
-  color: #636c76;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--text-size-9);
 }
 
 .blog-post-card__categories {
@@ -95,11 +98,11 @@ const date = props.post.date
 }
 
 .blog-post-card__categories li {
-  font-size: 0.75rem;
-  color: #636c76;
-  background: #f6f8fa;
-  border: 1px solid #d0d7de;
-  border-radius: 9999px;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
+  background: oklch(from var(--bg) 98% c h / 0.9);
+  border: 1px solid oklch(from var(--border) l c h / 0.8);
+  border-radius: var(--radius-rounded);
   padding: 0 6px;
 	white-space: nowrap;
 }

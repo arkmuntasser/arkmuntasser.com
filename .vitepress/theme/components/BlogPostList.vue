@@ -95,17 +95,18 @@ section {
 }
 
 h2 {
-  font-family: "Outfit", sans-serif;
-  font-size: 1.5rem;
+  font-family: var(--font-brand);
+  font-size: var(--text-size-5);
   font-weight: 700;
-  margin: 0 0 1.5rem;
+	margin: 0;
+  margin-block-end: 1.5rem;
 }
 
 
 .post-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -131,19 +132,19 @@ h2 {
 
 .cta__link {
   display: inline-block;
-  background: #16161d;
-  color: white;
-  border-radius: 9999px;
+  background: var(--text-muted);
+  color: var(--bg-color);
+  border-radius: var(--radius-rounded);
   padding: 0.5rem 1.5rem;
-  font-family: "Outfit", sans-serif;
-  font-size: 0.9375rem;
+  font-family: var(--font-brand);
+  font-size: var(--text-size-7);
   text-decoration: none;
   transition: background 0.15s;
 }
 
 .cta__link:hover,
 .cta__link:focus-visible {
-  background: oklch(28.502% 0.00003 271.152);
+  background: var(--text-color);
   outline: none;
 }
 
@@ -156,20 +157,20 @@ h2 {
 }
 
 .pagination__btn {
-  background: #16161d;
-  color: white;
+  background: var(--text-muted);
+  color: oklch(from var(--bg-color) l c h / 1);
   border: none;
-  border-radius: 9999px;
+  border-radius: var(--radius-rounded);
   padding: 0.5rem 1.5rem;
-  font-family: "Outfit", sans-serif;
-  font-size: 0.9375rem;
+  font-family: var(--font-brand);
+  font-size: var(--text-size-7);
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .pagination__btn:hover:not(:disabled),
 .pagination__btn:focus-visible:not(:disabled) {
-  background: oklch(28.502% 0.00003 271.152);
+  background: var(--text-color);
   outline: none;
 }
 
@@ -179,8 +180,8 @@ h2 {
 }
 
 .pagination__counter {
-  font-family: "Outfit", sans-serif;
-  font-size: 0.9375rem;
+  font-family: var(--font-brand);
+  font-size: var(--text-size-7);
   color: inherit;
 }
 </style>

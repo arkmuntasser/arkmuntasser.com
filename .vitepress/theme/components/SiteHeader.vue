@@ -21,9 +21,9 @@ const pages = Object.entries(pageFiles).map(([path, mod]) => {
 
 const pagesToExclude = [
 	'collections',
-	// 'html-styles',
+	'html-styles',
 	// 'uses',
-	// 'markdown-examples',
+	'markdown-examples',
 	'index'
 ];
 const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/', '')));
@@ -88,13 +88,13 @@ const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/
 			white-space: nowrap;
 
 			&:hover {
-				background: oklch(0.93 0 0);
+				background: oklch(from var(--bg-color) 95% c h);
 				color: var(--brand-color);
 			}
 
 			&.active {
 				color: var(--brand-color);
-				background: oklch(0.95 0.04 15.46);
+				background: oklch(from var(--brand-color) 99% 0.1 h);
 			}
 		}
 	}

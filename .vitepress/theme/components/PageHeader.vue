@@ -41,7 +41,7 @@ defineProps({
 			--stack-gap: 0.75rem;
 
 			padding-block-end: 2rem;
-			border-bottom: 1px solid oklch(0 0 0 / 0.1);
+			border-bottom: 1px solid oklch(from var(--text-muted) l c h / 0.1);
 			margin-block-end: 2.5rem;
 		}
 

@@ -65,7 +65,7 @@ onMounted(async () => {
 			margin: 0;
 			padding: 0;
 			padding-inline-start: 1.5rem;
-			border-inline-start: 2px solid oklch(0.85 0.005 270);
+			border-inline-start: 2px solid oklch(from var(--text-muted) l c h / 0.2);
 		}
 
 		.timeline-item {
@@ -83,7 +83,7 @@ onMounted(async () => {
 				height: 10px;
 				border-radius: 50%;
 				background: var(--brand-color);
-				border: 2px solid oklch(1 0 0);
+				border: 2px solid var(--bg-color);
 				outline: 2px solid var(--brand-color);
 			}
 		}

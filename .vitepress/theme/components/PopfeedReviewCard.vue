@@ -148,15 +148,19 @@ function openPopover() {
 
 <style scoped>
 .review-card {
+	--bg: oklch(from var(--bg-color) 100% c h / 1);
+	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
+	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+	--popfeed: oklch(0.53 0.26 279.22);
+
   display: grid;
   grid-template-columns: 111px 1fr;
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  color: #1f2328;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: var(--text-size-8);
   overflow: hidden;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -179,7 +183,7 @@ function openPopover() {
   width: 100%;
   height: 100%;
   min-height: 5rem;
-  background: #f6f8fa;
+  background: oklch(var(--bg) 99% c h);
 }
 
 .card-body {
@@ -194,7 +198,7 @@ function openPopover() {
 .title {
   margin: 0;
   font-weight: 700;
-  color: #1f2328;
+  color: var(--text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -207,7 +211,7 @@ function openPopover() {
 }
 
 .star {
-  color: oklch(0.53 0.26 279.22);
+  color: var(--brand-color);
 }
 
 .star.half {
@@ -216,8 +220,8 @@ function openPopover() {
 
 .text {
   margin: 0;
-  color: #1f2328;
-  font-size: 0.75rem;
+  color: var(--text-color);
+  font-size: var(--text-size-9);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -235,18 +239,18 @@ function openPopover() {
   border: none;
   padding: 0;
   margin: 0;
-  font-size: 0.6875rem;
-  color: oklch(0.53 0.26 279.22);
+  font-size: var(--text-size-9);
+  color: var(--brand-color);
   cursor: pointer;
   font-family: inherit;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 2px;
   text-align: left;
   line-height: 1;
 }
 
 .read-more:hover {
-  color: oklch(0.43 0.26 279.22);
+  text-decoration: underline;
 }
 
 .card-footer {
@@ -264,8 +268,8 @@ function openPopover() {
 }
 
 .card-date {
-  font-size: 0.75rem;
-  color: #636c76;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
 }
 
 .type-badge {
@@ -274,14 +278,14 @@ function openPopover() {
   justify-content: center;
   flex-shrink: 0;
   height: 18px;
-  background: #f6f8fa;
-  border: 1px solid #d0d7de;
-  border-radius: 9999px;
+  background: oklch(from var(--bg) 98% c h / 0.9);
+  border: 1px solid oklch(from var(--border) l c h / 0.8);
+  border-radius: var(--radius-rounded);
   padding: 3px;
   box-sizing: border-box;
 	gap: 2px;
 	white-space: nowrap;
-	font-size: 0.625rem;
+	font-size: var(--text-size-9);
 }
 
 .type-icon {
@@ -321,11 +325,11 @@ function openPopover() {
   left: anchor(left);
   width: anchor-size(width);
 
-  background: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 1rem 2rem 1rem 1rem;
-  box-shadow: 0 8px 24px oklch(0 0 0 / 0.12);
+  box-shadow: 0 8px 24px var(--shadow);
 
   /* Exit state — also the @starting-style base for entry */
   opacity: 0;
@@ -350,9 +354,9 @@ function openPopover() {
 .text-popover-body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 0.75rem;
+  font-size: var(--text-size-9);
   line-height: 1.5;
-  color: #1f2328;
+  color: var(--text-color);
 }
 
 .text-popover-close {
@@ -367,15 +371,15 @@ function openPopover() {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.625rem;
-  color: #636c76;
-  border-radius: 3px;
+  font-size: var(--text-size-9);
+  color: var(--text-muted);
+  border-radius: calc(var(--radius) / 2);
   padding: 0;
   line-height: 1;
 }
 
 .text-popover-close:hover {
-  background: #f6f8fa;
-  color: #1f2328;
+  background: oklch(from var(--bg-color) 99% c h / 1);
+  color: var(--text-color);
 }
 </style>

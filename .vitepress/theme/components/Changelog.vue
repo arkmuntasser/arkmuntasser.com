@@ -19,7 +19,7 @@ defineProps({
 		:scope {
 			margin-block-start: 3rem;
 			padding-block-start: 1.5rem;
-			border-top: 1px solid oklch(0 0 0 / 0.1);
+			border-top: 1px solid oklch(from var(--text-muted) l c h / 0.1);
 		}
 
 		.changelog__heading {

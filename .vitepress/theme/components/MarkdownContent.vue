@@ -166,8 +166,8 @@
 			font-family: 'Consolas', 'Courier New', monospace;
 			font-weight: 400;
 			padding: 0.25rem 0.5rem;
-			color: black;
-			background-color: oklch(from var(--bg-color) calc(l * 0.95) c h);
+			color: var(--text-color);
+			background-color: oklch(from var(--bg-color) calc(l * 0.95) c h / 0.8);
 			border-radius: var(--radius-sm);
 		}
 

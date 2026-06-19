@@ -30,7 +30,7 @@ if (external && !isMediaOnly) {
 
 <template>
   <!-- Images -->
-  <div v-if="images" class="bsky-embed__images" :class="images.length > 1 ? `bsky-embed__images--${images.length}` : ''">
+  <div v-if="images" class="bsky-embed bsky-embed__images" :class="images.length > 1 ? `bsky-embed__images--${images.length}` : ''">
     <img
       v-for="img in images"
       :key="img.fullsize"
@@ -42,7 +42,7 @@ if (external && !isMediaOnly) {
   </div>
 
   <!-- Video -->
-  <div v-else-if="video" class="bsky-embed__video-wrap">
+  <div v-else-if="video" class="bsky-embed bsky-embed__video-wrap">
     <video
       :src="video.playlist"
       :poster="video.thumbnail"
@@ -53,7 +53,7 @@ if (external && !isMediaOnly) {
   </div>
 
   <!-- External link / GIF -->
-  <a v-else-if="external" :href="external.uri" target="_blank" rel="noopener noreferrer" class="bsky-embed__external">
+  <a v-else-if="external" :href="external.uri" target="_blank" rel="noopener noreferrer" class="bsky-embed bsky-embed__external">
     <video v-if="isVideo" :src="external.uri" :poster="external.thumb || undefined" autoplay muted loop playsinline class="bsky-embed__gif"></video>
     <img v-else-if="isMediaOnly" :src="external.uri" :alt="external.description?.replace('Alt: ', '') || ''" class="bsky-embed__gif-img" />
     <template v-else>
@@ -74,7 +74,7 @@ if (external && !isMediaOnly) {
   </a>
 
   <!-- Quoted post -->
-  <blockquote v-else-if="quotedRecord && quotedRecord.$type === 'app.bsky.embed.record#viewRecord'" class="bsky-embed__quote">
+  <blockquote v-else-if="quotedRecord && quotedRecord.$type === 'app.bsky.embed.record#viewRecord'" class="bsky-embed bsky-embed__quote">
     <div class="bsky-embed__quote-header">
       <img v-if="quotedRecord.author?.avatar" :src="quotedRecord.author.avatar" :alt="quotedRecord.author.displayName || quotedRecord.author.handle" class="bsky-embed__quote-avatar" />
       <div class="bsky-embed__quote-author-info">
@@ -89,7 +89,7 @@ if (external && !isMediaOnly) {
   </blockquote>
 
   <!-- Record with media: show media then quoted post -->
-  <div v-else-if="rwmMedia || rwmRecord" class="bsky-embed__rwm">
+  <div v-else-if="rwmMedia || rwmRecord" class="bsky-embed bsky-embed__rwm">
     <BlueskyEmbed v-if="rwmMedia" :embed="rwmMedia" />
     <blockquote v-if="rwmRecord && rwmRecord.$type === 'app.bsky.embed.record#viewRecord'" class="bsky-embed__quote">
       <div class="bsky-embed__quote-header">
@@ -108,12 +108,18 @@ if (external && !isMediaOnly) {
 </template>
 
 <style scoped>
+.bsky-embed {
+	--bg: oklch(from var(--bg-color) 99% c h / 1);
+	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
+	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+}
+
 .bsky-embed__images {
   display: grid;
   gap: 2px;
-  border-radius: 6px;
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--border);
 }
 
 .bsky-embed__image {
@@ -153,9 +159,9 @@ if (external && !isMediaOnly) {
 }
 
 .bsky-embed__video-wrap {
-  border-radius: 6px;
+  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--border);
 }
 
 .bsky-embed__video {
@@ -166,16 +172,16 @@ if (external && !isMediaOnly) {
 
 .bsky-embed__external {
   display: block;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   text-decoration: none;
   color: inherit;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .bsky-embed__external:hover {
-  border-color: #0969da;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px var(--shadow);
 }
 
 .bsky-embed__gif-img {
@@ -191,26 +197,26 @@ if (external && !isMediaOnly) {
   object-fit: cover;
   display: block;
   border-radius: 6px 6px 0 0;
-  border-bottom: 1px solid #d0d7de;
+  border-bottom: 1px solid var(--border);
   color: transparent;
 }
 
 .bsky-embed__link-body {
   padding: 0.5rem 0.75rem 0.625rem;
-  background: #f6f8fa;
+  background: var(--bg);
   border-radius: 0 0 6px 6px;
 }
 
 .bsky-embed__link-title {
-  font-weight: 600;
-  color: #1f2328;
-  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: var(--text-size-8);
   line-height: 1.4;
 }
 
 .bsky-embed__link-desc {
-  color: #636c76;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--text-size-9);
   line-height: 1.5;
   margin-top: 0.125rem;
   display: -webkit-box;
@@ -224,8 +230,8 @@ if (external && !isMediaOnly) {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  color: #636c76;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-size: var(--text-size-9);
   margin-top: 0.25rem;
 }
 
@@ -243,10 +249,10 @@ if (external && !isMediaOnly) {
 .bsky-embed__quote {
   margin: 0;
   padding: 0.625rem 0.75rem;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  background: #f6f8fa;
-  font-size: 0.8125rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: var(--text-size-8);
   line-height: 1.5;
   overflow: hidden;
   min-width: 0;
@@ -276,14 +282,14 @@ if (external && !isMediaOnly) {
 }
 
 .bsky-embed__quote-display-name {
-  color: #1f2328;
-  font-weight: 600;
+  color: var(--text-color);
+  font-weight: 700;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .bsky-embed__quote-handle {
-  color: #636c76;
+  color: var(--text-muted);
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
@@ -292,7 +298,7 @@ if (external && !isMediaOnly) {
 }
 
 .bsky-embed__quote-text {
-  color: #1f2328;
+  color: var(--text-color);
   margin: 0;
   white-space: pre-wrap;
   word-break: break-word;

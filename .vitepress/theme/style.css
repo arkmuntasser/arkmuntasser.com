@@ -6,10 +6,9 @@
 		:root {
 			--font-brand: "Outfit", system-ui, sans-serif;
 			--brand-color: oklch(0.64 0.25 15.46);
-			--alt-brand-color: oklch(0.73 0.16 25.38);
-			--bg-color: whitesmoke;
-			--text-color: #342e28;
-			--text-muted: oklch(0.55 0.005 270);
+			--bg-color: oklch(from var(--brand-color) 99% 0.01 h / 0.6);
+			--text-color: oklch(from var(--brand-color) 30% 0.04 h);
+			--text-muted: oklch(from var(--text-color) 50% c h);
 
 			--radius-sm: 4px;
 			--radius: 6px;
