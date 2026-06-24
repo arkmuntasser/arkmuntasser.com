@@ -55,6 +55,33 @@ function parseFrontmatter(raw) {
 }
 
 // ---------------------------------------------------------------------------
+// Strip markdown to plain text
+// ---------------------------------------------------------------------------
+function stripMarkdown(md) {
+  return md
+    .replace(/`{4,}[\s\S]*?`{4,}/g, '')    // 4+ backtick fenced code blocks (before triple)
+    .replace(/```[\s\S]*?```/g, '')         // triple-backtick fenced code blocks
+    .replace(/`[^`]*`/g, '')                // inline code
+    .replace(/^:::[^\n]*$/gm, '')           // VitePress custom container markers
+    .replace(/!\[.*?\]\(.*?\)/g, '')        // images
+    .replace(/\[([^\]]+)\]\(.*?\)/g, '$1') // links → label text
+    .replace(/^#{1,6}\s+/gm, '')           // headings
+    .replace(/(\*\*|__)(.*?)\1/g, '$2')    // bold
+    .replace(/(\*|_)(.*?)\1/g, '$2')       // italic
+    .replace(/~~(.*?)~~/g, '$1')           // strikethrough
+    .replace(/^[-*_]{3,}\s*$/gm, '')       // horizontal rules
+    .replace(/^>\s?/gm, '')                // blockquotes
+    .replace(/^\s*\|[\s\-:|]+\|\s*$/gm, '')// table separator rows
+    .replace(/^\|(.*)\|$/gm, (_, inner) => // table content rows → space-joined cells
+      inner.split('|').map(c => c.trim()).filter(Boolean).join(' '))
+    .replace(/^\s*[-*+]\s+/gm, '')         // unordered list markers
+    .replace(/^\s*\d+\.\s+/gm, '')         // ordered list markers
+    .replace(/<[^>]+>/g, '')               // HTML tags
+    .replace(/\n{3,}/g, '\n\n')            // collapse excess blank lines
+    .trim()
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
@@ -151,7 +178,10 @@ async function main() {
       title: fm.title,
       publishedAt: new Date(fm.date).toISOString(),
       path: `/posts/${slug}`,
+			description: fm.excerpt,
     }
+
+		if (fm.updated) record.updatedAt = new Date(fm.updated).toISOString();
 
     const description = fm.excerpt || fm.description
     if (description) record.description = description
@@ -171,6 +201,7 @@ async function main() {
 					markdown: body.trim()
 				},
       }
+      record.textContent = stripMarkdown(body)
     }
 
     process.stdout.write(`  post  ${fm.title} … `)
