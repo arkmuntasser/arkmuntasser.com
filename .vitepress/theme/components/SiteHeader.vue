@@ -27,6 +27,17 @@ const pagesToExclude = [
 	'index'
 ];
 const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/', '')));
+
+const sortorder = ['blog', 'about', 'uses'];
+
+const sortedPages = [
+  ...sortorder
+    .map(slug => pagesToShow.find(p => p.path === `/${slug}`))
+    .filter(Boolean),
+  ...pagesToShow
+    .filter(p => !sortorder.includes(p.path.slice(1)))
+    .sort((a, b) => a.title.localeCompare(b.title)),
+];
 </script>
 
 <template>
@@ -34,7 +45,7 @@ const pagesToShow = pages.filter(p => !pagesToExclude.includes(p.path.replace('/
     <a class="logo" href="/"><span><b>@</b>{{ site.title }}</span></a>
     <nav>
       <ul class="row">
-        <li v-for="p in pagesToShow" :key="p.path">
+        <li v-for="p in sortedPages" :key="p.path">
           <a :href="p.path" :class="{ active: isActive(p.path) }">{{ p.title }}</a>
         </li>
       </ul>

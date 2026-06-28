@@ -2,6 +2,7 @@ import { defineConfig, createContentLoader } from 'vitepress'
 import { writeFileSync, mkdirSync, readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import puppeteer from 'puppeteer'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -24,7 +25,11 @@ async function buildOGImages(siteConfig) {
 
 	mkdirSync(resolve(siteConfig.outDir, 'og'), { recursive: true });
 
-	content.forEach(c => {
+	const browser = await puppeteer.launch();
+	const page = await browser.newPage();
+	await page.setViewport({ width: 1200, height: 630 });
+
+	for (const c of content) {
 		const title = escapeXml(c.frontmatter.title);
 		let slug = c.url.replace('/posts', '').replace('/', '');
 		slug = slug === '' ? 'index' : slug;
@@ -33,8 +38,15 @@ async function buildOGImages(siteConfig) {
 			.replace('{{title}}', title)
 			.replace('{{url}}', c.url);
 
-		writeFileSync(resolve(siteConfig.outDir, 'og', slug + '.html'), html);
-	});
+		await page.setContent(html, { waitUntil: 'load' });
+		await page.evaluate(() => document.fonts.ready);
+		await page.screenshot({
+			path: resolve(siteConfig.outDir, 'og', slug + '.png'),
+			clip: { x: 0, y: 0, width: 1200, height: 630 },
+		});
+	}
+
+	await browser.close();
 }
 
 async function buildRSSFeed(siteConfig) {
@@ -102,11 +114,30 @@ export default defineConfig({
     ],
 	],
 
-  transformHead({ pageData }) {
+  transformHead({ pageData, siteData }) {
+    const head = []
+
+    const title = pageData.frontmatter.title ?? siteData.title
+    const description = pageData.frontmatter.description ?? siteData.description
+
+    let slug = pageData.relativePath.replace(/\.md$/, '').replace(/^posts\//, '')
+    slug = slug === 'index' ? 'index' : slug
+
+    const ogImage = `${siteUrl}/og/${slug}.png`
+
+    head.push(['meta', { property: 'og:title', content: title }])
+    head.push(['meta', { property: 'og:description', content: description }])
+    head.push(['meta', { property: 'og:image', content: ogImage }])
+    head.push(['meta', { property: 'og:url', content: `${siteUrl}${pageData.relativePath.replace(/\.md$/, '').replace(/index$/, '')}` }])
+    head.push(['meta', { name: 'twitter:card', content: 'summary_large_image' }])
+    head.push(['meta', { name: 'twitter:image', content: ogImage }])
+
     if (pageData.filePath.startsWith('posts/')) {
       const slug = pageData.filePath.replace(/^posts\//, '').replace(/\.md$/, '')
-      return [['link', { rel: 'alternate', href: `at://${atDid}/site.standard.document/${slug}` }]]
+      head.push(['link', { rel: 'alternate', href: `at://${atDid}/site.standard.document/${slug}` }])
     }
+
+    return head
   },
 
   markdown: {

@@ -15,12 +15,12 @@
 			--radius-rounded: 9999px;
 
 			/* Minor Third Scale */
-			--text-size-1: 2.986rem;
-			--text-size-2: 2.488rem;
-			--text-size-3: 2.074rem;
-			--text-size-4: 1.728rem;
-			--text-size-5: 1.44rem;
-			--text-size-6: 1.2rem;
+			--text-size-1: clamp(2.486rem, 2.2698rem + 1.0811vw, 2.986rem);
+			--text-size-2: clamp(2.088rem, 1.915rem + 0.8649vw, 2.488rem);
+			--text-size-3: clamp(1.774rem, 1.6443rem + 0.6486vw, 2.074rem);
+			--text-size-4: clamp(1.428rem, 1.2983rem + 0.6486vw, 1.728rem);
+			--text-size-5: clamp(1.24rem, 1.1535rem + 0.4324vw, 1.44rem);
+			--text-size-6: clamp(1.1rem, 1.0568rem + 0.2162vw, 1.2rem);
 			--text-size-7: 1rem;
 			--text-size-8: 0.833rem;
 			--text-size-9: 0.694rem;
