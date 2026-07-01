@@ -1,6 +1,6 @@
 ---
 home: true
-title: Hell, I'm Amir
+title: Hello, I'm Amir
 ---
 
 # Hello, I'm Amir
