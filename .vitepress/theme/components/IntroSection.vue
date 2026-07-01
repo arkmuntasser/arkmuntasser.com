@@ -1,7 +1,9 @@
 <template>
 	<section class="intro">
 		<div class="left-column">
-			<slot name="left" />
+			<div class="breakout-container">
+				<slot name="left" />
+			</div>
 		</div>
 		<div class="right-column">
 			<slot name="right" />
@@ -28,12 +30,15 @@
 				display: flex;
 				gap: 8rem;
 				flex-direction: column;
-				height: 100vh;
-				padding: 2rem;
-				padding-bottom: 0;
+				min-height: 100vh;
+				padding-block-start: 2rem;
 
 				@media (min-width: 48rem) {
 					position: sticky;
+				}
+
+				& > .breakout-container {
+					min-height: calc(100vh - 2rem);
 				}
 			}
 

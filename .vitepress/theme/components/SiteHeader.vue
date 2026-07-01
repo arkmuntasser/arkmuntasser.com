@@ -58,9 +58,14 @@ const sortedPages = [
 	@scope(.site-header) {
 		:scope {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
-			justify-content: space-between;
+			gap: 1rem;
 			margin-block-end: 3rem;
+
+			@container (inline-size > 480px) {
+				justify-content: space-between;
+			}
 		}
 
 		.logo {

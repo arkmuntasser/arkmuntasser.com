@@ -57,8 +57,8 @@ onUnmounted(() => {
 
   </div>
 	<!-- About Page -->
-	<div v-else-if="frontmatter.title === 'About'" class="page">
-		<SiteHeader />
+	<div v-else-if="frontmatter.title === 'About'" class="page breakout-container">
+		<SiteHeader class="header" />
 		<div class="about-layout">
 			<PageHeader
 				:title="frontmatter.title"
@@ -78,8 +78,8 @@ onUnmounted(() => {
 		<SiteFooter />
 	</div>
 	<!-- Blog Page -->
-	<div v-else-if="frontmatter.title === 'Blog'" class="page">
-		<SiteHeader />
+	<div v-else-if="frontmatter.title === 'Blog'" class="page breakout-container">
+		<SiteHeader class="header" />
 		<section class="page-content">
 			<PageHeader
 				:title="frontmatter.title"
@@ -97,8 +97,8 @@ onUnmounted(() => {
 		<SiteFooter />
 	</div>
 	<!-- Blog Post Page -->
-	<div v-else-if="isBlogPost" class="page">
-		<SiteHeader />
+	<div v-else-if="isBlogPost" class="page breakout-container">
+		<SiteHeader class="header" />
 		<div class="post-layout">
 			<PageHeader
 				:title="frontmatter.title"
@@ -121,8 +121,8 @@ onUnmounted(() => {
 		<SiteFooter />
 	</div>
 	<!-- Default Page Layout -->
-  <div v-else class="page">
-    <SiteHeader />
+  <div v-else class="page breakout-container">
+    <SiteHeader class="header" />
 		<PageHeader
 			:title="frontmatter.title"
 			:excerpt="frontmatter.excerpt"
@@ -140,8 +140,7 @@ onUnmounted(() => {
 
 <style scoped>
 .page {
-	display: flex;
-	flex-direction: column;
+	grid-template-rows: min-content 1fr min-content;
 	min-height: 100vh;
 }
 
@@ -177,11 +176,6 @@ onUnmounted(() => {
 
 :is(.post-layout, .about-layout) :deep(.page-header :is(h1, p)) {
 	max-width: 86ch;
-}
-
-.page-content {
-	grid-area: content;
-	block-size: min-content;
 }
 
 .career-history {
