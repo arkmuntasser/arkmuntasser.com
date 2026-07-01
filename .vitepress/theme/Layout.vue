@@ -42,7 +42,7 @@ onUnmounted(() => {
 
 		<IntroSection>
 			<template #left>
-				<SiteHeader />
+				<SiteHeader class="header" />
 				<MarkdownContent class="markdown-content__homepage">
 					<Content />
 					<SocialLinks />

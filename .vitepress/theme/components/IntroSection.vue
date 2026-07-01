@@ -40,6 +40,10 @@
 				& > .breakout-container {
 					min-height: calc(100vh - 2rem);
 				}
+
+				.homepage & > .breakout-container {
+					gap: 6rem 0;
+				}
 			}
 
 			& > .right-column {
