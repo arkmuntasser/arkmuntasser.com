@@ -140,6 +140,12 @@ export default defineConfig({
     return head
   },
 
+  vite: {
+    build: {
+      cssTarget: ['chrome88', 'edge88', 'es2020', 'firefox78', 'safari14'],
+    },
+  },
+
   markdown: {
     theme: 'dark-plus',
   },
