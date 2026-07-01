@@ -25,7 +25,19 @@ async function buildOGImages(siteConfig) {
 
 	mkdirSync(resolve(siteConfig.outDir, 'og'), { recursive: true });
 
-	const browser = await puppeteer.launch();
+	let browser;
+	if (process.env.VERCEL) {
+		const chromium = (await import('@sparticuz/chromium')).default;
+		const puppeteerCore = (await import('puppeteer-core')).default;
+		browser = await puppeteerCore.launch({
+			args: chromium.args,
+			defaultViewport: chromium.defaultViewport,
+			executablePath: await chromium.executablePath(),
+			headless: chromium.headless,
+		});
+	} else {
+		browser = await puppeteer.launch();
+	}
 	const page = await browser.newPage();
 	await page.setViewport({ width: 1200, height: 630 });
 

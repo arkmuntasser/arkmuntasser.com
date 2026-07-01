@@ -15,8 +15,10 @@
   },
   "devDependencies": {
     "@atproto/api": "^0.19.9",
+    "@sparticuz/chromium": "^149.0.0",
     "@types/masonry-layout": "^4.2.8",
     "puppeteer": "^25.2.1",
+    "puppeteer-core": "^25.2.1",
     "vitepress": "^1.6.3",
     "vue": "^3.5.16"
   },
