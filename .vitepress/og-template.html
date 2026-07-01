@@ -3,8 +3,12 @@
   <head>
     <link rel="preconnect" href="https://fonts.google.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&family=Outfit:wght@100..900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" />
     <style>
+      @font-face {
+        font-family: 'FlowerGlyph';
+        src: url('data:font/woff2;base64,d09GMgABAAAAAAHkAAsAAAAAA6AAAAGbAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAKApUbAE2AiQDCAsGAAQgBYJKByA3EBvvAgAuB2xjGtQXQXq50DziRFGEX1o46K1hjgfeufxJ2huwQ3qeSQH2bmjcHKATKC0ZA3LzP7b50JL/dUQkUaHRxKZW19NCXJqkIrfCzBckld0sPMfaSxKM8k6caAj1J72sgqVuNTfKYpY7oLbXhzy5rVeOIG3LNIoeOYHsAbNMfgtQ0htycEkrNSJbKV8Iy0mjSUgR+6swmUDkLvjc8u7upqxXr7z4g7cqCqcgQBrMAr2AgAz16kEngEBvAb0FCCCCDAGtYARABgitl3WxUhw2qC8Oy7E2HZYr9aGhXCl6rpNz1Vp/lKWY5d87STaTv1aEj16/AAE5qeXJo7mfmrpqcDVUh/fVrsfWESZqRBC4trU+Bv1GCBr4i/HVWvZoHoOYfxmIuEZJQJUTnJDV4ARqBO1aRI0ukGz46oyHXLPfqZJWf6RX6eTs42pjsbojBo3GJIfFQXofJHd2tjd1ex+cPdxNriSkcjRQuNz4vLV3sndTmywe9jpXsYWIzqXQjHQTQ7gfG/R1jU2mc7ROnnnnQPEfozEhqFP9RQ==') format('woff2');
+      }
 			*, *::after, *::before {
 				margin: 0;
 				padding: 0;
@@ -52,8 +56,8 @@
 					position: relative;
 
 					&::before {
-						content: '⁕' "";
-						font-family: "Noto Sans Symbols", system-ui, sans-serif;
+						content: '⁕';
+						font-family: 'FlowerGlyph', sans-serif;
 						color: var(--brand-color);
 
 						position: absolute;
