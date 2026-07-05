@@ -15,6 +15,14 @@
 
 		:where(p, ul, ol, dl, li, dt, dd) {
 			font-size: var(--text-size-7, 1rem);
+
+			.markdown-content__homepage & {
+				font-size: var(--text-size-6);
+			}
+
+			.markdown-content__homepage :where(h1) + & {
+				font-size: var(--text-size-4);
+			}
 		}
 
 		:where(h1, h2, h3, h4, h5, h6) {

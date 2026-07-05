@@ -5,7 +5,7 @@ title: Hello, I'm Amir
 
 # Hello, I'm Amir
 
-I like building things on the web and I'm a big CSS nerd and love to geek out with others about it. As the Director, Web Development at Granicus I consider myself something of a teacher and an architect.
+I like building things on the web and I'm a big CSS nerd and love to geek out with others about it. As Director, Web Development at Granicus I consider myself a teacher and an architect.
 
 You may know me as one of the [winners of the most coveted Vuenicorns](https://bsky.app/profile/arkmuntasser.com/post/3lbd3hxods226) at the first VueConf Toronto if you were there. They took official photos of the winners, but then never posted them anywhere 😠.
 

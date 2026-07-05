@@ -96,7 +96,7 @@ ${items}
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "arkmuntasser",
-  description: "I’m Amir R Muntasser and I’m a web developer, wizard, sneaker enthusiast and current Director of Web Development at Granicus Destinations.",
+  description: "I like building things on the web and I'm a big CSS nerd and love to geek out with others about it.",
   cleanUrls: true,
   ignoreDeadLinks: true,
 	head: [
@@ -130,17 +130,23 @@ export default defineConfig({
     const head = []
 
     const title = pageData.frontmatter.title ?? siteData.title
-    const description = pageData.frontmatter.description ?? siteData.description
+    const description = pageData.frontmatter.excerpt ?? siteData.description
 
     let slug = pageData.relativePath.replace(/\.md$/, '').replace(/^posts\//, '')
     slug = slug === 'index' ? 'index' : slug
 
     const ogImage = `${siteUrl}/og/${slug}.png`
 
+    const pagePath = pageData.relativePath
+      .replace(/\.md$/, '')
+      .replace(/(^|\/)index$/, '$1')
+      .replace(/\/$/, '')
+    const ogUrl = pagePath ? `${siteUrl}/${pagePath}` : siteUrl
+
     head.push(['meta', { property: 'og:title', content: title }])
     head.push(['meta', { property: 'og:description', content: description }])
     head.push(['meta', { property: 'og:image', content: ogImage }])
-    head.push(['meta', { property: 'og:url', content: `${siteUrl}${pageData.relativePath.replace(/\.md$/, '').replace(/index$/, '')}` }])
+    head.push(['meta', { property: 'og:url', content: ogUrl }])
     head.push(['meta', { name: 'twitter:card', content: 'summary_large_image' }])
     head.push(['meta', { name: 'twitter:image', content: ogImage }])
 

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Content, useData } from 'vitepress';
+import { onContentUpdated } from 'vitepress';
 import IntroSection from './components/IntroSection.vue';
 import SiteHeader from './components/SiteHeader.vue';
 import ChannelContent from './components/ChannelContent.vue';
@@ -13,7 +14,45 @@ import Changelog from './components/Changelog.vue';
 import WorkPositions from './components/WorkPositions.vue';
 import MarkdownContent from './components/MarkdownContent.vue';
 
-const { page, frontmatter } = useData();
+const siteUrl = 'https://arkmuntasser.com';
+
+const { page, site, frontmatter } = useData();
+
+const ogTitle = computed(() => frontmatter.value.title ?? site.value.title);
+const ogDescription = computed(() => frontmatter.value.excerpt ?? site.value.description);
+const ogSlug = computed(() => {
+  let slug = page.value.relativePath.replace(/\.md$/, '').replace(/^posts\//, '');
+  return slug === 'index' ? 'index' : slug;
+});
+const ogImage = computed(() => `${siteUrl}/og/${ogSlug.value}.png`);
+const ogUrl = computed(() => {
+  const pagePath = page.value.relativePath
+    .replace(/\.md$/, '')
+    .replace(/(^|\/)index$/, '$1')
+    .replace(/\/$/, '');
+  return pagePath ? `${siteUrl}/${pagePath}` : siteUrl;
+});
+
+function setMeta(attr, value, content) {
+  let el = document.querySelector(`meta[${attr}="${value}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, value);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function updateOgTags() {
+  setMeta('property', 'og:title', ogTitle.value);
+  setMeta('property', 'og:description', ogDescription.value);
+  setMeta('property', 'og:image', ogImage.value);
+  setMeta('property', 'og:url', ogUrl.value);
+  setMeta('name', 'twitter:image', ogImage.value);
+}
+
+onMounted(updateOgTags);
+onContentUpdated(updateOgTags);
 const isBlogPost = computed(() => page.value?.filePath?.includes('posts'));
 
 const isWide = ref(false);
@@ -80,20 +119,22 @@ onUnmounted(() => {
 	<!-- Blog Page -->
 	<div v-else-if="frontmatter.title === 'Blog'" class="page breakout-container">
 		<SiteHeader class="header" />
-		<section class="page-content">
-			<PageHeader
-				:title="frontmatter.title"
-				:excerpt="frontmatter.excerpt"
-				:category="frontmatter.category"
-				:date="frontmatter.date"
-			/>
-			<MarkdownContent>
-				<Content />
-			</MarkdownContent>
-		</section>
-		<main class="widget-content-narrow">
-			<BlogPostList />
-		</main>
+		<div>
+			<section class="page-content">
+				<PageHeader
+					:title="frontmatter.title"
+					:excerpt="frontmatter.excerpt"
+					:category="frontmatter.category"
+					:date="frontmatter.date"
+				/>
+				<MarkdownContent>
+					<Content />
+				</MarkdownContent>
+			</section>
+			<main class="widget-content-narrow">
+				<BlogPostList />
+			</main>
+		</div>
 		<SiteFooter />
 	</div>
 	<!-- Blog Post Page -->
@@ -123,27 +164,24 @@ onUnmounted(() => {
 	<!-- Default Page Layout -->
   <div v-else class="page breakout-container">
     <SiteHeader class="header" />
-		<PageHeader
-			:title="frontmatter.title"
-			:excerpt="frontmatter.excerpt"
-			:category="frontmatter.category"
-			:date="frontmatter.date"
-		/>
-		<main class="page-content">
-			<MarkdownContent>
-				<Content />
-			</MarkdownContent>
-		</main>
+		<div>
+			<PageHeader
+				:title="frontmatter.title"
+				:excerpt="frontmatter.excerpt"
+				:category="frontmatter.category"
+				:date="frontmatter.date"
+			/>
+			<main class="page-content">
+				<MarkdownContent>
+					<Content />
+				</MarkdownContent>
+			</main>
+		</div>
 		<SiteFooter />
   </div>
 </template>
 
 <style scoped>
-.page {
-	grid-template-rows: min-content 1fr min-content;
-	min-height: 100vh;
-}
-
 :is(.post-layout, .about-layout) {
 	display: grid;
 	grid-template-columns: 100%;
