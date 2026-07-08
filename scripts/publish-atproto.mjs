@@ -119,7 +119,7 @@ async function main() {
     rkey: "self",
     record: {
       $type: "site.standard.publication",
-      url: "https://arkmuntasser.com",
+      url: "https://www.arkmuntasser.com",
       icon: {
         ref: {
           $link: "bafkreiglvowv3ptmdf2urnvrwrsl5h2vglwhl45k4lpqwszq42246757ia",

@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run docs:build",
+  "buildCommand": "node scripts/publish-atproto.mjs || echo 'AT Proto publish failed, continuing build' && npm run docs:build",
   "devCommand": "vitepress dev --port $PORT",
   "outputDirectory": ".vitepress/dist",
   "framework": null,
