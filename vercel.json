@@ -2,5 +2,6 @@
   "buildCommand": "npm run docs:build",
   "devCommand": "vitepress dev --port $PORT",
   "outputDirectory": ".vitepress/dist",
-  "framework": null
+  "framework": null,
+  "cleanUrls": true
 }
