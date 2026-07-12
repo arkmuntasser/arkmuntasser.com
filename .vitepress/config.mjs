@@ -118,7 +118,7 @@ export default defineConfig({
     ],
     [
       'link',
-      { rel: 'me', href: `at://${atDid}/site.standard.publication/self` }
+      { rel: 'site.standard.publication', href: `at://${atDid}/site.standard.publication/self` }
     ],
     [
       'link',
@@ -152,7 +152,7 @@ export default defineConfig({
 
     if (pageData.filePath.startsWith('posts/')) {
       const slug = pageData.filePath.replace(/^posts\//, '').replace(/\.md$/, '')
-      head.push(['link', { rel: 'alternate', href: `at://${atDid}/site.standard.document/${slug}` }])
+      head.push(['link', { rel: 'site.standard.document', href: `at://${atDid}/site.standard.document/${slug}` }])
     }
 
     return head
