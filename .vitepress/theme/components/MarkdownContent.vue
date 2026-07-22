@@ -115,7 +115,7 @@
 		:where(ul, ol) {
 			padding-inline-start: 1.5rem;
 
-			& > * + * { margin-block-start: 1.5em; }
+			& > * + * { margin-block-start: var(--prose-flow, 1.5em); }
 
 			& li::marker {
 				font-size: 1.2em;

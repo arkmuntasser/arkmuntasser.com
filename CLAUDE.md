@@ -11,10 +11,10 @@ Amir Muntasser's personal site (arkmuntasser.com) — a VitePress + Vue 3 site w
 - `npm run docs:dev` — local dev server
 - `npm run docs:build` — production build (also runs RSS + OG image generation via `buildEnd` in `.vitepress/config.mjs`)
 - `npm run docs:preview` — preview a production build
-- `npm run publish:atproto` — publish blog posts to AT Protocol (Bluesky) via `scripts/publish-atproto.mjs`; requires `.env` with `ATP_HANDLE` and `ATP_APP_PASSWORD`
+- `npm run publish:atproto` — publish blog posts to AT Protocol (Bluesky) via `scripts/publish-atproto.mjs`; requires `.env` with `ATP_HANDLE` and `ATP_APP_PASSWORD` locally, or the same two vars set in Vercel project env vars for production builds
 - There is no test suite (`npm test` is a stub) and no linter configured.
 
-Deployed on Vercel (see `vercel.json`); build output is `.vitepress/dist`.
+Deployed on Vercel (see `vercel.json`). Build output is `.vitepress/dist`; `vercel.json` sets `"cleanUrls": true` so Vercel's static server rewrites extensionless requests to the `.html` files VitePress emits (VitePress's own `cleanUrls: true` in `config.mjs` only rewrites internal links — it does not affect how the host serves files, so both settings are required together). The Vercel `buildCommand` runs `scripts/publish-atproto.mjs` before `docs:build`; a publish failure is swallowed (`|| echo ... &&`) so it never blocks the site deploy.
 
 ## Architecture
 
@@ -38,7 +38,11 @@ Components pull live data client-side from third-party APIs via small fetch wrap
 These are plain fetch-based functions (no SDK, no caching layer) consumed by components like `BlueskyFeed.vue`, `GithubProjects.vue`, `PopfeedReviews.vue`.
 
 ### AT Protocol integration
-The site publishes itself and its posts as AT Protocol records under the `site.standard.*` and `at.markpub.*` lexicons (see `scripts/publish-atproto.mjs`). `config.mjs` also emits a `rel="me"` link and per-post `at://` alternate links pointing at these records. `scripts/set-icon.sh` updates the publication record's icon blob directly via curl against the PDS. These three pieces (config head tags, publish script, icon script) must stay in sync with the DID (`did:plc:2lm4lab5fhnj6kaazrxopv37`) and handle (`arkmuntasser.com`) if either changes.
+The site publishes itself and its posts as AT Protocol records under the `site.standard.*` and `at.markpub.*` lexicons (see `scripts/publish-atproto.mjs`). Record `rkey`s are deterministic (`self` for the publication, the post's filename minus `.md` for each document), so the `at://` URIs referencing them can be computed at build time without reading the script's output.
+
+`config.mjs` emits these `at://` URIs in two places: a sitewide `<link rel="site.standard.publication">` (in the static `head` array) and, per post, a `<link rel="site.standard.document">` in `transformHead`. `public/.well-known/site.standard.publication` is a static plain-text file (copied verbatim into the build output by VitePress) containing the same publication `at://` URI, for discovery without parsing HTML. `scripts/set-icon.sh` updates the publication record's icon blob directly via curl against the PDS.
+
+These four pieces — config head tags, the `.well-known` file, the publish script, and the icon script — must stay in sync with the DID (`did:plc:2lm4lab5fhnj6kaazrxopv37`) and handle (`arkmuntasser.com`) if either changes. The publish script derives its DID dynamically from login, so it can't drift; the other three hardcode it and would need manual updates.
 
 ### CSS conventions
 - Global styles in `.vitepress/theme/style.css` define a cascade layer order: `theme.reset`, then within `theme`: `tokens, elements, components, widgets, utilities` (in that order — later layers win regardless of source order).
