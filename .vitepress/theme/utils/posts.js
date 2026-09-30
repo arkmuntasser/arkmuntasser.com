@@ -9,6 +9,7 @@ export function getBlogPosts() {
       date: mod.__pageData?.frontmatter?.date,
       excerpt: mod.__pageData?.frontmatter?.excerpt || null,
       categories: mod.__pageData?.frontmatter?.category || [],
+      featured: mod.__pageData?.frontmatter?.featured === true,
     };
   });
 

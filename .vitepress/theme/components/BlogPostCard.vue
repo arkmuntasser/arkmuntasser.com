@@ -17,7 +17,12 @@ const date = props.post.date
 </script>
 
 <template>
-    <a :href="post.path" class="blog-post-card">
+    <a
+        :href="post.path"
+        class="blog-post-card"
+        :class="{ 'blog-post-card--featured': post.featured }"
+    >
+        <p v-if="post.featured" class="blog-post-card__label">Featured</p>
         <p class="blog-post-card__title">{{ post.title }}</p>
         <p v-if="post.excerpt" class="blog-post-card__excerpt">
             {{ post.excerpt }}
@@ -73,10 +78,37 @@ const date = props.post.date
     outline: none;
 }
 
+.blog-post-card--featured {
+    --bg: oklch(from var(--brand-color) 98.5% calc(c / 8) h);
+    --border: oklch(from var(--brand-color) 88% calc(c / 2) h);
+
+    border-inline-start: 3px solid var(--brand-color);
+}
+
+.blog-post-card__label {
+    display: inline-block;
+    margin: 0 0 8px;
+    padding: 0 8px;
+    font-size: var(--text-size-9);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--brand-color);
+    background: oklch(from var(--brand-color) 95% calc(c / 3) h);
+    border-radius: var(--radius-rounded);
+}
+
 .blog-post-card__title {
     margin: 0 0 8px;
     font-weight: 700;
     color: var(--text-color);
+}
+
+.blog-post-card--featured .blog-post-card__title {
+    font-family: var(--font-brand);
+    font-size: var(--text-size-5);
+    line-height: 1.2;
+    text-wrap: balance;
 }
 
 .blog-post-card__excerpt {

@@ -22,6 +22,7 @@ const FEEDS = [
     component: markRaw(BlogPostCard),
     getKey: (item) => item.path,
     getProps: (item) => ({ post: item }),
+    isWide: (item) => item.featured,
   },
   {
     id: 'bluesky',
@@ -103,7 +104,7 @@ watch(loading, async (isLoading) => {
       const { default: Masonry } = await import('masonry-layout');
       masonryInstance = new Masonry(feedRef.value, {
         itemSelector: '.channel-content__item',
-        columnWidth: '.channel-content__item',
+        columnWidth: '.channel-content__sizer',
         percentPosition: true,
         gutter: 16,
       });
@@ -141,10 +142,12 @@ onMounted(async () => {
     <p v-if="loading" class="channel-content__status">Loading…</p>
     <p v-else-if="error" class="channel-content__status">Failed to load feed: {{ error }}</p>
     <ul v-else ref="feedRef" class="channel-content__feed">
+      <li class="channel-content__sizer" aria-hidden="true"></li>
       <li
         v-for="entry in feedItems"
         :key="`${entry.feedConfig.id}-${entry.feedConfig.getKey(entry.item)}`"
         class="channel-content__item"
+        :class="{ 'channel-content__item--wide': entry.feedConfig.isWide?.(entry.item) }"
       >
         <component :is="entry.feedConfig.component" v-bind="entry.feedConfig.getProps(entry.item)" />
       </li>
@@ -170,19 +173,36 @@ onMounted(async () => {
 }
 
 .channel-content__item {
-  width: 100%;
   margin-bottom: 1rem;
 }
 
+/* Column width is driven by the sizer (not the first item) so a wide
+   featured item can never become Masonry's column unit. */
+.channel-content__sizer,
+.channel-content__item {
+  width: 100%;
+}
+
 @container (min-width: 640px) {
+  .channel-content__sizer,
   .channel-content__item {
     width: calc(50% - 8px);
+  }
+
+  .channel-content__item--wide {
+    width: 100%;
   }
 }
 
 @container (min-width: 1024px) {
+  .channel-content__sizer,
   .channel-content__item {
     width: calc(33.333% - 11px);
+  }
+
+  /* two columns + one 16px gutter */
+  .channel-content__item--wide {
+    width: calc((100% - 32px) / 3 * 2 + 16px);
   }
 }
 </style>
