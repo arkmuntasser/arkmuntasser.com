@@ -90,7 +90,7 @@
 					letter-spacing: 0.04em;
 					text-transform: uppercase;
 					white-space: nowrap;
-					color: var(--bg-color);
+					color: oklch(from var(--bg-color) l c h / 1);
 					background: var(--text-color);
 					border-radius: var(--radius-rounded);
 					opacity: 0;
