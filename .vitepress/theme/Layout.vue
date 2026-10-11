@@ -145,6 +145,7 @@ onUnmounted(() => {
     </div>
     <!-- Blog Post Page -->
     <div v-else-if="isBlogPost" class="page breakout-container">
+        <div class="reading-progress" aria-hidden="true"></div>
         <SiteHeader class="header" />
         <div class="post-layout">
             <PageHeader

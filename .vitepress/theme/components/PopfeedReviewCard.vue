@@ -197,9 +197,9 @@ function openPopover() {
 
 <style scoped>
 .review-card {
-    --bg: oklch(from var(--bg-color) 100% c h / 1);
-    --border: oklch(from var(--brand-color) 92% calc(c / 2) h);
-    --shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+    --bg: var(--card-bg);
+    --border: var(--card-border);
+    --shadow: var(--card-ring);
     --popfeed: oklch(0.53 0.26 279.22);
 
     display: grid;
@@ -208,9 +208,7 @@ function openPopover() {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     color: var(--text-color);
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-        sans-serif;
+    font-family: var(--font-brand);
     font-size: var(--text-size-8);
     overflow: hidden;
     transition:
@@ -236,14 +234,14 @@ function openPopover() {
     width: 100%;
     height: 100%;
     min-height: 5rem;
-    background: oklch(var(--bg) 99% c h);
+    background: oklch(from var(--bg-color) 95% c h);
 }
 
 .card-body {
-    padding: 12px 16px;
+    padding: var(--space-3) var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
     flex: 1;
     min-width: 0;
 }
@@ -293,7 +291,7 @@ function openPopover() {
     padding: 0;
     margin: 0;
     font-size: var(--text-size-9);
-    color: var(--brand-color);
+    color: var(--brand-ink);
     cursor: pointer;
     font-family: inherit;
     text-decoration: none;
@@ -316,13 +314,14 @@ function openPopover() {
 .card-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     flex-wrap: wrap;
 }
 
 .card-date {
     font-size: var(--text-size-9);
     color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
 }
 
 .type-badge {
@@ -331,8 +330,8 @@ function openPopover() {
     justify-content: center;
     flex-shrink: 0;
     height: 18px;
-    background: oklch(from var(--bg) 98% c h / 0.9);
-    border: 1px solid oklch(from var(--border) l c h / 0.8);
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
     border-radius: var(--radius-rounded);
     padding: 3px;
     box-sizing: border-box;
@@ -380,7 +379,7 @@ function openPopover() {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1rem 2rem 1rem 1rem;
+    padding: var(--space-4) var(--space-6) var(--space-4) var(--space-4);
     box-shadow: 0 8px 24px var(--shadow);
 
     /* Exit state — also the @starting-style base for entry */
@@ -405,9 +404,7 @@ function openPopover() {
 
 .text-popover-body {
     margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-        sans-serif;
+    font-family: var(--font-brand);
     font-size: var(--text-size-9);
     line-height: 1.5;
     color: var(--text-color);

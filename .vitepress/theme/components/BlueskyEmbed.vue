@@ -110,8 +110,8 @@ if (external && !isMediaOnly) {
 <style scoped>
 .bsky-embed {
 	--bg: oklch(from var(--bg-color) 99% c h / 1);
-	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
-	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+	--border: var(--card-border);
+	--shadow: var(--card-ring);
 }
 
 .bsky-embed__images {

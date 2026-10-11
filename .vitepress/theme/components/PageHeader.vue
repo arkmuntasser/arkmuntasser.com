@@ -58,15 +58,21 @@ defineProps({
 				font-weight: 600;
 				text-transform: uppercase;
 				letter-spacing: 0.08em;
-				color: var(--brand-color);
+				color: var(--brand-ink);
 
 				&::marker { content: ""; }
 				&::before { content: "+"; }
 			}
 		}
 
+		/* Shared with the clicked blog card's title during page transitions (see theme/index.js) */
+		.page-header__title {
+			view-transition-name: post-title;
+		}
+
 		.page-header__excerpt {
 			font-size: var(--text-size-6);
+			font-weight: 300;
 		}
 
 		.page-header__meta {
@@ -75,22 +81,33 @@ defineProps({
 			align-items: baseline;
 			font-size: var(--text-size-8);
 			color: var(--text-muted);
+			font-variant-numeric: tabular-nums;
 		}
 
 		.page-header__changelog-link {
 			display: flex;
 			align-items: baseline;
 			gap: 0.3em;
-			color: var(--brand-color);
+			color: var(--brand-ink);
 			background: none;
 			text-decoration-color: color-mix(in oklch, var(--brand-color), transparent 60%);
-			transition: color 0.15s, text-decoration-color 0.15s;
+			transition:
+				color var(--duration-fast) var(--ease-out),
+				text-decoration-color var(--duration-fast) var(--ease-out);
 
 			svg {
 				flex-shrink: 0;
 				fill: currentColor;
 				align-self: center;
 				width: 1.5em;
+
+				@media (prefers-reduced-motion: no-preference) {
+					transition: rotate var(--duration-slow) var(--ease-spring);
+				}
+			}
+
+			&:hover svg {
+				rotate: -45deg;
 			}
 		}
 	}

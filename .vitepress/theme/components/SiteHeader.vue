@@ -82,9 +82,18 @@ const sortedPages = [
             color: inherit;
 
             & b {
+                display: inline-block;
                 color: var(--brand-color);
                 font-size: 1.3em;
                 opacity: 0.8;
+
+                @media (prefers-reduced-motion: no-preference) {
+                    transition: rotate var(--duration-slow) var(--ease-spring);
+                }
+            }
+
+            &:hover b {
+                rotate: -14deg;
             }
         }
 
@@ -108,17 +117,17 @@ const sortedPages = [
             padding-inline: 0.875rem;
             text-decoration: none;
             transition:
-                background 0.15s,
-                color 0.15s;
+                background var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out);
             white-space: nowrap;
 
             &:hover {
                 background: oklch(from var(--bg-color) 95% c h);
-                color: var(--brand-color);
+                color: var(--brand-ink);
             }
 
             &.active {
-                color: var(--brand-color);
+                color: var(--brand-ink);
                 background: oklch(from var(--brand-color) 99% 0.1 h);
             }
         }

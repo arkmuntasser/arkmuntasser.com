@@ -37,20 +37,23 @@ const date = new Date(props.post.record.createdAt).toLocaleString('en-US', {
 
 <style scoped>
 .bsky-post {
-	--bg: oklch(from var(--bg-color) 100% c h / 1);
-	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
-	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+	--bg: var(--card-bg);
+	--border: var(--card-border);
+	--shadow: var(--card-ring);
 
   display: block;
-  padding: 1rem;
+  padding: var(--space-4);
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text-color);
   text-decoration: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--font-brand);
   font-size: var(--text-size-8);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    translate var(--duration-fast) var(--ease-out);
 }
 
 .bsky-post:hover,
@@ -58,11 +61,16 @@ const date = new Date(props.post.record.createdAt).toLocaleString('en-US', {
   border-color: var(--brand-color);
   box-shadow: 0 0 0 3px var(--shadow);
   text-decoration: none;
-  outline: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bsky-post:hover {
+    translate: 0 -2px;
+  }
 }
 
 .bsky-post__text {
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-3);
   color: var(--text-color);
   white-space: pre-wrap;
   word-break: break-word;
@@ -72,11 +80,12 @@ const date = new Date(props.post.record.createdAt).toLocaleString('en-US', {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 
 .bsky-post__date {
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
   font-size: var(--text-size-9);
 }
 

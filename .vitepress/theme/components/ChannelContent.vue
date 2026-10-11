@@ -183,6 +183,24 @@ onMounted(async () => {
   width: 100%;
 }
 
+/* Cards rise into place as they scroll into view (scroll-driven; no JS, never blocks content) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .channel-content__item > * {
+      animation: channel-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+@keyframes channel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem); /* transform, not translate: cards use translate for their hover lift */
+  }
+}
+
 @container (min-width: 640px) {
   .channel-content__sizer,
   .channel-content__item {

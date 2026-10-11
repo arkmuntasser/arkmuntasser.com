@@ -139,13 +139,12 @@ h2 {
   font-family: var(--font-brand);
   font-size: var(--text-size-7);
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background var(--duration-fast) var(--ease-out);
 }
 
 .cta__link:hover,
 .cta__link:focus-visible {
   background: var(--text-color);
-  outline: none;
 }
 
 .pagination {
@@ -165,13 +164,12 @@ h2 {
   font-family: var(--font-brand);
   font-size: var(--text-size-7);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background var(--duration-fast) var(--ease-out);
 }
 
 .pagination__btn:hover:not(:disabled),
 .pagination__btn:focus-visible:not(:disabled) {
   background: var(--text-color);
-  outline: none;
 }
 
 .pagination__btn:disabled {
@@ -180,6 +178,7 @@ h2 {
 }
 
 .pagination__counter {
+  font-variant-numeric: tabular-nums;
   font-family: var(--font-brand);
   font-size: var(--text-size-7);
   color: inherit;

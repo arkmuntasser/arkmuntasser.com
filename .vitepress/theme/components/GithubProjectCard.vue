@@ -84,26 +84,36 @@ function formatPushedAt(iso) {
 
 <style scoped>
 .project-card {
-	--bg: oklch(from var(--bg-color) 100% c h / 1);
-	--border: oklch(from var(--brand-color) 92% calc(c / 2) h);
-	--shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
+	--bg: var(--card-bg);
+	--border: var(--card-border);
+	--shadow: var(--card-ring);
 
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 1rem;
+  padding: var(--space-4);
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text-color);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--font-brand);
   font-size: var(--text-size-8);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    translate var(--duration-fast) var(--ease-out);
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
   border-color: var(--brand-color);
   box-shadow: 0 0 0 3px var(--shadow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-card:hover {
+    translate: 0 -2px;
+  }
 }
 
 .project-card__body {
@@ -113,7 +123,7 @@ function formatPushedAt(iso) {
 
 .project-card__name {
   display: block;
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2);
   font-weight: 700;
 	color: var(--text-color);
   text-decoration: none;
@@ -127,7 +137,7 @@ function formatPushedAt(iso) {
 }
 
 .project-card__description {
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-3);
   color: var(--text-color);
   font-size: var(--text-size-9);
   line-height: 1.4;
@@ -142,31 +152,31 @@ function formatPushedAt(iso) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
-  gap: 8px;
+  margin-top: var(--space-3);
+  gap: var(--space-2);
 }
 
 .project-card__meta {
   display: grid;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
 .project-card__topics, .project-card__deets {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 4px;
+	gap: var(--space-1);
 }
 
 .project-card__deets {
-	gap: 16px;
+	gap: var(--space-4);
 }
 
 .project-card__language {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   font-size: var(--text-size-9);
   color: var(--text-muted);
   white-space: nowrap;
@@ -182,15 +192,16 @@ function formatPushedAt(iso) {
 .project-card__pushed {
   font-size: var(--text-size-9);
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .project-card__pill {
   font-size: var(--text-size-9);
   color: var(--text-muted);
-  background: oklch(from var(--bg) 98% c h / 0.9);
-  border: 1px solid oklch(from var(--border) l c h / 0.8);
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
   border-radius: var(--radius-rounded);
-  padding: 0 6px;
+  padding: 0 0.375rem;
   white-space: nowrap;
 }
 

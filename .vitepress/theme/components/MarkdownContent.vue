@@ -42,20 +42,110 @@
 				pointer-events: none;
 				translate: -50% -25%;
 				opacity: 0.8;
+
+				@media (prefers-reduced-motion: no-preference) {
+					transition: rotate var(--duration-slow) var(--ease-spring);
+				}
+			}
+
+			&:hover::before {
+				rotate: 90deg;
+			}
+
+			/* Copy-link anchor (VitePress renders an empty .header-anchor in every heading) */
+			& > .header-anchor {
+				position: absolute;
+				inset-inline-end: 0;
+				inset-block-start: 50%;
+				translate: 0 -50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 1.75rem;
+				height: 1.75rem;
+				font-size: var(--text-size-7);
+				font-weight: 500;
+				line-height: 1;
+				color: var(--text-muted);
+				text-decoration: none;
+				border-radius: var(--radius-sm);
+				opacity: 0;
+				transition:
+					opacity var(--duration-fast) var(--ease-out),
+					color var(--duration-fast) var(--ease-out),
+					background-color var(--duration-fast) var(--ease-out);
+
+				&::before {
+					content: '#';
+				}
+
+				&::after {
+					content: 'Copied';
+					position: absolute;
+					inset-block-end: calc(100% + var(--space-1));
+					inset-inline-end: 0;
+					padding: var(--space-1) var(--space-2);
+					font-size: var(--text-size-9);
+					font-weight: 600;
+					letter-spacing: 0.04em;
+					text-transform: uppercase;
+					white-space: nowrap;
+					color: var(--bg-color);
+					background: var(--text-color);
+					border-radius: var(--radius-rounded);
+					opacity: 0;
+					translate: 0 4px;
+					pointer-events: none;
+					transition:
+						opacity var(--duration-fast) var(--ease-out),
+						translate var(--duration-fast) var(--ease-out);
+				}
+
+				&:hover {
+					color: var(--brand-ink);
+					background-color: oklch(from var(--brand-color) 95% calc(c / 3) h);
+				}
+
+				&[data-copied]::after {
+					opacity: 1;
+					translate: 0 0;
+				}
+			}
+
+			&:hover > .header-anchor,
+			& > .header-anchor:focus-visible,
+			& > .header-anchor[data-copied] {
+				opacity: 1;
+			}
+
+			@media (hover: none) {
+				& > .header-anchor {
+					opacity: 0.6;
+				}
+			}
+
+			&:has(> .header-anchor) {
+				padding-inline-end: 2.25rem;
 			}
 		}
 
 		/* Headings */
 		:where(h1) {
 			font-size: var(--text-size-1);
+			line-height: 1.1;
+			letter-spacing: -0.02em;
 		}
 
 		:where(h2) {
 			font-size: var(--text-size-2);
+			line-height: 1.1;
+			letter-spacing: -0.02em;
 		}
 
 		:where(h3) {
 			font-size: var(--text-size-3);
+			line-height: 1.15;
+			letter-spacing: -0.01em;
 		}
 
 		:where(h4) {
@@ -91,10 +181,19 @@
 			&[target="_blank"] {
 				&::after {
 					content: '↗';
+					display: inline-block;
 					font-size: 0.75em;
 					color: var(--brand-color);
 					margin-left: 0.125em;
 					text-decoration: none;
+
+					@media (prefers-reduced-motion: no-preference) {
+						transition: translate var(--duration-fast) var(--ease-spring);
+					}
+				}
+
+				&:hover::after {
+					translate: 0.15em -0.15em;
 				}
 			}
 		}

@@ -46,10 +46,19 @@ const year = new Date().getFullYear();
 			&[target="_blank"] {
 				&::after {
 					content: '↗';
+					display: inline-block;
 					font-size: 0.75em;
 					color: var(--brand-color);
 					margin-left: 0.125em;
 					text-decoration: none;
+
+					@media (prefers-reduced-motion: no-preference) {
+						transition: translate var(--duration-fast) var(--ease-spring);
+					}
+				}
+
+				&:hover::after {
+					translate: 0.15em -0.15em;
 				}
 			}
 		}

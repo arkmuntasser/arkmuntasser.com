@@ -42,6 +42,7 @@ import SocialLinks from './SocialLinks.vue';
 	}
 
 	& > p.lede {
+		font-weight: 300;
 		font-size: 1.5rem;
 		font-style: italic;
 		line-height: 1.5;

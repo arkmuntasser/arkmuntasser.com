@@ -7,7 +7,27 @@ const route = useRoute();
 const headers = ref([]);
 const activeSlug = ref('');
 const isDesktop = ref(false);
-const mobileOpen = ref(false);
+// Open by default on mobile too: the outline is useful up front, and it can still be collapsed.
+const mobileOpen = ref(true);
+const listRef = ref(null);
+const indicatorStyle = ref({ opacity: 0 });
+
+// Slide a single marker to the active link instead of swapping borders.
+async function moveIndicator() {
+	await nextTick();
+	const link = listRef.value?.querySelector('.toc__item--active > .toc__link');
+	if (!link) {
+		indicatorStyle.value = { opacity: 0 };
+		return;
+	}
+	indicatorStyle.value = {
+		opacity: 1,
+		height: `${link.offsetHeight}px`,
+		transform: `translateY(${link.offsetTop}px)`,
+	};
+}
+
+watch(activeSlug, moveIndicator);
 const isOpen = computed(() => isDesktop.value || mobileOpen.value);
 
 let rafId;
@@ -45,6 +65,7 @@ function collectHeaders() {
 	}));
 	activeSlug.value = '';
 	updateActive();
+	moveIndicator();
 }
 
 function onScroll() {
@@ -63,7 +84,7 @@ onMounted(() => {
 
 	mq = window.matchMedia('(min-width: 901px)');
 	isDesktop.value = mq.matches;
-	mqListener = e => { isDesktop.value = e.matches; };
+	mqListener = e => { isDesktop.value = e.matches; moveIndicator(); };
 	mq.addEventListener('change', mqListener);
 });
 
@@ -80,7 +101,8 @@ onUnmounted(() => {
 			<summary class="toc__toggle" @click.prevent="toggle">Table of Contents</summary>
 			<nav class="toc__nav" aria-label="Table of contents">
 				<p class="toc__label">Table of Contents</p>
-				<ul class="toc__list">
+				<ul ref="listRef" class="toc__list">
+					<li class="toc__indicator" aria-hidden="true" :style="indicatorStyle"></li>
 					<li class="toc__item" :class="{ 'toc__item--active': activeSlug === '' }">
 						<a href="#" class="toc__link">Introduction</a>
 					</li>
@@ -154,9 +176,14 @@ onUnmounted(() => {
 		}
 
 		.toc__list {
+			position: relative;
 			list-style: none;
 			margin: 0;
 			padding: 0;
+		}
+
+		.toc__indicator {
+			display: none;
 		}
 
 		.toc__link {
@@ -176,7 +203,7 @@ onUnmounted(() => {
 		}
 
 		.toc__item--active > .toc__link {
-			color: var(--brand-color);
+			color: var(--brand-ink);
 			font-weight: 700;
 		}
 
@@ -222,9 +249,25 @@ onUnmounted(() => {
 				padding-inline-start: 1.5rem;
 			}
 
+			.toc__indicator {
+				display: block;
+				position: absolute;
+				inset-block-start: 0;
+				inset-inline-start: 0;
+				width: 2px;
+				background: var(--brand-color);
+				pointer-events: none;
+
+				@media (prefers-reduced-motion: no-preference) {
+					transition:
+						transform var(--duration-slow) var(--ease-out),
+						height var(--duration-slow) var(--ease-out),
+						opacity var(--duration-fast) var(--ease-out);
+				}
+			}
+
 			.toc__item--active > .toc__link {
-				color: var(--brand-color);
-				border-left-color: var(--brand-color);
+				color: var(--brand-ink);
 			}
 		}
 	}

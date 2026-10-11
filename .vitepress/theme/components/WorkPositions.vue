@@ -40,7 +40,7 @@ onMounted(async () => {
     <p v-if="loading">Loading positions…</p>
     <p v-else-if="error">Failed to load positions: {{ error }}</p>
     <ol v-else class="timeline">
-      <li v-for="position in positions" :key="`${position.company}-${position.startedAt}`" class="timeline-item">
+      <li v-for="position in positions" :key="`${position.company}-${position.startedAt}`" class="timeline-item" :class="{ 'timeline-item--current': !position.endedAt }">
         <p class="timeline-item__dates">
           <time :datetime="position.startedAt">{{ formatYear(position.startedAt) }}</time>
           <span aria-hidden="true">—</span>
@@ -88,6 +88,18 @@ onMounted(async () => {
 			}
 		}
 
+		/* The current role's dot sends out two soft rings when it appears, then rests */
+		@media (prefers-reduced-motion: no-preference) {
+			.timeline-item--current::before {
+				animation: timeline-ping 1.6s var(--ease-out) 0.4s 2;
+			}
+		}
+
+		@keyframes timeline-ping {
+			0% { box-shadow: 0 0 0 0 oklch(from var(--brand-color) l c h / 0.45); }
+			100% { box-shadow: 0 0 0 10px oklch(from var(--brand-color) l c h / 0); }
+		}
+
 
 		.timeline-item__dates {
 			display: flex;
@@ -95,6 +107,7 @@ onMounted(async () => {
 			font-size: var(--text-size-8);
 			font-weight: 500;
 			letter-spacing: 0.02em;
+			font-variant-numeric: tabular-nums;
 			color: var(--text-muted);
 			margin: 0;
 			margin-block-end: 0.25rem;
