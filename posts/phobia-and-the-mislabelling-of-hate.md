@@ -8,6 +8,7 @@ category:
   - racism
   - islamophobia
 featured: false
+tone: somber
 weeknotes: false
 updated: "2026-05-19"
 changelog:
