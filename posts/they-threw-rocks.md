@@ -10,6 +10,7 @@ category:
   - palestine
   - poem
 featured: false
+tone: somber
 weeknotes: false
 ---
 
