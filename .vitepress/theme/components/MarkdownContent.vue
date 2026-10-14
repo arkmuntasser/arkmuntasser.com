@@ -32,15 +32,23 @@
 			position: relative;
 
 			&::before {
-				content: '⁕' "";
-				color: var(--brand-color);
+				/* ⁕ ornament drawn as an SVG mask on a square box rather than as text, so the shape
+				   is exactly centered in its box and rotates in place regardless of font metrics.
+				   Size/offset are rounded to whole pixels (even width, so the center lands on a pixel)
+				   to stop the at-rest pixel snapping from shifting it relative to the rotated state. */
+				content: '';
+				width: round(0.742em, 2px);
+				aspect-ratio: 1;
+				background-color: var(--brand-color);
+				mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cg id='b'%3E%3Crect x='-50' y='-8.6' width='100' height='17.2'/%3E%3C/g%3E%3Cuse href='%23b' transform='rotate(45)'/%3E%3Cuse href='%23b' transform='rotate(90)'/%3E%3Cuse href='%23b' transform='rotate(135)'/%3E%3C/svg%3E") center / contain no-repeat;
 
 				position: absolute;
 				inset-inline-start: 0;
-				inset-block-start: 0;
+				inset-block-start: round(calc(0.25lh + 0.115em), 1px);
 				z-index: -1;
 				pointer-events: none;
-				translate: -50% -25%;
+				translate: -50% -50%;
+				transform-origin: center;
 				opacity: 0.8;
 
 				@media (prefers-reduced-motion: no-preference) {
