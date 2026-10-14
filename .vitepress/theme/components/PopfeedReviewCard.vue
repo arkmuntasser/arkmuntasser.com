@@ -1,42 +1,10 @@
 <script setup>
-import { ref, onMounted } from "vue";
-
 const props = defineProps({
     review: {
         type: Object,
         required: true,
     },
 });
-
-const MOVIE_ICON =
-    "https://popfeed.social/assets/assets/mediaIcons/movie.e20dfcc0ad79de61ebd5a588dc8e6207.png";
-const TV_ICON =
-    "https://popfeed.social/assets/assets/mediaIcons/tv.28de12e7da66d4f722cf9de72c71387b.png";
-const BOOK_ICON =
-    "https://popfeed.social/assets/assets/mediaIcons/books.aad6a5bd03f4430d1a68d797b1dbd46b.png";
-const MUSIC_ICON =
-    "https://popfeed.social/assets/assets/mediaIcons/cd.37c5713c392926bd403799e0df86f48a.png";
-const GAME_ICON =
-    "https://popfeed.social/assets/assets/mediaIcons/joystick.fe2e21264e31dd785707a779c118e20a.png";
-
-const TYPE_ICONS = {
-    movie: MOVIE_ICON,
-    film: MOVIE_ICON,
-    tv: TV_ICON,
-    tvshow: TV_ICON,
-    show: TV_ICON,
-    series: TV_ICON,
-    anime: TV_ICON,
-    book: BOOK_ICON,
-    comic: BOOK_ICON,
-    comicbook: BOOK_ICON,
-    manga: BOOK_ICON,
-    album: MUSIC_ICON,
-    music: MUSIC_ICON,
-    podcast: MUSIC_ICON,
-    game: GAME_ICON,
-    videogame: GAME_ICON,
-};
 
 const TYPE_LABELS = {
     movie: "Film",
@@ -57,383 +25,324 @@ const TYPE_LABELS = {
     videogame: "Game",
 };
 
-function typeIcon(type) {
-    if (!type) return MOVIE_ICON;
-    return TYPE_ICONS[type.toLowerCase().replace(/[\s_-]/g, "")] ?? MOVIE_ICON;
-}
+const value = props.review.value;
 
-function formatDate(iso) {
-    if (!iso) return null;
-    return new Date(iso).toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        timeZone: "UTC",
-    });
-}
+const url = `https://popfeed.social/review/${props.review.uri}`;
 
-function stars(rating) {
-    const v = rating / 2;
-    return { full: Math.floor(v), half: v % 1 >= 0.5 };
-}
+const typeLabel =
+    TYPE_LABELS[value.creativeWorkType?.toLowerCase().replace(/[\s_-]/g, "")] ||
+    "Media";
 
-const textEl = ref(null);
-const popoverEl = ref(null);
-const isTruncated = ref(false);
-const uid = Math.random().toString(36).slice(2, 8);
-const popoverId = `rp-${uid}`;
-const anchorName = `--ra-${uid}`;
+const hasRating = typeof value.rating === "number";
 
-onMounted(() => {
-    if (textEl.value) {
-        isTruncated.value =
-            textEl.value.scrollHeight > textEl.value.clientHeight;
-    }
-});
+const parsedDate = value.createdAt ? new Date(value.createdAt) : null;
 
-function openPopover() {
-    popoverEl.value?.showPopover();
-}
+const date = parsedDate
+    ? parsedDate.toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          timeZone: "UTC",
+      })
+    : null;
+
+const stamp = parsedDate
+    ? [
+          parsedDate.getUTCFullYear(),
+          String(parsedDate.getUTCMonth() + 1).padStart(2, "0"),
+          String(parsedDate.getUTCDate()).padStart(2, "0"),
+      ].join(".")
+    : null;
 </script>
 
 <template>
-    <div class="review-card">
-        <div class="poster-wrap">
+    <a
+        :href="url"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="review-card"
+    >
+        <div class="review-card__kicker">
+            <span class="review-card__source"
+                ><span aria-hidden="true">↗ </span>popfeed.social</span
+            >
+            <span class="review-card__type">{{ typeLabel }}</span>
+            <time
+                v-if="date"
+                class="review-card__date"
+                :datetime="value.createdAt"
+                ><span aria-hidden="true">{{ stamp }}</span
+                ><span class="sr-only">{{ date }}</span></time
+            >
+        </div>
+        <div class="review-card__top">
             <img
-                v-if="review.value.posterUrl"
-                :src="review.value.posterUrl"
-                :alt="review.value.title"
-                class="poster"
+                v-if="value.posterUrl"
+                :src="value.posterUrl"
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="review-card__cover"
             />
-            <div v-else class="poster-placeholder" />
-        </div>
-        <div class="card-body">
-            <p class="title">{{ review.value.title }}</p>
-            <div
-                class="rating"
-                :aria-label="`${review.value.rating} out of 10`"
-            >
-                <span
-                    v-for="i in stars(review.value.rating).full"
-                    :key="i"
-                    class="star"
-                    >★</span
-                >
-                <span v-if="stars(review.value.rating).half" class="star half"
-                    >½</span
-                >
+            <span v-else class="review-card__cover" aria-hidden="true"></span>
+            <div class="review-card__board">
+                <span class="review-card__dots" aria-hidden="true"></span>
+                <p v-if="hasRating" class="review-card__score">
+                    <b aria-hidden="true">{{ value.rating }}</b
+                    ><small aria-hidden="true">/10</small
+                    ><span class="sr-only"
+                        >Rated {{ value.rating }} out of 10</span
+                    >
+                </p>
+                <p v-if="value.mainCredit" class="review-card__credit">
+                    <span>{{ value.mainCredit }}</span>
+                    <span v-if="value.mainCreditRole">{{
+                        value.mainCreditRole
+                    }}</span>
+                </p>
             </div>
-            <p
-                ref="textEl"
-                class="text"
-                :class="{ 'text--expandable': isTruncated }"
-                :style="isTruncated ? `anchor-name: ${anchorName}` : undefined"
-                @click="openPopover"
-            >
-                {{ review.value.text }}
-            </p>
-            <button
-                v-if="isTruncated"
-                class="read-more"
-                :popovertarget="popoverId"
-            >
-                read more
-            </button>
-            <footer class="card-footer">
-                <div class="card-meta">
-                    <time
-                        v-if="review.value.createdAt"
-                        class="card-date"
-                        :datetime="review.value.createdAt"
-                        >{{ formatDate(review.value.createdAt) }}</time
-                    >
-                    <div
-                        class="type-badge"
-                        :aria-label="review.value.creativeWorkType ?? 'media'"
-                    >
-                        <img
-                            :src="typeIcon(review.value.creativeWorkType)"
-                            alt=""
-                            class="type-icon"
-                        />
-                        <span>{{
-                            TYPE_LABELS[
-                                review.value.creativeWorkType
-                                    ?.toLowerCase()
-                                    .replace(/[\s_-]/g, "")
-                            ] || "Media"
-                        }}</span>
-                    </div>
-                </div>
-                <div class="popfeed-logo" aria-hidden="true">
-                    <img
-                        src="https://popfeed.social/brand-icons/popfeed.png"
-                        alt=""
-                        class="popfeed-icon"
-                    />
-                </div>
-            </footer>
         </div>
-        <div
-            v-if="isTruncated"
-            :id="popoverId"
-            ref="popoverEl"
-            popover
-            class="text-popover"
-            :style="`position-anchor: ${anchorName}`"
+        <div class="review-card__body">
+            <p class="review-card__title">{{ value.title }}</p>
+            <p v-if="value.text" class="review-card__text">{{ value.text }}</p>
+        </div>
+        <span class="review-card__bar" aria-hidden="true"
+            >read on popfeed <span class="review-card__arrow">↗</span></span
         >
-            <p class="text-popover-body">{{ review.value.text }}</p>
-            <button
-                class="text-popover-close"
-                :popovertarget="popoverId"
-                popovertargetaction="hide"
-                aria-label="Close"
-            >
-                ✕
-            </button>
-        </div>
-    </div>
+        <span class="sr-only">(opens on Popfeed in a new tab)</span>
+    </a>
 </template>
 
 <style scoped>
-.review-card {
-    --bg: oklch(from var(--bg-color) 100% c h / 1);
-    --border: oklch(from var(--brand-color) 92% calc(c / 2) h);
-    --shadow: oklch(from var(--brand-color) 53.994% 0.19066 h / 0.1);
-    --popfeed: oklch(0.53 0.26 279.22);
+@layer theme.components {
+    .review-card {
+        --ink: oklch(from var(--brand-color) 20% 0.03 h);
+        --ink-muted: oklch(from var(--brand-color) 45% 0.04 h);
+        --brand-ink: oklch(from var(--brand-color) 52% 0.22 h);
+        --accent: oklch(0.53 0.26 279.22);
+        --accent-soft: oklch(from var(--accent) 94% 0.05 h);
+        --accent-light: oklch(from var(--accent) 80% 0.1 h);
+        --dots: oklch(from var(--accent) l c h / 0.3);
+        --shadow: oklch(from var(--accent) l c h / 0.35);
+        --surface: oklch(from var(--bg-color) 100% c h / 1);
+        --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    display: grid;
-    grid-template-columns: 111px 1fr;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text-color);
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-        sans-serif;
-    font-size: var(--text-size-8);
-    overflow: hidden;
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-.poster-wrap {
-    width: 111px;
-    aspect-ratio: 37 / 54;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-.poster {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.poster-placeholder {
-    width: 100%;
-    height: 100%;
-    min-height: 5rem;
-    background: oklch(var(--bg) 99% c h);
-}
-
-.card-body {
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-    min-width: 0;
-}
-
-.title {
-    margin: 0;
-    font-weight: 700;
-    color: var(--text-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.rating {
-    display: flex;
-    gap: 0.05em;
-    font-size: 0.75rem;
-}
-
-.star {
-    color: var(--brand-color);
-}
-
-.star.half {
-    font-style: normal;
-}
-
-.text {
-    margin: 0;
-    color: var(--text-color);
-    font-size: var(--text-size-9);
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-clamp: 2;
-    overflow: hidden;
-}
-
-.text--expandable {
-    cursor: pointer;
-}
-
-.read-more {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-size: var(--text-size-9);
-    color: var(--brand-color);
-    cursor: pointer;
-    font-family: inherit;
-    text-decoration: none;
-    text-underline-offset: 2px;
-    text-align: left;
-    line-height: 1;
-}
-
-.read-more:hover {
-    text-decoration: underline;
-}
-
-.card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
-}
-
-.card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.card-date {
-    font-size: var(--text-size-9);
-    color: var(--text-muted);
-}
-
-.type-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    height: 18px;
-    background: oklch(from var(--bg) 98% c h / 0.9);
-    border: 1px solid oklch(from var(--border) l c h / 0.8);
-    border-radius: var(--radius-rounded);
-    padding: 3px;
-    box-sizing: border-box;
-    gap: 2px;
-    white-space: nowrap;
-    font-size: var(--text-size-9);
-}
-
-.type-icon {
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.popfeed-logo {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    background-color: oklch(0.53 0.26 279.22);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 2px;
-    box-sizing: border-box;
-}
-
-.popfeed-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-/* Popover */
-
-.text-popover {
-    position: fixed;
-    inset: unset;
-    margin: 0;
-    top: anchor(top);
-    left: anchor(left);
-    width: anchor-size(width);
-
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem 2rem 1rem 1rem;
-    box-shadow: 0 8px 24px var(--shadow);
-
-    /* Exit state — also the @starting-style base for entry */
-    opacity: 0;
-    transform-origin: top center;
-
-    transition:
-        opacity 0.2s ease,
-        overlay 0.2s ease allow-discrete;
-}
-
-.text-popover:popover-open {
-    opacity: 1;
-}
-
-@starting-style {
-    .text-popover:popover-open {
-        opacity: 0;
-        transform: scaleY(0.4);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        height: 100%;
+        box-sizing: border-box;
+        background: var(--surface);
+        border: 1px solid var(--ink);
+        color: var(--ink);
+        text-decoration: none;
+        font-family: var(--font-brand);
+        font-size: var(--text-size-8);
+        line-height: 1.6;
+        font-weight: 350;
+        transition: rotate 300ms var(--ease-spring);
     }
-}
 
-.text-popover-body {
-    margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-        sans-serif;
-    font-size: var(--text-size-9);
-    line-height: 1.5;
-    color: var(--text-color);
-}
+    .review-card:focus-visible {
+        outline: 2px solid var(--brand-ink);
+        outline-offset: 2px;
+    }
 
-.text-popover-close {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-    background: none;
-    border: none;
-    width: 1.375rem;
-    height: 1.375rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: var(--text-size-9);
-    color: var(--text-muted);
-    border-radius: calc(var(--radius) / 2);
-    padding: 0;
-    line-height: 1;
-}
+    /* Top strip: source tab, media type, date */
+    .review-card__kicker {
+        display: flex;
+        align-items: stretch;
+        background: var(--surface);
+        border-block-end: 1px solid var(--ink);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.6875rem;
+        font-weight: 500;
+    }
 
-.text-popover-close:hover {
-    background: oklch(from var(--bg-color) 99% c h / 1);
-    color: var(--text-color);
+    .review-card__kicker > * {
+        padding: 0.375rem 0.75rem;
+    }
+
+    .review-card__source {
+        background: var(--ink);
+        color: var(--surface);
+        font-weight: 700;
+    }
+
+    .review-card__type {
+        background: var(--accent-soft);
+    }
+
+    .review-card__date {
+        margin-inline-start: auto;
+        color: var(--ink-muted);
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Cover + scoreboard */
+    .review-card__top {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 1rem 0;
+    }
+
+    .review-card__cover {
+        flex: 0 0 7.5rem;
+        width: 7.5rem;
+        aspect-ratio: 37 / 54;
+        object-fit: cover;
+        display: block;
+        box-sizing: border-box;
+        background: var(--accent-soft);
+        border: 1px solid var(--ink);
+        box-shadow: 4px 4px 0 var(--shadow);
+        transition:
+            translate 300ms var(--ease-spring),
+            box-shadow 300ms var(--ease-out);
+    }
+
+    .review-card__board {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 0.375rem;
+        padding-block-end: 0.25rem;
+    }
+
+    .review-card__dots {
+        position: absolute;
+        z-index: -1;
+        inset-inline-end: -2.875rem;
+        inset-block-start: -1.625rem;
+        width: 8.75rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--dots) 30%, transparent 32%)
+            0 0 / 0.5rem 0.5rem;
+        transition: background-size 300ms var(--ease-spring);
+    }
+
+    .review-card__score {
+        display: flex;
+        align-items: baseline;
+        margin: 0 0 auto;
+        padding-block-start: 0.25rem;
+        line-height: 0.85;
+        color: var(--accent);
+    }
+
+    .review-card__score b {
+        font-size: 4.5rem;
+        font-weight: 900;
+        letter-spacing: -0.06em;
+        transition: text-shadow 300ms var(--ease-spring);
+    }
+
+    .review-card__score small {
+        margin-inline-start: 0.125rem;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--ink);
+    }
+
+    .review-card__credit {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.6875rem;
+        line-height: 1.5;
+        color: var(--ink-muted);
+        word-break: break-word;
+    }
+
+    .review-card__body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.875rem 1rem 1.125rem;
+    }
+
+    .review-card__title {
+        margin: 0;
+        font-size: var(--text-size-6);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+        text-wrap: balance;
+    }
+
+    .review-card__text {
+        margin: 0;
+        font-weight: 300;
+        line-height: 1.45;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .review-card__bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.375rem;
+        height: 1.375rem;
+        padding: 0 0.75rem;
+        background: var(--ink);
+        color: var(--surface);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        transition: height 300ms var(--ease-out);
+    }
+
+    .review-card__arrow {
+        display: inline-block;
+        color: var(--accent-light);
+        transition: translate 300ms var(--ease-spring);
+    }
+
+    /* Hover & focus */
+    .review-card:is(:hover, :focus-visible) .review-card__dots {
+        background-size: 0.625rem 0.625rem;
+    }
+
+    .review-card:is(:hover, :focus-visible) .review-card__score b {
+        text-shadow: 3px 3px 0 oklch(from var(--ink) l c h / 0.18);
+    }
+
+    .review-card:is(:hover, :focus-visible) .review-card__title {
+        text-decoration: underline 2px var(--accent);
+        text-underline-offset: 0.12em;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .review-card:hover {
+            rotate: 0.6deg;
+        }
+
+        .review-card:is(:hover, :focus-visible) .review-card__bar {
+            height: 1.75rem;
+        }
+
+        .review-card:is(:hover, :focus-visible) .review-card__arrow {
+            translate: 0.1875rem -0.1875rem;
+        }
+
+        .review-card:is(:hover, :focus-visible) .review-card__cover {
+            translate: -2px -4px;
+            box-shadow: 6px 8px 0 var(--shadow);
+        }
+    }
 }
 </style>
