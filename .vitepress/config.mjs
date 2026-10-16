@@ -99,6 +99,10 @@ export default defineConfig({
   description: "I like building things on the web and I'm a big CSS nerd and love to geek out with others about it.",
   cleanUrls: true,
   ignoreDeadLinks: true,
+  themeConfig: {
+    siteUrl,
+    atPublication: `at://${atDid}/site.standard.publication/self`,
+  },
 	head: [
 		[
       'link',
