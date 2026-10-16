@@ -14,7 +14,7 @@ const isCurrent = (path) =>
 
 const elsewhere = [
     { label: "GitHub", href: "https://github.com/arkmuntasser", color: "#31d0fa" },
-    { label: "Bluesky", href: "https://bsky.app/profile/arkm.dev", color: "#0085ff" },
+    { label: "Bluesky", href: "https://bsky.app/profile/arkmuntasser.com", color: "#0085ff" },
     { label: "Popfeed", href: "https://popfeed.social/profile/arkmuntasser.com", color: "oklch(0.53 0.26 279.22)" },
 ];
 
