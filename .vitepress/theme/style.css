@@ -29,12 +29,19 @@
 
 	@layer elements {
 		html {
+			/* The site is light-only. The normalize reset switches to color-scheme: dark
+			   for dark-mode users, and some browsers/webviews paint a dark canvas
+			   regardless; either way our translucent --bg-color would read as grey.
+			   Opt out of dark, and lay the blush over solid white (see background below). */
+			color-scheme: light;
 			font-family: var(--font-brand, "Outfit", system-ui, sans-serif);
 			font-weight: 300;
 			font-size: var(--text-size-7, 1rem);
 			line-height: 1.6;
 			color: var(--text-color, #342e28);
-			background-color: var(--bg-color, whitesmoke);
+			background-color: #fff;
+			background-image: linear-gradient(var(--bg-color, whitesmoke), var(--bg-color, whitesmoke));
+			background-repeat: repeat;
 		}
 	}
 
