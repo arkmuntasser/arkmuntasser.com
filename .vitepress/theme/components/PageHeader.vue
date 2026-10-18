@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
 	title: String,
 	excerpt: String,
 	category: Array,
@@ -7,6 +9,20 @@ defineProps({
 	updated: String,
 	changelog: Array
 });
+
+const stamp = (value) => {
+	const d = new Date(value);
+	const pad = (n) => String(n).padStart(2, '0');
+	return `${d.getUTCFullYear()}.${pad(d.getUTCMonth() + 1)}.${pad(d.getUTCDate())}`;
+};
+
+const longDate = (value) =>
+	new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+const dates = computed(() => [
+	props.date && { label: 'Published', value: props.date },
+	props.updated && { label: 'Updated', value: props.updated },
+].filter(Boolean));
 </script>
 
 <template>
@@ -16,21 +32,22 @@ defineProps({
 		</ul>
 		<h1 class="page-header__title">{{ title }}</h1>
 		<p v-if="excerpt" class="page-header__excerpt">{{ excerpt }}</p>
-		<p class="page-header__meta row">
-			<time v-if="date" class="page-header__date" :datetime="date">
-				Published on {{ new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) }}
-			</time>
-			<span v-if="date && updated">|</span>
-			<time v-if="updated" class="page-header__date" :datetime="updated">
-				Updated on {{ new Date(updated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) }}
-			</time>
-			<span v-if="(date || updated) && changelog">&nbsp;</span>
-			<a v-if="changelog" href="#changelog" class="page-header__changelog-link">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.516 8.016v4.219l3.469 2.109-0.703 1.219-4.266-2.578v-4.969h1.5zM21 10.125h-6.797l2.766-2.813q-2.063-2.063-4.945-2.086t-4.945 1.992q-0.844 0.844-1.453 2.273t-0.609 2.602 0.609 2.602 1.453 2.273 2.297 1.453 2.625 0.609 2.648-0.609 2.32-1.453q2.016-2.016 2.016-4.875h2.016q0 3.703-2.625 6.281-2.625 2.625-6.375 2.625t-6.375-2.625q-2.625-2.578-2.625-6.258t2.625-6.305q1.078-1.078 2.93-1.852t3.398-0.773 3.398 0.773 2.93 1.852l2.719-2.813v7.125z"/></svg>
-				View changelog
-			</a>
+		<p v-if="dates.length || changelog" class="page-header__meta">
+			<template v-for="(d, i) in dates" :key="d.label">
+				<span v-if="i > 0" class="page-header__sep" aria-hidden="true">·</span>
+				<span>
+					<span class="page-header__label">{{ d.label }}</span>
+					<time class="page-header__date" :datetime="d.value"
+						><span aria-hidden="true">{{ stamp(d.value) }}</span
+						><span class="sr-only">{{ longDate(d.value) }}</span></time
+					>
+				</span>
+			</template>
+			<template v-if="changelog">
+				<span v-if="dates.length" class="page-header__sep" aria-hidden="true">·</span>
+				<a href="#changelog" class="page-header__changelog-link">Changelog <span aria-hidden="true">↓</span></a>
+			</template>
 		</p>
-
 	</header>
 </template>
 
@@ -39,14 +56,28 @@ defineProps({
 	@scope(.page-header) {
 		:scope {
 			--stack-gap: 0.75rem;
+			--ink: oklch(from var(--brand-color) 20% 0.03 h);
+			--brand-ink: oklch(from var(--brand-color) 52% 0.22 h);
 
+			position: relative;
 			padding-block-end: 2rem;
 			border-bottom: 1px solid oklch(from var(--text-muted) l c h / 0.1);
 			margin-block-end: 2.5rem;
+
+			/* Short pink bar on the rule, like the nav and card bars */
+			&::after {
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				inset-block-end: -2px;
+				width: 3rem;
+				height: 4px;
+				background: var(--brand-color);
+			}
 		}
 
 		.page-header__tags {
-			--row-gap: 1rem;
+			--row-gap: 0.25rem 1rem;
 
 			list-style: none;
 			margin: 0;
@@ -54,11 +85,12 @@ defineProps({
 
 			& li {
 				margin: 0;
-				font-size: var(--text-size-8);
-				font-weight: 600;
+				font-family: "JetBrains Mono", ui-monospace, monospace;
+				font-size: 0.75rem;
+				font-weight: 700;
 				text-transform: uppercase;
-				letter-spacing: 0.08em;
-				color: var(--brand-color);
+				letter-spacing: 0.04em;
+				color: var(--brand-ink);
 
 				&::marker { content: ""; }
 				&::before { content: "+"; }
@@ -70,27 +102,48 @@ defineProps({
 		}
 
 		.page-header__meta {
-			--row-gap: 1ch;
-
+			display: flex;
+			flex-wrap: wrap;
 			align-items: baseline;
-			font-size: var(--text-size-8);
+			gap: 0.375rem 1rem;
+			margin: 0;
+			font-family: "JetBrains Mono", ui-monospace, monospace;
+			font-size: 0.75rem;
+			letter-spacing: 0.02em;
 			color: var(--text-muted);
 		}
 
-		.page-header__changelog-link {
-			display: flex;
-			align-items: baseline;
-			gap: 0.3em;
-			color: var(--brand-color);
-			background: none;
-			text-decoration-color: color-mix(in oklch, var(--brand-color), transparent 60%);
-			transition: color 0.15s, text-decoration-color 0.15s;
+		.page-header__label {
+			margin-inline-end: 0.375rem;
+			text-transform: uppercase;
+		}
 
-			svg {
-				flex-shrink: 0;
-				fill: currentColor;
-				align-self: center;
-				width: 1.5em;
+		.page-header__date {
+			color: var(--ink);
+			font-weight: 700;
+			font-variant-numeric: tabular-nums;
+		}
+
+		.page-header__sep {
+			color: var(--brand-color);
+		}
+
+		.page-header__changelog-link {
+			color: var(--brand-ink);
+			background: none;
+			font-weight: 700;
+			text-transform: uppercase;
+			text-decoration: underline 1px transparent;
+			text-underline-offset: 0.2em;
+			transition: text-decoration-color 0.15s;
+
+			&:hover {
+				text-decoration-color: currentColor;
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--brand-ink);
+				outline-offset: 2px;
 			}
 		}
 	}
