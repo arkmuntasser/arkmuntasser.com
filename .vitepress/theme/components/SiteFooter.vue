@@ -13,14 +13,13 @@ const isCurrent = (path) =>
     route.path.replace(/\.html$/, "").replace(/\/$/, "") === path ? "page" : undefined;
 
 const elsewhere = [
-    { label: "GitHub", href: "https://github.com/arkmuntasser", color: "#31d0fa" },
-    { label: "Bluesky", href: "https://bsky.app/profile/arkmuntasser.com", color: "#0085ff" },
-    { label: "Popfeed", href: "https://popfeed.social/profile/arkmuntasser.com", color: "oklch(0.53 0.26 279.22)" },
+    { label: "GitHub", href: "https://github.com/arkmuntasser", icon: "github" },
+    { label: "Bluesky", href: "https://bsky.app/profile/arkmuntasser.com", icon: "bluesky" },
+    { label: "Popfeed", href: "https://popfeed.social/profile/arkmuntasser.com", icon: "popfeed" },
 ];
 
 const subscriptions = [
     { key: "RSS", value: `${theme.value.siteUrl}/rss.xml`, label: "RSS feed URL" },
-    { key: "AT", value: theme.value.atPublication, label: "AT Protocol publication address" },
 ];
 
 const copied = ref(null);
@@ -77,7 +76,15 @@ const pad = (n) => String(n).padStart(2, "0");
                 <ul>
                     <li v-for="s in elsewhere" :key="s.label">
                         <a class="link" :href="s.href" target="_blank" rel="noopener noreferrer">
-                            <span class="link__dot" :style="{ background: s.color }" aria-hidden="true"></span>
+                            <svg v-if="s.icon === 'github'" class="link__icon link__icon--github" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                            </svg>
+                            <svg v-else-if="s.icon === 'bluesky'" class="link__icon link__icon--bluesky" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.3-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/>
+                            </svg>
+                            <span v-else-if="s.icon === 'popfeed'" class="link__icon link__icon--popfeed" aria-hidden="true">
+                                <img src="/popfeed-icon.png" alt="" width="18" height="18" loading="lazy" decoding="async" />
+                            </span>
                             {{ s.label }}
                             <span class="link__ext" aria-hidden="true">↗</span>
                             <span class="sr-only">(opens in a new tab)</span>
@@ -101,6 +108,9 @@ const pad = (n) => String(n).padStart(2, "0");
                         <span aria-hidden="true">{{ copied === s.key ? "✓" : "copy" }}</span>
                     </button>
                 </div>
+                <p class="subscribe__hint">
+                    Paste it into any feed reader, or <a href="/rss.xml">open the feed ↗</a>.
+                </p>
                 <p class="sr-only" aria-live="polite">{{ announcement }}</p>
             </div>
         </div>
@@ -211,12 +221,52 @@ const pad = (n) => String(n).padStart(2, "0");
             }
         }
 
-        .link__dot {
+        .link__icon {
             flex: none;
-            width: 0.625rem;
-            height: 0.625rem;
-            border: 1px solid var(--ink);
-            border-radius: 50%;
+            width: 1.125rem;
+            height: 1.125rem;
+            transition: scale 300ms var(--ease-spring);
+
+            .link:is(:hover, :focus-visible) & {
+                scale: 1.12;
+            }
+        }
+
+        .link__icon--github {
+            fill: #1f2328;
+        }
+
+        .link__icon--bluesky {
+            fill: #0085ff;
+        }
+
+        /* Popfeed's mark is white; it sits on their purple tile */
+        .link__icon--popfeed {
+            display: grid;
+            place-items: center;
+            box-sizing: border-box;
+            padding: 0.125rem;
+            border-radius: 4px;
+            background: oklch(0.53 0.26 279.22);
+
+            & img {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
+
+        .subscribe__hint {
+            margin: 0.5rem 0 0;
+            max-width: 26ch;
+            font-size: 0.8125rem;
+            color: var(--ink-muted);
+
+            & a {
+                color: var(--ink);
+                text-decoration: underline 1px oklch(from var(--brand-color) l c h / 0.8);
+                text-underline-offset: 0.2em;
+            }
         }
 
         .link__ext {
@@ -224,7 +274,7 @@ const pad = (n) => String(n).padStart(2, "0");
             color: var(--brand-ink);
         }
 
-        :is(.link, .colophon__how, .copy__button):focus-visible {
+        :is(.link, .colophon__how, .copy__button, .subscribe__hint a):focus-visible {
             outline: 2px solid var(--brand-ink);
             outline-offset: 2px;
         }
@@ -354,7 +404,8 @@ const pad = (n) => String(n).padStart(2, "0");
 
         @media (prefers-reduced-motion: reduce) {
             .site-footer__mark,
-            .site-footer__dots {
+            .site-footer__dots,
+            .link__icon {
                 transition: none;
             }
         }

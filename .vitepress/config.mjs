@@ -101,7 +101,6 @@ export default defineConfig({
   ignoreDeadLinks: true,
   themeConfig: {
     siteUrl,
-    atPublication: `at://${atDid}/site.standard.publication/self`,
   },
 	head: [
 		[
