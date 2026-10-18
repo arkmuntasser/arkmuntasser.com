@@ -228,8 +228,10 @@ onUnmounted(() => {
 
 .toc-sidebar {
     grid-area: aside;
-    position: static;
-    top: 2rem;
+    /* Mobile: the contents strip stays pinned while reading so its position (4.2 / 8) stays useful */
+    position: sticky;
+    top: 0;
+    z-index: 1;
     min-width: 0;
 }
 
@@ -247,7 +249,7 @@ onUnmounted(() => {
     }
 
     .toc-sidebar {
-        position: sticky;
+        top: 2rem;
     }
 }
 </style>

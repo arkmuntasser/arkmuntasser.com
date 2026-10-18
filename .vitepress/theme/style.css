@@ -43,6 +43,11 @@
 			background-image: linear-gradient(var(--bg-color, whitesmoke), var(--bg-color, whitesmoke));
 			background-repeat: repeat;
 		}
+
+		/* Leave room above jump targets (the mobile contents strip is pinned to the top) */
+		:where(h2, h3, h4)[id] {
+			scroll-margin-block-start: 4rem;
+		}
 	}
 
 	@layer utilities {
