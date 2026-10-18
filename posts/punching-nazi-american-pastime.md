@@ -1,6 +1,6 @@
 ---
 title: Punching Nazis is an American Pastime
-date: "2017-1-23"
+date: "2017-01-23"
 excerpt: Indiana Jones killed so many Nazis, like, if it were anyone other than Nazis you would say it bordered on excessive.
 author:
   - amir
