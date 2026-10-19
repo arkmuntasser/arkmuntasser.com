@@ -169,6 +169,11 @@ export default defineConfig({
 
   markdown: {
     theme: 'dark-plus',
+    // Wrap tables so wide ones scroll sideways instead of widening the page
+    config(md) {
+      md.renderer.rules.table_open = () => '<div class="table-wrap">\n<table>\n';
+      md.renderer.rules.table_close = () => '</table>\n</div>\n';
+    },
   },
 
   buildEnd: async (siteConfig) => {
