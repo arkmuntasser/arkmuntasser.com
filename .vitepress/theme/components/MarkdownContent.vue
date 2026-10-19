@@ -8,6 +8,7 @@
 @layer theme.elements {
 	@scope (.markdown-content) {
 		:scope {
+			container-type: inline-size;
 			margin-inline: auto;
 			width: 100%;
 			max-width: 72ch;
@@ -40,7 +41,8 @@
 				inset-block-start: 0;
 				z-index: -1;
 				pointer-events: none;
-				translate: -50% -25%;
+				/* Hang only partly outside the text so it never clips at a 16px gutter */
+				translate: -35% -25%;
 				opacity: 0.8;
 			}
 		}
@@ -60,6 +62,12 @@
 
 		:where(h4) {
 			font-size: var(--text-size-4);
+			letter-spacing: -0.01em;
+		}
+
+		/* Outfit 700 sets loose at display sizes */
+		:where(h1, h2, h3) {
+			letter-spacing: -0.015em;
 		}
 
 		:where(h5) {
@@ -86,6 +94,18 @@
 					background-repeat: repeat-x;
 					text-decoration: none;
 				}
+			}
+
+			/* Without the squiggle, hover still needs feedback: a thicker underline */
+			@media (prefers-reduced-motion: reduce) {
+				&:hover {
+					background-size: 3px 0.3em;
+				}
+			}
+
+			&:focus-visible {
+				outline: 2px solid oklch(from var(--brand-color) 52% 0.22 h);
+				outline-offset: 2px;
 			}
 
 			&[target="_blank"] {
@@ -115,35 +135,59 @@
 		:where(ul, ol) {
 			padding-inline-start: 1.5rem;
 
-			& > * + * { margin-block-start: var(--prose-flow, 1.5em); }
-
-			& li::marker {
-				font-size: 1.2em;
-				font-weight: 500;
-				color: oklch(from var(--brand-color) l c h / 0.8);
-			}
+			& > * + * { margin-block-start: 0.5em; }
 
 			:where(ul, ol) {
-				margin-block: 0.25rem;
+				margin-block: 0.5em 0;
 			}
 		}
 
-		:where(ul li)::marker {
+		:where(ul > li)::marker {
 			content: '→  ';
+			font-size: 1.2em;
+			font-weight: 500;
+			color: oklch(from var(--brand-color) l c h / 0.8);
+		}
+
+		/* Zero-padded mono numbers, like the TOC and nav; brand-ink passes AA */
+		:where(ol) {
+			padding-inline-start: 2rem;
+			list-style: decimal-leading-zero;
+		}
+
+		:where(ol > li)::marker {
+			font-family: "JetBrains Mono", ui-monospace, monospace;
+			font-size: 0.875em;
+			font-weight: 700;
+			font-variant-numeric: tabular-nums;
+			color: oklch(from var(--brand-color) 52% 0.22 h);
 		}
 
 		/* Blockquotes */
 		:where(blockquote) {
 			display: grid;
 			grid-template-areas: "quote content";
-			grid-template-columns: 42px 1fr;
+			grid-template-columns: 2.625rem 1fr;
 			gap: 2rem;
 
 			padding-block: 1rem;
 			font-size: var(--text-size-5);
 			font-weight: 500;
 			font-style: italic;
+			line-height: 1.45;
+			text-wrap: pretty;
 			border: none;
+
+			/* Phones: a narrower mark column so lines aren't four words long */
+			@container (max-width: 30rem) {
+				grid-template-columns: 2rem 1fr;
+				gap: 0.75rem;
+				font-size: var(--text-size-6);
+
+				&::before {
+					font-size: 3em;
+				}
+			}
 
 			&::before {
 				content: '“';
@@ -167,7 +211,6 @@
 		:where(img) {
 			display: block;
 			max-width: 100%;
-			border-radius: var(--radius);
 		}
 
 		:where(:not(pre) > code) {
@@ -179,13 +222,26 @@
 			background-color: oklch(from var(--brand-color) 20% 0.03 h / 0.06);
 		}
 
+		/* Hairline with the pink segment, as on the pager, changelog and details */
 		:where(hr) {
 			--prose-flow: 3em;
 
+			position: relative;
+			overflow: visible;
 			border: none;
 			height: 1px;
-			background-color: oklch(0 0 0 / 0.1);
+			background-color: oklch(from var(--text-muted) l c h / 0.15);
 			margin-block: var(--prose-flow, 3em);
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				inset-block-start: -2px;
+				width: 3rem;
+				height: 4px;
+				background: var(--brand-color);
+			}
 		}
 
 		/* Details: folded note (hairlines, pink segment, square +/− toggle) */
@@ -366,56 +422,92 @@
 			}
 		}
 
-		/* Table */
-		:where(table) {
+		/* Tables: ruled ledger. Markdown tables are wrapped in .table-wrap (config.mjs) */
+		:where(.table-wrap) {
 			--prose-flow: 2em;
+			--_ink: oklch(from var(--brand-color) 20% 0.03 h);
 
+			position: relative;
 			margin-block: var(--prose-flow, 2em);
+			overflow-x: auto;
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				inset-block-start: 0;
+				width: 3rem;
+				height: 4px;
+				background: var(--brand-color);
+			}
+		}
+
+		:where(table) {
+			--_ink: oklch(from var(--brand-color) 20% 0.03 h);
+
 			width: 100%;
-			border-collapse: separate;
-			border-spacing: 0;
+			margin: 0;
+			border: 0;
+			border-block: 2px solid var(--_ink);
+			border-block-end-width: 1px;
+			border-collapse: collapse;
+			border-radius: 0;
+			background: none;
 			font-size: var(--text-size-8);
-			border: 1px solid oklch(0 0 0 / 0.1);
-			border-radius: var(--radius);
-			overflow: hidden;
+			font-variant-numeric: tabular-nums;
 
-			thead {
-				tr {
-					background: oklch(0 0 0 / 0.04);
-				}
+			:where(th, td) {
+				padding-block: 0.625rem;
+				padding-inline: 0 1rem;
+				text-align: start;
+				vertical-align: top;
+				background: none;
+				border-radius: 0;
 
-				th {
-					padding: 0.625rem 0.875rem;
-					text-align: start;
-					font-weight: 600;
-					font-size: var(--text-size-9);
-					text-transform: uppercase;
-					letter-spacing: 0.06em;
-					color: oklch(0.45 0.005 270);
-					border-bottom: 1px solid oklch(0 0 0 / 0.1);
-					white-space: nowrap;
+				&:last-child {
+					padding-inline-end: 0;
 				}
 			}
 
-			tbody {
-				tr {
-					transition: background 0.1s;
+			:where(th) {
+				padding-block-end: 0.5rem;
+				border-block-end: 1px solid var(--_ink);
+				font-family: "JetBrains Mono", ui-monospace, monospace;
+				font-size: 0.6875rem;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: oklch(from var(--brand-color) 45% 0.04 h);
+				white-space: nowrap;
+			}
 
-					&:hover {
-						background: oklch(0 0 0 / 0.025);
-					}
+			:where(td) {
+				color: var(--text-color);
+				border-block-end: 1px solid oklch(from var(--text-muted) l c h / 0.15);
 
-					&:not(:last-child) td {
-						border-bottom: 1px solid oklch(0 0 0 / 0.06);
-					}
+				&:first-child {
+					font-weight: 500;
+					color: var(--_ink);
 				}
+			}
 
-				td {
-					padding: 0.625rem 0.875rem;
-					text-align: start;
-					color: oklch(0.35 0.005 270);
-					font-variant-numeric: tabular-nums;
-					vertical-align: top;
+			:where(tbody tr:last-child td) {
+				border-block-end: 0;
+			}
+
+			/* Hover: tint the row and slide in the pink edge from highlighted code lines */
+			:where(tbody tr:hover td) {
+				background: oklch(from var(--brand-color) l c h / 0.06);
+
+				&:first-child {
+					padding-inline-start: 0.75rem;
+					box-shadow: inset 3px 0 0 var(--brand-color);
+				}
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+				:where(td:first-child) {
+					transition: padding-inline-start 150ms;
 				}
 			}
 		}
