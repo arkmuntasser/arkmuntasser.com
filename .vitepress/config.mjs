@@ -113,7 +113,7 @@ export default defineConfig({
     ],
 		[
 			'link',
-			{ href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@500;700&display=swap', rel: 'stylesheet' }
+			{ href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:wght@400;500;700&display=swap', rel: 'stylesheet' }
 		],
     [
       'link',

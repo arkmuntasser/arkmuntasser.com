@@ -171,12 +171,12 @@
 		}
 
 		:where(:not(pre) > code) {
-			font-family: 'Consolas', 'Courier New', monospace;
+			font-family: "JetBrains Mono", ui-monospace, monospace;
+			font-size: 0.875em;
 			font-weight: 400;
-			padding: 0.25rem 0.5rem;
-			color: var(--text-color);
-			background-color: oklch(from var(--bg-color) calc(l * 0.95) c h / 0.8);
-			border-radius: var(--radius-sm);
+			padding: 0.125rem 0.375rem;
+			color: oklch(from var(--brand-color) 20% 0.03 h);
+			background-color: oklch(from var(--brand-color) 20% 0.03 h / 0.06);
 		}
 
 		:where(hr) {
@@ -188,96 +188,181 @@
 			margin-block: var(--prose-flow, 3em);
 		}
 
+		/* Details: folded note (hairlines, pink segment, square +/− toggle) */
 		:where(details) {
-			--_duration: .2s;
+			--_duration: 0.3s;
+			--_ink: oklch(from var(--brand-color) 20% 0.03 h);
 
-			border-radius: var(--radius);
-			border: #a8a8a8 solid 1px;
-			background-color: white;
+			position: relative;
+			padding: 0;
+			border: 0;
+			border-block: 1px solid oklch(from var(--text-muted) l c h / 0.15);
+			border-radius: 0;
+			background: none;
+			interpolate-size: allow-keywords;
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				inset-block-start: -2px;
+				width: 3rem;
+				height: 4px;
+				background: var(--brand-color);
+			}
 
 			@media (prefers-reduced-motion: no-preference) {
-				interpolate-size: allow-keywords;
+				&::details-content {
+					block-size: 0;
+					overflow-y: clip;
+					transition:
+						content-visibility var(--_duration) allow-discrete,
+						block-size var(--_duration) cubic-bezier(0.2, 0.7, 0.2, 1);
+				}
+
+				&[open]::details-content {
+					block-size: auto;
+				}
 			}
 
-			&::details-content {
-				opacity: 0;
-				block-size: 0;
-				overflow-y: clip;
-				transition: content-visibility var(--_duration) allow-discrete,
-										opacity var(--_duration),
-										block-size var(--_duration);
-			}
-
-			&[open]::details-content {
-				opacity: 1;
-				block-size: auto;
-			}
-
-			& > p {
-				padding: 1rem;
+			& > :not(summary) {
+				margin-block: 0 1rem;
 			}
 
 			& summary {
-				--padding: 1rem;
-
-				display: grid;
-				grid-template-columns: 1fr 40px;
+				position: relative;
+				display: flex;
 				align-items: center;
-				padding-inline-start: var(--padding);
-				padding-block: calc(var(--padding) / 2);
-				font-weight: 700;
-			}
+				min-height: 2.75rem;
+				margin: 0;
+				padding: 0;
+				padding-inline-end: 2.5rem;
+				border-radius: 0;
+				background: none;
+				list-style: none;
+				cursor: pointer;
+				font-weight: 500;
+				color: var(--_ink);
 
-			& summary::after {
-				content: "+";
-				display: block;
-				justify-self: center;
-				font-size: 1.25em;
+				&::-webkit-details-marker {
+					display: none;
+				}
+
+				&::after {
+					content: "+";
+					position: absolute;
+					inset-inline-end: 0;
+					inset-block-start: 50%;
+					translate: 0 -50%;
+					display: grid;
+					place-items: center;
+					width: 1.5rem;
+					height: 1.5rem;
+					border: 1px solid var(--_ink);
+					font-family: "JetBrains Mono", ui-monospace, monospace;
+					font-size: 0.875rem;
+					font-weight: 700;
+					line-height: 1;
+					transition: background-color 0.15s;
+				}
+
+				&:hover::after {
+					background: oklch(from var(--brand-color) 95% 0.08 h);
+				}
+
+				&:focus-visible {
+					outline: 2px solid oklch(from var(--brand-color) 52% 0.22 h);
+					outline-offset: 2px;
+				}
 			}
 
 			&[open] summary::after {
-				content: "−";
+				content: "\2212";
 			}
 		}
 
-		/* Custom blocks */
+		/* Custom blocks: ink box, tinted kicker strip, colour bar */
 		:where(.custom-block:not(details)) {
-			--padding: 1rem;
+			--_ink: oklch(from var(--brand-color) 20% 0.03 h);
+			--_pad: 0.875rem;
 
+			position: relative;
 			font-size: var(--text-size-7);
 			line-height: 1.6;
-			border-radius: var(--radius);
-			border: 1px solid var(--block-color);
-			overflow: clip;
+			border: 1px solid var(--_ink);
+			background-color: oklch(from var(--brand-color) 100% 0.01 h);
+			padding-block-end: calc(var(--_pad) + 4px);
 
-			& > .custom-block-title {
-				padding-inline: var(--padding);
-				padding-block: calc(var(--padding) / 2);
-				font-weight: 700;
-				color: var(--block-color);
-				border-bottom: 1px solid var(--block-color);
-				background-color: oklch(from var(--block-color) 0.9 0.1 h);
+			&::after {
+				content: "";
+				position: absolute;
+				inset-inline: 0;
+				inset-block-end: 0;
+				height: 4px;
+				background: oklch(0.62 0.17 var(--_h));
 			}
 
-			& > p:not(.custom-block-title) {
-				padding: var(--padding);
+			& > .custom-block-title {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
 				margin: 0;
+				padding: 0.375rem var(--_pad);
+				border-block-end: 1px solid var(--_ink);
+				background-color: oklch(0.96 0.03 var(--_h));
+				font-family: "JetBrains Mono", ui-monospace, monospace;
+				font-size: 0.6875rem;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: oklch(0.42 0.14 var(--_h));
+
+				&::before {
+					content: var(--_glyph) / "";
+					display: grid;
+					place-items: center;
+					flex-shrink: 0;
+					width: 1.125rem;
+					height: 1.125rem;
+					background: oklch(0.5 0.15 var(--_h));
+					color: #fff;
+					letter-spacing: 0;
+					text-transform: none;
+				}
+			}
+
+			& > :not(.custom-block-title) {
+				margin-block: 0;
+				margin-inline: var(--_pad);
+			}
+
+			& > .custom-block-title + * {
+				margin-block-start: var(--_pad);
+			}
+
+			& > :not(.custom-block-title) + :not(.custom-block-title) {
+				margin-block-start: 0.75em;
 			}
 
 			&.info {
-				--block-color: oklch(0.45 0.18 250);
-			}
-
-			&.warning {
-				--block-color: oklch(0.52 0.18 70);
-			}
-
-			&.danger {
-				--block-color: oklch(0.52 0.25 15.46);
+				--_h: 250;
+				--_glyph: "i";
 			}
 
 			&.tip {
-				--block-color: oklch(0.42 0.18 155);
+				--_h: 155;
+				--_glyph: "\2713";
+			}
+
+			&.warning {
+				--_h: 70;
+				--_glyph: "!";
+			}
+
+			/* A true red, so brand pink stays the site's own mark */
+			&.danger {
+				--_h: 27;
+				--_glyph: "\2715";
 			}
 		}
 
@@ -335,68 +420,149 @@
 			}
 		}
 
-		/* Code blocks — VS Code Dark+ */
+		/* Code blocks: ink slab with a kicker strip (language + copy) */
 		@scope (:where(div[class^='language-'], div[class*=' language-'])) {
 			:scope {
 				--prose-flow: 2em;
+				--_ink: oklch(from var(--brand-color) 20% 0.03 h);
+				--_strip: 2.25rem;
+				--_rule: oklch(100% 0 0 / 0.12);
 
 				position: relative;
-				border-radius: var(--radius);
-				overflow: hidden;
 				margin: 0;
 				margin-block: var(--prose-flow, 2em);
-				background-color: #1e1e1e;
+				padding-block-start: var(--_strip);
+				border: 1px solid var(--_ink);
+				background-color: var(--_ink);
+
+				&::before {
+					content: "";
+					position: absolute;
+					inset-inline: 0;
+					inset-block-start: 0;
+					height: var(--_strip);
+					border-block-end: 1px solid var(--_rule);
+					pointer-events: none;
+				}
 			}
 
 			pre {
+				max-inline-size: none;
 				margin: 0;
-				padding: 2.75rem 1.5rem 1.25rem;
+				padding-block: 1rem 1.125rem;
 				overflow-x: auto;
-				background-color: #1e1e1e;
+				background-color: transparent;
+
+				&:focus-visible {
+					outline: 2px solid var(--brand-color);
+					outline-offset: -2px;
+				}
 
 				code {
 					display: block;
+					width: max-content;
+					min-width: 100%;
 					background-color: transparent;
-					font-family: 'Consolas', 'Courier New', monospace;
-					font-size: 0.875rem;
-					line-height: 1.6;
+					font-family: "JetBrains Mono", ui-monospace, monospace;
+					font-size: 0.8125rem;
+					font-weight: 400;
+					line-height: 1.7;
 					color: #d4d4d4;
 				}
 			}
 
-			.lang {
-				position: absolute;
-				top: 0.75rem;
-				left: 1rem;
-				font-size: 0.75rem;
-				color: #858585;
-				font-family: 'Consolas', 'Courier New', monospace;
-				user-select: none;
+			.line {
+				display: inline-block;
+				box-sizing: border-box;
+				width: 100%;
+				padding-inline: 1.25rem;
 			}
 
+			.line.highlighted {
+				background-color: oklch(from var(--brand-color) l c h / 0.16);
+				box-shadow: inset 3px 0 0 var(--brand-color);
+			}
+
+			.lang {
+				position: absolute;
+				inset-block-start: 0;
+				inset-inline-start: 0.875rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				height: var(--_strip);
+				font-family: "JetBrains Mono", ui-monospace, monospace;
+				font-size: 0.6875rem;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: oklch(100% 0 0 / 0.7);
+				user-select: none;
+
+				&::before {
+					content: "";
+					width: 0.5rem;
+					height: 0.5rem;
+					background: var(--brand-color);
+				}
+			}
+
+			/* VitePress wires the click and toggles .copied; we only label it */
 			.copy {
 				position: absolute;
-				top: 0.5rem;
-				right: 0.5rem;
-				width: 1.75rem;
-				height: 1.75rem;
-				border: 1px solid #3e3e3e;
-				border-radius: var(--radius-sm);
-				background-color: #2d2d2d;
-				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23858585' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'%3E%3C/path%3E%3C/svg%3E");
-				background-repeat: no-repeat;
-				background-position: center;
+				inset-block-start: 0;
+				inset-inline-end: 0;
+				z-index: 1;
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+				height: var(--_strip);
+				padding-inline: 0.875rem;
+				border: 0;
+				border-inline-start: 1px solid var(--_rule);
+				background: none;
+				color: oklch(100% 0 0 / 0.7);
+				font-family: "JetBrains Mono", ui-monospace, monospace;
+				font-size: 0.6875rem;
+				font-weight: 700;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
 				cursor: pointer;
-				transition: border-color 0.15s, background-color 0.15s;
+				transition: background-color 0.15s, color 0.15s;
+
+				&::before {
+					content: "";
+					width: 0.75rem;
+					height: 0.75rem;
+					background-color: currentColor;
+					mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5'%3E%3Crect x='9' y='9' width='13' height='13'/%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/%3E%3C/svg%3E") center / contain no-repeat;
+				}
+
+				&::after {
+					content: "Copy";
+				}
 
 				&:hover {
-					border-color: #858585;
-					background-color: #3e3e3e;
+					color: #fff;
+					background-color: oklch(100% 0 0 / 0.06);
+				}
+
+				&:focus-visible {
+					outline: 2px solid var(--brand-color);
+					outline-offset: -2px;
 				}
 
 				&.copied {
-					border-color: #4ec9b0;
-					background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234ec9b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+					color: #fff;
+
+					&::before {
+						mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+						background-color: var(--brand-color);
+					}
+
+					&::after {
+						content: "Copied";
+					}
 				}
 			}
 		}
