@@ -162,7 +162,12 @@ onUnmounted(() => {
                 <MarkdownContent>
                     <Content />
                 </MarkdownContent>
-                <Changelog :entries="frontmatter.changelog" />
+                <Changelog
+                    :entries="frontmatter.changelog"
+                    :date="frontmatter.date"
+                    :updated="frontmatter.updated"
+                    :tone="frontmatter.tone"
+                />
             </main>
         </div>
         <SiteFooter />

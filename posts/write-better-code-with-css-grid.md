@@ -15,7 +15,7 @@ weeknotes: false
 updated: "2026-05-19"
 changelog:
   - Updated to include sensible headings.
-  - Updated old, defunt Glitch demo link with new GitHub Pages link.
+  - Updated old, defunct Glitch demo link with new GitHub Pages link.
   - Updated excerpt.
 ---
 
