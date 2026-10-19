@@ -142,8 +142,12 @@
 			}
 		}
 
+		/* Arrow via list-style-type (Safari ignores content on ::marker) */
+		:where(ul) {
+			list-style-type: '→  ';
+		}
+
 		:where(ul > li)::marker {
-			content: '→  ';
 			font-size: 1.2em;
 			font-weight: 500;
 			color: oklch(from var(--brand-color) l c h / 0.8);
