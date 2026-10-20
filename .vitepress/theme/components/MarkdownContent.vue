@@ -17,11 +17,13 @@
 		:where(p, ul, ol, dl, li, dt, dd) {
 			font-size: var(--text-size-7, 1rem);
 
-			.markdown-content__homepage & {
+			/* Name the scope root with :scope: the build flattens nesting, and without
+			   & or :scope @scope would treat the class as a descendant and never match */
+			:scope.markdown-content__homepage & {
 				font-size: var(--text-size-6);
 			}
 
-			.markdown-content__homepage :where(h1) + & {
+			:scope.markdown-content__homepage :where(h1) + & {
 				font-size: var(--text-size-4);
 			}
 		}
