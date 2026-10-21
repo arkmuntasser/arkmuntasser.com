@@ -80,6 +80,15 @@
 			font-size: var(--text-size-6);
 		}
 
+		/* Homepage lede: semibold and tight */
+		:scope.markdown-content__homepage :where(h1) + :where(p) {
+			font-weight: 600;
+			line-height: 1.28;
+			letter-spacing: -0.01em;
+			color: oklch(from var(--brand-color) 20% 0.03 h);
+			text-wrap: pretty;
+		}
+
 		/* Links */
 		:where(a:not(.header-anchor)) {
 			font-weight: 400;
