@@ -19,23 +19,42 @@
 @layer theme.components {
 	@scope(.social-links) {
 		:scope {
-			--row-gap: 1.5rem;
+			--row-gap: 0.25rem 1.75rem;
+			--ink: oklch(from var(--brand-color) 20% 0.03 h);
+
+			font-size: var(--text-size-6);
 
 			.markdown-content__homepage & { margin-block-start: 2rem; }
 
 			& a {
-				display: flex;
+				display: inline-flex;
 				align-items: center;
-				gap: 0.4em;
-				text-decoration: none;
-				color: inherit;
+				gap: 0.45em;
+				min-height: 2.75rem;
+				color: var(--ink);
 				font-size: inherit;
+				font-weight: 500;
 				background: none;
+				text-decoration: underline 2px transparent;
+				text-underline-offset: 0.3em;
+				transition: text-decoration-color 0.15s;
 
-				&::after { display: none; }
+				/* Same ↗ as other outbound links, replacing the prose one */
+				&::after {
+					content: '↗';
+					display: inline-block;
+					margin: 0;
+					font-size: 0.75em;
+					color: var(--brand-color);
+				}
 
 				&:hover {
-					text-decoration: underline;
+					text-decoration-color: var(--brand-color);
+				}
+
+				&:focus-visible {
+					outline: 2px solid oklch(from var(--brand-color) 52% 0.22 h);
+					outline-offset: 2px;
 				}
 
 				& svg {
@@ -45,10 +64,20 @@
 					flex-shrink: 0;
 				}
 
-				&.github svg { fill: black; }
+				&.github svg { fill: var(--ink); }
 
 				&.bluesky svg {
 					fill: #0085ff;
+				}
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+				& a::after {
+					transition: translate 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+				}
+
+				& a:hover::after {
+					translate: 2px -2px;
 				}
 			}
 		}
